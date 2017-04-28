@@ -18,7 +18,7 @@ namespace GomelRectorCouncil.Controllers
         }
         public IActionResult Index()
         {
-            var users=_context.Users.ToList();
+            ViewBag.Users=_context.Users.ToList();
             return View();
         }
 

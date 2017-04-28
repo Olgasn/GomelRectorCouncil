@@ -1,8 +1,10 @@
+@model IEnumerable<GomelRectorCouncil.Models.User>
+
 @{
     ViewData["Title"] = "Пользователи";
 }
 
-<h2>Courses</h2>
+<h2>Пользователи</h2>
 
 <p>
     <a asp-action="Create">Создать пользователя</a>
@@ -11,40 +13,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CourseID)
+            Код    
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+            Імя    
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Credits)
+            Адрес    
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in ViewBag.Users)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CourseID)
+                    @item.Id
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    @item.UserName
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Credits)
+                    @item.Email
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Department.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CourseID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CourseID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
             </tr>
         }
