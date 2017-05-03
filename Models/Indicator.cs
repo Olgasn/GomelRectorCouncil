@@ -11,6 +11,7 @@ namespace GomelRectorCouncil.Models
         {
         text, int_number, float_number
         }
+    // Показатель для подведения итогов в заданном году
     public class Indicator
     {
         

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GomelRectorCouncil.Models
 {
+    // Председатель совета ректоров
     public class Chairperson
     {
         [Key]

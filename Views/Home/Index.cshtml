@@ -1,6 +1,49 @@
+@model IEnumerable<GomelRectorCouncil.Models.University>
+
 @{
     ViewData["Title"] = "Совет ректоров Гомельской области";
 }
 
+<h2>Университеты</h2>
 
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+             @Html.DisplayNameFor(model => model.UniversityId)    
+            </th>
+            <th>
+             @Html.DisplayNameFor(model => model.UniversityName)    
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Rector.FullName)    
+    
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                     @Html.DisplayFor(modelItem => item.UniversityId)
+                </td>
+                <td>                    
+                    @Html.DisplayFor(modelItem => item.UniversityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rector.FullName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.UniversityId">Изменить</a> |
+                    <a asp-action="Delete" asp-route-id="@item.UniversityId">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
  

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GomelRectorCouncil.Models
 {
+    // Нормативные документы
     public class Document
     {
         [Key]

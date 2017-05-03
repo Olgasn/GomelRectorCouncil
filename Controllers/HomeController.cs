@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GomelRectorCouncil.Controllers
 {
-
         
     public class HomeController : Controller
     {
-        public HomeController()
-        {}
+        private readonly CouncilDbContext db;
+        public HomeController(CouncilDbContext context)
+        {
+            db=context;
+        }
         
         public IActionResult Index()
         {
-            return View();
+            var univ= db.Universities.Include(c => c.Rector);
+            return View(univ);
         }
 
         public IActionResult About()

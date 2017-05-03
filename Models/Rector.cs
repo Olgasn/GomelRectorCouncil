@@ -7,9 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GomelRectorCouncil.Models
 {
+    // Ректор
     public class Rector
     {
-        [Key]
+        [Key]        
         public int RectorId { get; set; }
 
         [StringLength(50)]
@@ -23,11 +24,11 @@ namespace GomelRectorCouncil.Models
         public string FirstMidName { get; set; }
 
         [Required]
-        [StringLength(60, ErrorMessage = "Отчестыво не может быть длиннее чем 60 символов.")]
+        [StringLength(60, ErrorMessage = "Отчество не может быть длиннее чем 60 символов.")]
         [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
 
-        [Display(Name = "Полное имя")]
+        [Display(Name = "ФИО ректора")]
         public string FullName
         {
             get
@@ -37,8 +38,11 @@ namespace GomelRectorCouncil.Models
         }
         
         [EmailAddress (ErrorMessage = "Некорректный адрес")]
+        [Display(Name = "Электронная почта")]
         public string Email { get; set; }
+
         public int UniversityId {get; set;}
+
         public University University { get; set; }
     }
 }
