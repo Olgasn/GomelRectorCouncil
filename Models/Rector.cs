@@ -32,7 +32,7 @@ namespace GomelRectorCouncil.Models
         {
             get
             {
-                return LastName + ", " + FirstMidName+ ", " + MiddleName;
+                return LastName + " " + FirstMidName+ " " + MiddleName;
             }
         }
         

@@ -17,11 +17,13 @@ namespace GomelRectorCouncil.Models
         [Key]
         public int IndicatorId {get; set;}
 
-        public int IndicatorId1 {get; set;}
-        public int IndicatorId2 {get; set;}
-        public int IndicatorId3 {get; set;}
+        [Required]
+        [Range(1, 100, ErrorMessage = "Недопустимое значение кода")]
+        public byte IndicatorId1 {get; set;}
+        public byte? IndicatorId2 {get; set;}
+        public byte? IndicatorId3 {get; set;}
 
-        public int IndicatorValue {get; set;}
+
         
         public string IndicatorName {get; set;}
 
@@ -34,7 +36,13 @@ namespace GomelRectorCouncil.Models
         [Range(2010, 2050, ErrorMessage = "Недопустимый год")]
         public int Year {get; set;}
 
+        public string IndicatorCode {
+            get
+            {
+                return Convert.ToString(IndicatorId1) +"."+ Convert.ToString(IndicatorId2) +"."+ Convert.ToString(IndicatorId3);
 
+            }
+        }
         public ICollection<Achievement> Achievements {get; set;}
 
     }
