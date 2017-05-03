@@ -13,6 +13,7 @@ namespace GomelRectorCouncil.Models
         public int IndicatorId {get; set;}
         public string IndicatorName {get; set;}
         public string IndicatorDescription {get; set;}
+        
         [Required]
         [Range(2010, 2050, ErrorMessage = "Недопустимый год")]
         public int Year {get; set;}
