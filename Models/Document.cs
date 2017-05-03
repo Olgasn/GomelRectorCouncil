@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GomelRectorCouncil.Models
 {
@@ -12,7 +14,7 @@ namespace GomelRectorCouncil.Models
         public int DocumentId {get; set;}
 
         [Display(Name="Регистрационный номер")]
-        public string RegistrationNumber {get; set}
+        public string RegistrationNumber {get; set;}
 
         [Display(Name="Название")]
         public string DocumentName {get; set;}
@@ -21,9 +23,9 @@ namespace GomelRectorCouncil.Models
         public string DocumentDescription {get; set;}
 
         [Display(Name="Дата регистрации")]
-        [DateType(DateType.Date)]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
-        public DateTime RegistrationDate {get; set}
+        public DateTime RegistrationDate {get; set;}
 
         [Display(Name="Файл")]
         public string DocumentURL {get; set;}

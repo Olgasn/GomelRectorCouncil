@@ -39,7 +39,7 @@ namespace GomelRectorCouncil.Models
         [EmailAddress (ErrorMessage = "Некорректный адрес")]
         public string Email { get; set; }
 
-        public int UniversityId {get; set}
+        public int UniversityId {get; set;}
         public University University { get; set; }
     }
 }
