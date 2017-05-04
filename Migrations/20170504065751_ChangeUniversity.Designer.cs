@@ -8,9 +8,10 @@ using GomelRectorCouncil.Data;
 namespace GomelRectorCouncil.Migrations
 {
     [DbContext(typeof(CouncilDbContext))]
-    partial class CouncilDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170504065751_ChangeUniversity")]
+    partial class ChangeUniversity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.3");

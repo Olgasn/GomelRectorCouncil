@@ -13,6 +13,11 @@ namespace GomelRectorCouncil.Models
         [Display(Name = "Университет")]
         public string UniversityName {get; set;}
 
+        [Display(Name = "Адрес")]
+        public string Address {get; set;}
+
+       [Display(Name = "Официальный сайт")]
+        public string Website {get; set;}
         public int RectorId {get; set;}
 
         public Rector Rector {get; set;}
