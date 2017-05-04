@@ -18,7 +18,6 @@ namespace GomelRectorCouncil.Controllers
             ViewBag.Users=_context.Users.ToList();
             return View();
         }
-
         
 
         public IActionResult Error()

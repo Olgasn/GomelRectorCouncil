@@ -1,6 +1,8 @@
-using GomelRectorCouncil.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -18,6 +20,12 @@ namespace GomelRectorCouncil.Controllers
             var univ= db.Universities.Include(c => c.Rector);
             return View(univ);
         }
+
+        public IActionResult Create(University univ)
+        {
+            
+            return View();
+        }         
 
         public IActionResult About()
         {
