@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
-
+using System.Linq;
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -17,9 +17,7 @@ namespace GomelRectorCouncil.Controllers
         
         public IActionResult Index()
         {
-            //var univ= db.Universities.Include(c => c.Rector);
-            var univ= db.Rectors.Include(c => c.University);
-            
+            var univ= db.Rectors.Include(c => c.University).OrderBy(i=>i.University.UniversityName);            
             return View(univ);
         }
 

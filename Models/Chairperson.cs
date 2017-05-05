@@ -21,7 +21,7 @@ namespace GomelRectorCouncil.Models
         [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? StopDate { get; set; }
-        public int RectorID { get; set; }
+        public int RectorId { get; set; }
         public Rector Rector { get; set; }
         public ICollection<Document> Documents { get; set; }
 
