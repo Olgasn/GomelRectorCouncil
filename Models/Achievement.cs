@@ -2,7 +2,7 @@
 
 namespace GomelRectorCouncil.Models
 {
-    // Достижения
+    // Фактическое достижение университета по заданному показателю в заданном году
     public class Achievement
     {
         [Key]
@@ -12,6 +12,7 @@ namespace GomelRectorCouncil.Models
 
         public int UnivercityId {get; set;}
 
+        [Display(Name="Значение")]
         public float IndicatorValue {get; set;}
 
         public University Univercity {get; set;}

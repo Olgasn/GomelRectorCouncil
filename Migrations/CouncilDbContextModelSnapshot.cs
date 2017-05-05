@@ -96,6 +96,8 @@ namespace GomelRectorCouncil.Migrations
 
                     b.Property<int?>("IndicatorType");
 
+                    b.Property<string>("IndicatorUnit");
+
                     b.Property<int>("Year");
 
                     b.HasKey("IndicatorId");
@@ -122,9 +124,13 @@ namespace GomelRectorCouncil.Migrations
                         .IsRequired()
                         .HasMaxLength(60);
 
+                    b.Property<string>("Photo");
+
                     b.Property<int>("UniversityId");
 
                     b.HasKey("RectorId");
+
+                    b.HasIndex("UniversityId");
 
                     b.ToTable("Rectors");
                 });
@@ -136,16 +142,13 @@ namespace GomelRectorCouncil.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int>("RectorId");
+                    b.Property<string>("Logo");
 
                     b.Property<string>("UniversityName");
 
                     b.Property<string>("Website");
 
                     b.HasKey("UniversityId");
-
-                    b.HasIndex("RectorId")
-                        .IsUnique();
 
                     b.ToTable("Universities");
                 });
@@ -179,11 +182,11 @@ namespace GomelRectorCouncil.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("GomelRectorCouncil.Models.University", b =>
+            modelBuilder.Entity("GomelRectorCouncil.Models.Rector", b =>
                 {
-                    b.HasOne("GomelRectorCouncil.Models.Rector", "Rector")
-                        .WithOne("University")
-                        .HasForeignKey("GomelRectorCouncil.Models.University", "RectorId")
+                    b.HasOne("GomelRectorCouncil.Models.University", "University")
+                        .WithMany()
+                        .HasForeignKey("UniversityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

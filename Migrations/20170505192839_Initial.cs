@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GomelRectorCouncil.Migrations
 {
-    public partial class testMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,7 @@ namespace GomelRectorCouncil.Migrations
                     IndicatorId3 = table.Column<byte>(nullable: true),
                     IndicatorName = table.Column<string>(nullable: true),
                     IndicatorType = table.Column<int>(nullable: true),
+                    IndicatorUnit = table.Column<string>(nullable: true),
                     Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -28,86 +29,19 @@ namespace GomelRectorCouncil.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rectors",
-                columns: table => new
-                {
-                    RectorId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    Email = table.Column<string>(nullable: true),
-                    FirstMidName = table.Column<string>(maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    MiddleName = table.Column<string>(maxLength: 60, nullable: false),
-                    UniversityId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rectors", x => x.RectorId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Chairpersons",
-                columns: table => new
-                {
-                    ChairpersonId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    AppointmentDate = table.Column<DateTime>(nullable: true),
-                    RectorID = table.Column<int>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    StopDate = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Chairpersons", x => x.ChairpersonId);
-                    table.ForeignKey(
-                        name: "FK_Chairpersons_Rectors_RectorID",
-                        column: x => x.RectorID,
-                        principalTable: "Rectors",
-                        principalColumn: "RectorId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Universities",
                 columns: table => new
                 {
                     UniversityId = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
-                    RectorId = table.Column<int>(nullable: false),
-                    UniversityName = table.Column<string>(nullable: true)
+                    Address = table.Column<string>(nullable: true),
+                    Logo = table.Column<string>(nullable: true),
+                    UniversityName = table.Column<string>(nullable: true),
+                    Website = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Universities", x => x.UniversityId);
-                    table.ForeignKey(
-                        name: "FK_Universities_Rectors_RectorId",
-                        column: x => x.RectorId,
-                        principalTable: "Rectors",
-                        principalColumn: "RectorId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Documents",
-                columns: table => new
-                {
-                    DocumentId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
-                    ChairpersonId = table.Column<int>(nullable: false),
-                    DocumentDescription = table.Column<string>(nullable: true),
-                    DocumentName = table.Column<string>(nullable: true),
-                    DocumentURL = table.Column<string>(nullable: true),
-                    RegistrationDate = table.Column<DateTime>(nullable: false),
-                    RegistrationNumber = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documents", x => x.DocumentId);
-                    table.ForeignKey(
-                        name: "FK_Documents_Chairpersons_ChairpersonId",
-                        column: x => x.ChairpersonId,
-                        principalTable: "Chairpersons",
-                        principalColumn: "ChairpersonId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,6 +71,76 @@ namespace GomelRectorCouncil.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Rectors",
+                columns: table => new
+                {
+                    RectorId = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Email = table.Column<string>(nullable: true),
+                    FirstMidName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    MiddleName = table.Column<string>(maxLength: 60, nullable: false),
+                    Photo = table.Column<string>(nullable: true),
+                    UniversityId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rectors", x => x.RectorId);
+                    table.ForeignKey(
+                        name: "FK_Rectors_Universities_UniversityId",
+                        column: x => x.UniversityId,
+                        principalTable: "Universities",
+                        principalColumn: "UniversityId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chairpersons",
+                columns: table => new
+                {
+                    ChairpersonId = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    AppointmentDate = table.Column<DateTime>(nullable: true),
+                    RectorID = table.Column<int>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    StopDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chairpersons", x => x.ChairpersonId);
+                    table.ForeignKey(
+                        name: "FK_Chairpersons_Rectors_RectorID",
+                        column: x => x.RectorID,
+                        principalTable: "Rectors",
+                        principalColumn: "RectorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Documents",
+                columns: table => new
+                {
+                    DocumentId = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    ChairpersonId = table.Column<int>(nullable: false),
+                    DocumentDescription = table.Column<string>(nullable: true),
+                    DocumentName = table.Column<string>(nullable: true),
+                    DocumentURL = table.Column<string>(nullable: true),
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    RegistrationNumber = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documents", x => x.DocumentId);
+                    table.ForeignKey(
+                        name: "FK_Documents_Chairpersons_ChairpersonId",
+                        column: x => x.ChairpersonId,
+                        principalTable: "Chairpersons",
+                        principalColumn: "ChairpersonId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Achievements_IndicatorId",
                 table: "Achievements",
@@ -158,10 +162,9 @@ namespace GomelRectorCouncil.Migrations
                 column: "ChairpersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Universities_RectorId",
-                table: "Universities",
-                column: "RectorId",
-                unique: true);
+                name: "IX_Rectors_UniversityId",
+                table: "Rectors",
+                column: "UniversityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -176,13 +179,13 @@ namespace GomelRectorCouncil.Migrations
                 name: "Indicators");
 
             migrationBuilder.DropTable(
-                name: "Universities");
-
-            migrationBuilder.DropTable(
                 name: "Chairpersons");
 
             migrationBuilder.DropTable(
                 name: "Rectors");
+
+            migrationBuilder.DropTable(
+                name: "Universities");
         }
     }
 }

@@ -17,7 +17,9 @@ namespace GomelRectorCouncil.Controllers
         
         public IActionResult Index()
         {
-            var univ= db.Universities.Include(c => c.Rector);
+            //var univ= db.Universities.Include(c => c.Rector);
+            var univ= db.Rectors.Include(c => c.University);
+            
             return View(univ);
         }
 

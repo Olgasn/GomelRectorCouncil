@@ -16,11 +16,11 @@ namespace GomelRectorCouncil.Models
         [Display(Name = "Адрес")]
         public string Address {get; set;}
 
-       [Display(Name = "Официальный сайт")]
+        [Display(Name = "Официальный сайт")]
         public string Website {get; set;}
-        public int RectorId {get; set;}
 
-        public Rector Rector {get; set;}
+        [Display(Name = "Логотип")]
+        public string Logo {get; set;}
 
         public ICollection<Achievement> Achievements {get; set;}
 

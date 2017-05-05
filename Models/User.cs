@@ -1,5 +1,6 @@
 ﻿namespace GomelRectorCouncil.Models
 {
+    // Пользователь
     public class User
     {
         public string Id { get; set; }

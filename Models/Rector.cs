@@ -2,7 +2,7 @@
 
 namespace GomelRectorCouncil.Models
 {
-    // Ректор
+    // Ректор университета
     public class Rector
     {
         [Key]        
@@ -35,6 +35,9 @@ namespace GomelRectorCouncil.Models
         [EmailAddress (ErrorMessage = "Некорректный адрес")]
         [Display(Name = "Электронная почта")]
         public string Email { get; set; }
+
+        [Display(Name = "Фото")]
+        public string Photo {get; set;}
 
         public int UniversityId {get; set;}
 
