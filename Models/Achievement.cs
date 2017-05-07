@@ -12,7 +12,7 @@ namespace GomelRectorCouncil.Models
 
         public int UnivercityId {get; set;}
 
-        [Display(Name="Значение")]
+        [Display(Name="Значение показателя")]
         public float IndicatorValue {get; set;}
 
         public University Univercity {get; set;}

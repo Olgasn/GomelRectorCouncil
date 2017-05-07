@@ -4,9 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GomelRectorCouncil.Models
 {
+    // Типы значений показателя
     public enum IndicatorType
         {
-        text, int_number, float_number
+        text, 
+        int_number, 
+        float_number
         }
     // Показатель для подведения итогов в заданном году
     public class Indicator
