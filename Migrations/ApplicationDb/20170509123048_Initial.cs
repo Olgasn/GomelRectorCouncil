@@ -1,13 +1,49 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GomelRectorCouncil.Data.Migrations
+namespace GomelRectorCouncil.Migrations.ApplicationDb
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Indicator",
+                columns: table => new
+                {
+                    IndicatorId = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    IndicatorDescription = table.Column<string>(nullable: true),
+                    IndicatorId1 = table.Column<byte>(nullable: false),
+                    IndicatorId2 = table.Column<byte>(nullable: true),
+                    IndicatorId3 = table.Column<byte>(nullable: true),
+                    IndicatorName = table.Column<string>(nullable: true),
+                    IndicatorType = table.Column<int>(nullable: true),
+                    IndicatorUnit = table.Column<string>(nullable: true),
+                    Year = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Indicator", x => x.IndicatorId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "University",
+                columns: table => new
+                {
+                    UniversityId = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    Address = table.Column<string>(nullable: true),
+                    Logo = table.Column<string>(nullable: true),
+                    UniversityName = table.Column<string>(nullable: true),
+                    Website = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_University", x => x.UniversityId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -37,6 +73,33 @@ namespace GomelRectorCouncil.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Achievement",
+                columns: table => new
+                {
+                    AchievementId = table.Column<int>(nullable: false)
+                        .Annotation("Autoincrement", true),
+                    IndicatorId = table.Column<int>(nullable: false),
+                    IndicatorValue = table.Column<float>(nullable: false),
+                    UnivercityId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Achievement", x => x.AchievementId);
+                    table.ForeignKey(
+                        name: "FK_Achievement_Indicator_IndicatorId",
+                        column: x => x.IndicatorId,
+                        principalTable: "Indicator",
+                        principalColumn: "IndicatorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Achievement_University_UnivercityId",
+                        column: x => x.UnivercityId,
+                        principalTable: "University",
+                        principalColumn: "UniversityId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -54,11 +117,19 @@ namespace GomelRectorCouncil.Data.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UniversityId = table.Column<int>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_University_UniversityId",
+                        column: x => x.UniversityId,
+                        principalTable: "University",
+                        principalColumn: "UniversityId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,6 +219,32 @@ namespace GomelRectorCouncil.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Achievement_IndicatorId",
+                table: "Achievement",
+                column: "IndicatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Achievement_UnivercityId",
+                table: "Achievement",
+                column: "UnivercityId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UniversityId",
+                table: "AspNetUsers",
+                column: "UniversityId");
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName");
@@ -176,21 +273,13 @@ namespace GomelRectorCouncil.Data.Migrations
                 name: "IX_AspNetUserRoles_UserId",
                 table: "AspNetUserRoles",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Achievement");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -207,10 +296,16 @@ namespace GomelRectorCouncil.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Indicator");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "University");
         }
     }
 }

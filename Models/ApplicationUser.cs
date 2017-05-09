@@ -7,6 +7,8 @@ namespace GomelRectorCouncil.Models
     public class ApplicationUser : IdentityUser
     {
         public int Year { get; set; }
+        public int UniversityId { get; set; }
+        public University University { get; set; }  // команда игрока
 
     }
 }
