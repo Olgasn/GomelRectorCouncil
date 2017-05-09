@@ -5,8 +5,9 @@ using GomelRectorCouncil.Models;
 using System.Threading.Tasks;
 using GomelRectorCouncil.Models.ViewModels;
 
-namespace GomelRectorCouncil.Controllers
+namespace GomelRectorCouncil.Areas.Store.Controllers
 {
+    [Area("Admin")]
     public class UserController : Controller
     {
         UserManager<ApplicationUser> _userManager;
