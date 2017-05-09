@@ -5,7 +5,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<a asp-action="Create">Добавить пользователя</a>
+<a asp-action="Create" asp-controller="User">Добавить пользователя</a>
 
 <table class="table">
     <tr><th>Имя</th><th>Email</th><th>Год</th><th>Университет</th></tr>
@@ -14,11 +14,11 @@
         <tr>
             <td>@user.UserName</td>
             <td>@user.Email</td>
-            <td>@user.Year</td>
-            <td>@user.University.UniversityName</td>
+            <td>@user.RegistrationDate</td>
+            <td>@user.UniversityId</td>
             <td>
                 <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id">Изменить</a>
                     <button type="submit" class="btn btn-sm btn-danger">
                         Удалить
                     </button>

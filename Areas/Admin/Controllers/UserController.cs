@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using GomelRectorCouncil.Models;
 using System.Threading.Tasks;
-using GomelRectorCouncil.Models.ViewModels;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
 
-namespace GomelRectorCouncil.Areas.Store.Controllers
+namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class UserController : Controller
@@ -29,7 +29,7 @@ namespace GomelRectorCouncil.Areas.Store.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email, Year = model.Year };
+                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email, RegistrationDate = model.RegistrationDate };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -53,7 +53,7 @@ namespace GomelRectorCouncil.Areas.Store.Controllers
             {
                 return NotFound();
             }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Year = user.Year };
+            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, RegistrationDate = user.RegistrationDate };
             return View(model);
         }
 
@@ -67,7 +67,7 @@ namespace GomelRectorCouncil.Areas.Store.Controllers
                 {
                     user.Email = model.Email;
                     user.UserName = model.Email;
-                    user.Year = model.Year;
+                    user.RegistrationDate = model.RegistrationDate;
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
