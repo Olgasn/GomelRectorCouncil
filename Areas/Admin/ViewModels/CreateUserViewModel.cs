@@ -14,6 +14,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
         [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime RegistrationDate { get; set; }
+        [Display(Name = "Университет")]
+        public int UniversityId { get; set; }
     }
 
 }

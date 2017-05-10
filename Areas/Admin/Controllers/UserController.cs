@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using GomelRectorCouncil.Models;
 using System.Threading.Tasks;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
+using GomelRectorCouncil.Data;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -11,14 +12,34 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class UserController : Controller
     {
         UserManager<ApplicationUser> _userManager;
+        private readonly CouncilDbContext db;
 
-        public UserController(UserManager<ApplicationUser> userManager)
+
+        public UserController(UserManager<ApplicationUser> userManager, CouncilDbContext context)
         {
             _userManager = userManager;
+            db = context;
         }
 
         public IActionResult Index()
         {
+            var Users = _userManager.Users;
+            var Universities = db.Universities;
+
+            var leftunion = from u in Users join t in Universities 
+                            on u.UniversityId equals t.UniversityId
+                            into a from b in a.DefaultIfEmpty()
+                            select new
+                                {
+                                    u.Id,
+                                    u.UserName,
+                                    Name = b.UniversityName,
+                                    u.Email,
+                                    u.RegistrationDate
+                                 };
+            UserViewModel vm = new UserViewModel();
+            
+
             return View(_userManager.Users.ToList());
         }
 
