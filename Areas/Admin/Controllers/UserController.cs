@@ -23,24 +23,24 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var Users = _userManager.Users;
-            var Universities = db.Universities;
+            var users = _userManager.Users;
+            var universities = db.Universities;
 
-            var leftunion = from u in Users join t in Universities 
-                            on u.UniversityId equals t.UniversityId
-                            into a from b in a.DefaultIfEmpty()
-                            select new
+            var leftunion = from o in users
+                            from od in universities
+                                .Where(details => o.UniversityId == details.UniversityId)
+                                .DefaultIfEmpty()
+                            select new 
                                 {
-                                    u.Id,
-                                    u.UserName,
-                                    Name = b.UniversityName,
-                                    u.Email,
-                                    u.RegistrationDate
+                                    o.Id,
+                                    o.UserName,
+                                    od.UniversityName,
+                                    o.Email,
+                                    o.RegistrationDate
                                  };
-            UserViewModel vm = new UserViewModel();
-            
+              
 
-            return View(_userManager.Users.ToList());
+            return View(leftunion.ToList());
         }
 
         public IActionResult Create() => View();

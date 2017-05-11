@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GomelRectorCouncil.Data;
 
-namespace GomelRectorCouncil.Migrations.ApplicationDb
+namespace GomelRectorCouncil.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -14,26 +14,6 @@ namespace GomelRectorCouncil.Migrations.ApplicationDb
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.3");
-
-            modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
-                {
-                    b.Property<int>("AchievementId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("IndicatorId");
-
-                    b.Property<float>("IndicatorValue");
-
-                    b.Property<int>("UnivercityId");
-
-                    b.HasKey("AchievementId");
-
-                    b.HasIndex("IndicatorId");
-
-                    b.HasIndex("UnivercityId");
-
-                    b.ToTable("Achievement");
-                });
 
             modelBuilder.Entity("GomelRectorCouncil.Models.ApplicationUser", b =>
                 {
@@ -65,6 +45,8 @@ namespace GomelRectorCouncil.Migrations.ApplicationDb
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<DateTime>("RegistrationDate");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -73,8 +55,6 @@ namespace GomelRectorCouncil.Migrations.ApplicationDb
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
-
-                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 
@@ -85,53 +65,7 @@ namespace GomelRectorCouncil.Migrations.ApplicationDb
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.HasIndex("UniversityId");
-
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("GomelRectorCouncil.Models.Indicator", b =>
-                {
-                    b.Property<int>("IndicatorId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("IndicatorDescription");
-
-                    b.Property<byte>("IndicatorId1");
-
-                    b.Property<byte?>("IndicatorId2");
-
-                    b.Property<byte?>("IndicatorId3");
-
-                    b.Property<string>("IndicatorName");
-
-                    b.Property<int?>("IndicatorType");
-
-                    b.Property<string>("IndicatorUnit");
-
-                    b.Property<int>("Year");
-
-                    b.HasKey("IndicatorId");
-
-                    b.ToTable("Indicator");
-                });
-
-            modelBuilder.Entity("GomelRectorCouncil.Models.University", b =>
-                {
-                    b.Property<int>("UniversityId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("Logo");
-
-                    b.Property<string>("UniversityName");
-
-                    b.Property<string>("Website");
-
-                    b.HasKey("UniversityId");
-
-                    b.ToTable("University");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -239,27 +173,6 @@ namespace GomelRectorCouncil.Migrations.ApplicationDb
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
-                {
-                    b.HasOne("GomelRectorCouncil.Models.Indicator", "Indicator")
-                        .WithMany("Achievements")
-                        .HasForeignKey("IndicatorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GomelRectorCouncil.Models.University", "Univercity")
-                        .WithMany("Achievements")
-                        .HasForeignKey("UnivercityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("GomelRectorCouncil.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("GomelRectorCouncil.Models.University", "University")
-                        .WithMany()
-                        .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

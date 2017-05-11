@@ -10,8 +10,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
     public class UserViewModel
     {
         
-        public ICollection<ApplicationUser> Users { get; }
-        public ICollection<University> Universities { get; }
+        public IEnumerable<ApplicationUser> Users { get; set; }
+        public IEnumerable<University> Universities { get; set; }
                
 
     }

@@ -1,4 +1,4 @@
-@model IEnumerable<GomelRectorCouncil.Models.ApplicationUser>
+@model IEnumerable<GomelRectorCouncil.Areas.Admin.ViewModels.EditUserViewModel>
 @{
     ViewBag.Title = "Список пользователей";
 }
@@ -15,7 +15,7 @@
             <td>@user.UserName</td>
             <td>@user.Email</td>
             <td>@user.RegistrationDate</td>
-            <td>@user.UniversityId</td>
+            <td>@user.UserName</td>
             <td>
                 <form asp-action="Delete" asp-route-id="@user.Id" method="post">
                     <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id">Изменить</a>
