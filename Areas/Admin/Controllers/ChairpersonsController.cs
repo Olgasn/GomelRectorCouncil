@@ -49,7 +49,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Chairpersons/Create
         public IActionResult Create()
         {
-            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FirstMidName");
+            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FullName");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FirstMidName", chairperson.RectorId);
+            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FullName", chairperson.RectorId);
             return View(chairperson);
         }
 

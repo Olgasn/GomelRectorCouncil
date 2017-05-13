@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Services;
+using Microsoft.AspNetCore.Localization;
 
 namespace GomelRectorCouncil
 {
@@ -84,6 +85,10 @@ namespace GomelRectorCouncil
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+
+
         }
     }
 }
