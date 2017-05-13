@@ -9,9 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Views\Новая папка\**" />
     <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Areas\Admin\Views\Новая папка\**" />
     <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\Новая папка\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Areas\Admin\Views\Новая папка\**" />
     <None Remove="Data\Migrations\**" />
   </ItemGroup>
 
