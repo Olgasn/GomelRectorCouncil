@@ -9,38 +9,38 @@ using GomelRectorCouncil.Data;
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UserController : Controller
+    public class HomeController : Controller
     {
         UserManager<ApplicationUser> _userManager;
-        private readonly CouncilDbContext db;
+        private readonly CouncilDbContext _context;
 
 
-        public UserController(UserManager<ApplicationUser> userManager, CouncilDbContext context)
+        public HomeController(UserManager<ApplicationUser> userManager, CouncilDbContext context)
         {
             _userManager = userManager;
-            db = context;
+            _context = context;
         }
 
         public IActionResult Index()
         {
             var users = _userManager.Users;
-            var universities = db.Universities;
+            var universities = _context.Universities;
 
-            var leftunion = from o in users
-                            from od in universities
-                                .Where(details => o.UniversityId == details.UniversityId)
-                                .DefaultIfEmpty()
-                            select new 
-                                {
-                                    o.Id,
-                                    o.UserName,
-                                    od.UniversityName,
-                                    o.Email,
-                                    o.RegistrationDate
-                                 };
+            //var leftunion = from o in users
+            //                from od in universities
+            //                    .Where(details => o.UniversityId == details.UniversityId)
+            //                    .DefaultIfEmpty()
+            //                select new 
+            //                    {
+            //                        o.Id,
+            //                        o.UserName,
+            //                        od.UniversityName,
+            //                        o.Email,
+            //                        o.RegistrationDate
+            //                     };
               
 
-            return View(leftunion.ToList());
+            return View(users.ToList());
         }
 
         public IActionResult Create() => View();

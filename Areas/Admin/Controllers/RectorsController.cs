@@ -8,24 +8,26 @@ using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 
-namespace GomelRectorCouncil.Controllers
+namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
-    public class UniversitiesController : Controller
+    [Area("Admin")]
+    public class RectorsController : Controller
     {
         private readonly CouncilDbContext _context;
 
-        public UniversitiesController(CouncilDbContext context)
+        public RectorsController(CouncilDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Universities
+        // GET: Rectors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Universities.ToListAsync());
+            var councilDbContext = _context.Rectors.Include(r => r.University);
+            return View(await councilDbContext.ToListAsync());
         }
 
-        // GET: Universities/Details/5
+        // GET: Rectors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +35,42 @@ namespace GomelRectorCouncil.Controllers
                 return NotFound();
             }
 
-            var university = await _context.Universities
-                .SingleOrDefaultAsync(m => m.UniversityId == id);
-            if (university == null)
+            var rector = await _context.Rectors
+                .Include(r => r.University)
+                .SingleOrDefaultAsync(m => m.RectorId == id);
+            if (rector == null)
             {
                 return NotFound();
             }
 
-            return View(university);
+            return View(rector);
         }
 
-        // GET: Universities/Create
+        // GET: Rectors/Create
         public IActionResult Create()
         {
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityId");
             return View();
         }
 
-        // POST: Universities/Create
+        // POST: Rectors/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UniversityId,UniversityName,Address,Website,Logo")] University university)
+        public async Task<IActionResult> Create([Bind("RectorId,LastName,FirstMidName,MiddleName,Email,Photo,UniversityId")] Rector rector)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(university);
+                _context.Add(rector);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(university);
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", rector.UniversityId);
+            return View(rector);
         }
 
-        // GET: Universities/Edit/5
+        // GET: Rectors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +78,23 @@ namespace GomelRectorCouncil.Controllers
                 return NotFound();
             }
 
-            var university = await _context.Universities.SingleOrDefaultAsync(m => m.UniversityId == id);
-            if (university == null)
+            var rector = await _context.Rectors.SingleOrDefaultAsync(m => m.RectorId == id);
+            if (rector == null)
             {
                 return NotFound();
             }
-            return View(university);
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", rector.UniversityId);
+            return View(rector);
         }
 
-        // POST: Universities/Edit/5
+        // POST: Rectors/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UniversityId,UniversityName,Address,Website,Logo")] University university)
+        public async Task<IActionResult> Edit(int id, [Bind("RectorId,LastName,FirstMidName,MiddleName,Email,Photo,UniversityId")] Rector rector)
         {
-            if (id != university.UniversityId)
+            if (id != rector.RectorId)
             {
                 return NotFound();
             }
@@ -97,12 +103,12 @@ namespace GomelRectorCouncil.Controllers
             {
                 try
                 {
-                    _context.Update(university);
+                    _context.Update(rector);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UniversityExists(university.UniversityId))
+                    if (!RectorExists(rector.RectorId))
                     {
                         return NotFound();
                     }
@@ -113,10 +119,11 @@ namespace GomelRectorCouncil.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(university);
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", rector.UniversityId);
+            return View(rector);
         }
 
-        // GET: Universities/Delete/5
+        // GET: Rectors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +131,31 @@ namespace GomelRectorCouncil.Controllers
                 return NotFound();
             }
 
-            var university = await _context.Universities
-                .SingleOrDefaultAsync(m => m.UniversityId == id);
-            if (university == null)
+            var rector = await _context.Rectors
+                .Include(r => r.University)
+                .SingleOrDefaultAsync(m => m.RectorId == id);
+            if (rector == null)
             {
                 return NotFound();
             }
 
-            return View(university);
+            return View(rector);
         }
 
-        // POST: Universities/Delete/5
+        // POST: Rectors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var university = await _context.Universities.SingleOrDefaultAsync(m => m.UniversityId == id);
-            _context.Universities.Remove(university);
+            var rector = await _context.Rectors.SingleOrDefaultAsync(m => m.RectorId == id);
+            _context.Rectors.Remove(rector);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool UniversityExists(int id)
+        private bool RectorExists(int id)
         {
-            return _context.Universities.Any(e => e.UniversityId == id);
+            return _context.Rectors.Any(e => e.RectorId == id);
         }
     }
 }

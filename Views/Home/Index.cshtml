@@ -5,11 +5,8 @@
 }
 
 <h2>Университеты</h2>
-<p>
-    <a asp-action="Create">Добавить</a>
-</p>
-<p>
-</p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -22,15 +19,11 @@
             @Html.DisplayNameFor(model => model.University.Address)    
             </th>
             <th>
-            @Html.DisplayNameFor(model => model.FullName)   
-    
+            @Html.DisplayNameFor(model => model.FullName)       
             </th>
-
             <th>
-            @Html.DisplayNameFor(model => model.University.Website)    
-
+            @Html.DisplayNameFor(model => model.University.Website)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -44,20 +37,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.University.UniversityName)
                 </td>
-                <td>                    
-                </td>
-                     @Html.DisplayFor(modelItem => item.University.Address)
+                <td>
+                    @Html.DisplayFor(modelItem => item.University.Address)
+                </td>                     
                 <td>
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.University.Website)
+                    <a href="http:\\@item.University.Website" target="_blank">@Html.DisplayFor(modelItem => item.University.Website)</a>
                 </td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.UniversityId">Изменить</a> |
-                    <a asp-action="Delete" asp-route-id="@item.UniversityId">Удалить</a>
-                </td>
             </tr>
         }
     </tbody>

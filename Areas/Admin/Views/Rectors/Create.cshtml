@@ -1,18 +1,17 @@
 @model GomelRectorCouncil.Models.Rector
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
-<form asp-action="Edit">
+<form asp-action="Create" asp-controller="Rectors">
     <div class="form-horizontal">
         <h4>Rector</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="RectorId" />
         <div class="form-group">
             <label asp-for="LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -49,15 +48,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="UniversityId" class="control-label col-md-2"></label>
+            <label asp-for="UniversityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="UniversityId" class="form-control" asp-items="ViewBag.UniversityId"></select>
-                <span asp-validation-for="UniversityId" class="text-danger"></span>
+                <select asp-for="UniversityId" class ="form-control" asp-items="ViewBag.UniversityId"></select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>

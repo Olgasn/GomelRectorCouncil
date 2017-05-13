@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-controller="Rectors">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -29,7 +29,7 @@
                     @Html.DisplayNameFor(model => model.Photo)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.University)
+                @Html.DisplayNameFor(model => model.University.UniversityName)
             </th>
             <th></th>
         </tr>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.Photo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.University.UniversityId)
+                @Html.DisplayFor(modelItem => item.University.UniversityName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RectorId">Edit</a> |

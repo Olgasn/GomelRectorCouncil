@@ -1,11 +1,11 @@
-@model IEnumerable<GomelRectorCouncil.Areas.Admin.ViewModels.EditUserViewModel>
+@model IEnumerable<GomelRectorCouncil.Models.ApplicationUser>
 @{
     ViewBag.Title = "Список пользователей";
 }
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<a asp-action="Create" asp-controller="User">Добавить пользователя</a>
+<a asp-action="Create" asp-controller="Home">Добавить пользователя</a>
 
 <table class="table">
     <tr><th>Имя</th><th>Email</th><th>Год</th><th>Университет</th></tr>
