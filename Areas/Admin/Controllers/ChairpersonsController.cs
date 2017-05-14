@@ -9,6 +9,7 @@ using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
+
 {
     [Area("Admin")]
     public class ChairpersonsController : Controller
@@ -49,7 +50,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Chairpersons/Create
         public IActionResult Create()
         {
-            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FullName");
+            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FirstMidName");
             return View();
         }
 
@@ -58,7 +59,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ChairpersonId,AppointmentDate,StartDate,StopDate,RectorId")] Chairperson chairperson)
+        public async Task<IActionResult> Create([Bind("ChairpersonId,StartDate,StopDate,RectorId")] Chairperson chairperson)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +67,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FullName", chairperson.RectorId);
+            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FirstMidName", chairperson.RectorId);
             return View(chairperson);
         }
 
@@ -92,13 +93,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ChairpersonId,AppointmentDate,StartDate,StopDate,RectorId")] Chairperson chairperson)
+        public async Task<IActionResult> Edit([Bind("ChairpersonId,StartDate,StopDate,RectorId")] Chairperson chairperson)
         {
-            if (id != chairperson.ChairpersonId)
-            {
-                return NotFound();
-            }
-
+            
             if (ModelState.IsValid)
             {
                 try
@@ -119,7 +116,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FullName", chairperson.RectorId);
+            ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FirstMidName", chairperson.RectorId);
             return View(chairperson);
         }
 

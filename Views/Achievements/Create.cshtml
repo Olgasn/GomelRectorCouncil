@@ -1,4 +1,4 @@
-@model GomelRectorCouncil.Models.Chairperson
+@model GomelRectorCouncil.Models.Achievement
 
 @{
     ViewData["Title"] = "Create";
@@ -9,27 +9,26 @@
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>Chairperson</h4>
+        <h4>Achievement</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="StartDate" class="col-md-2 control-label"></label>
+            <label asp-for="IndicatorId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <select asp-for="IndicatorId" class ="form-control" asp-items="ViewBag.IndicatorId"></select>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="StopDate" class="col-md-2 control-label"></label>
+            <label asp-for="UnivercityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="StopDate" class="form-control" />
-                <span asp-validation-for="StopDate" class="text-danger"></span>
+                <select asp-for="UnivercityId" class ="form-control" asp-items="ViewBag.UnivercityId"></select>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="RectorId" class="col-md-2 control-label"></label>
+            <label asp-for="IndicatorValue" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="RectorId" class ="form-control" asp-items="ViewBag.RectorId"></select>
+                <input asp-for="IndicatorValue" class="form-control" />
+                <span asp-validation-for="IndicatorValue" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

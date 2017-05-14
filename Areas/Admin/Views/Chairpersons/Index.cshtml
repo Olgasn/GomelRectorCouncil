@@ -14,9 +14,6 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.AppointmentDate)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.StartDate)
                 </th>
                 <th>
@@ -31,9 +28,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppointmentDate)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>

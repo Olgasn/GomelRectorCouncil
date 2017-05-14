@@ -87,13 +87,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UniversityId,UniversityName,Address,Website,Logo")] University university)
+        public async Task<IActionResult> Edit([Bind("UniversityId,UniversityName,Address,Website,Logo")] University university)
         {
-            if (id != university.UniversityId)
-            {
-                return NotFound();
-            }
-
+            
             if (ModelState.IsValid)
             {
                 try

@@ -1,0 +1,72 @@
+@model GomelRectorCouncil.Models.Indicator
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Indicator</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="IndicatorId" />
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorId1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorId1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorId2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorId2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorId3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorId3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorUnit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorUnit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

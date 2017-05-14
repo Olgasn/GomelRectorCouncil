@@ -9,7 +9,6 @@ namespace GomelRectorCouncil.Models
     {
         [Key]
         public int ChairpersonId { get; set; }
-        public DateTime? AppointmentDate { get; set; }
         [Display(Name="Дата назначения")]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
