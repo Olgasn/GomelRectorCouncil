@@ -8,7 +8,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Chairperson</h4>
+    <h4>Председатель</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -24,14 +24,14 @@
             @Html.DisplayFor(model => model.StopDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Rector)
+            @Html.DisplayNameFor(model => model.Rector.FullName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Rector.FirstMidName)
+            @Html.DisplayFor(model => model.Rector.FullName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ChairpersonId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.ChairpersonId">Изменить</a> |
+    <a asp-action="Index">Вернуться</a>
 </div>

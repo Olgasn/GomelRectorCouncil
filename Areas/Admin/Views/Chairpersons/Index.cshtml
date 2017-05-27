@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добавить</a>
 </p>
 <table class="table">
     <thead>
@@ -20,7 +20,7 @@
                     @Html.DisplayNameFor(model => model.StopDate)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rector)
+                @Html.DisplayNameFor(model => model.Rector.FullName)
             </th>
             <th></th>
         </tr>
@@ -35,12 +35,12 @@
                 @Html.DisplayFor(modelItem => item.StopDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rector.FirstMidName)
+                @Html.DisplayFor(modelItem => item.Rector.FullName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ChairpersonId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ChairpersonId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ChairpersonId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ChairpersonId">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.ChairpersonId">Подробно</a> |
+                <a asp-action="Delete" asp-route-id="@item.ChairpersonId">Удалить</a>
             </td>
         </tr>
 }

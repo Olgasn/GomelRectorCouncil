@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Редактирование</h2>
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>Chairperson</h4>
+        <h4>Председатель</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="ChairpersonId" />
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="RectorId" class="control-label col-md-2"></label>
+            <label asp-for="Rector.FullName" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 <select asp-for="RectorId" class="form-control" asp-items="ViewBag.RectorId"></select>
                 <span asp-validation-for="RectorId" class="text-danger"></span>
@@ -43,7 +43,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Вернуться</a>
 </div>
 
 @section Scripts {
