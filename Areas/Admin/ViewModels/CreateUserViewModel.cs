@@ -8,6 +8,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {
     public class CreateUserViewModel
     {
+        [Display(Name="Имя пользователя")]
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         [Display(Name = "Дата регистрации")]

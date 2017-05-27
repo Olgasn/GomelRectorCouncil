@@ -1,4 +1,4 @@
-@model GomelRectorCouncil.Models.Rector
+п»ї@model GomelRectorCouncil.Models.Rector
 
 @{
     ViewData["Title"] = "Create";
@@ -9,7 +9,7 @@
 
 <form asp-action="Create" asp-controller="Rectors">
     <div class="form-horizontal">
-        <h4>Rector</h4>
+        <h4>Р РµРєС‚РѕСЂ</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
@@ -48,10 +48,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="UniversityId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="UniversityId" class ="form-control" asp-items="ViewBag.UniversityId"></select>
-            </div>
+            <label asp-for="University.UniversityName" class="col-md-2 control-label"></label>
+            <select asp-for="UniversityId" class ="form-control" asp-items="ViewBag.UniversityId"></select>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -62,7 +60,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Вернуться к списку</a>
+    <a asp-action="Index">Р’РµСЂРЅСѓС‚СЊСЃСЏ Рє СЃРїРёСЃРєСѓ</a>
 </div>
 
 @section Scripts {

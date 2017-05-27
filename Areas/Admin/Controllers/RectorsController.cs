@@ -49,7 +49,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Rectors/Create
         public IActionResult Create()
         {
-            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityId");
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName");
             return View();
         }
 

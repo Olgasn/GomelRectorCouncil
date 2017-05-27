@@ -9,15 +9,16 @@ namespace GomelRectorCouncil.Controllers
 
     public class HomeController : Controller
     {
-        private readonly CouncilDbContext db;
+        private readonly CouncilDbContext _context;
         public HomeController(CouncilDbContext context)
         {
-            db=context;
+            _context=context;
         }
         
         public IActionResult Index()
         {
-            var univ= db.Rectors.Include(c => c.University).OrderBy(i=>i.University.UniversityName);            
+            var univ = _context.Universities.Include(c => c.Rector).OrderBy(i => i.UniversityName);
+            //var univ= _context.Rectors.Include(c => c.University).OrderBy(i=>i.University.UniversityName);            
             return View(univ);
         }
 

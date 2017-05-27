@@ -5,6 +5,7 @@ using GomelRectorCouncil.Models;
 using System.Threading.Tasks;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
 using GomelRectorCouncil.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -43,7 +44,13 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             return View(users.ToList());
         }
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName");
+            return View();
+
+        }
+        
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
@@ -75,6 +82,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 return NotFound();
             }
             EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, RegistrationDate = user.RegistrationDate };
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", model.UniversityId);
             return View(model);
         }
 
@@ -87,7 +95,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 if (user != null)
                 {
                     user.Email = model.Email;
-                    user.UserName = model.Email;
+                    user.UserName = model.UserName;
                     user.RegistrationDate = model.RegistrationDate;
 
                     var result = await _userManager.UpdateAsync(user);

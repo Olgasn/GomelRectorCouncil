@@ -1,4 +1,4 @@
-@model IEnumerable<GomelRectorCouncil.Models.Rector>
+@model IEnumerable<GomelRectorCouncil.Models.University>
 
 @{
     ViewData["Title"] = "Совет ректоров Гомельской области";
@@ -13,16 +13,16 @@
             <th>
             </th>
             <th>
-             @Html.DisplayNameFor(model => model.University.UniversityName)
+             @Html.DisplayNameFor(model => model.UniversityName)
             </th>
             <th>
-            @Html.DisplayNameFor(model => model.University.Address)    
+            @Html.DisplayNameFor(model => model.Address)    
             </th>
             <th>
-            @Html.DisplayNameFor(model => model.FullName)       
+            @Html.DisplayNameFor(model => model.Rector.FullName)       
             </th>
             <th>
-            @Html.DisplayNameFor(model => model.University.Website)
+            @Html.DisplayNameFor(model => model.Website)
             </th>
         </tr>
     </thead>
@@ -31,20 +31,20 @@
         {
             <tr>
                 <td>
-                    <img src=@item.University.Logo>
+                    <img src=@item.Logo>
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.University.UniversityName)
+                    @Html.DisplayFor(modelItem => item.UniversityName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.University.Address)
+                    @Html.DisplayFor(modelItem => item.Address)
                 </td>                     
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.DisplayFor(modelItem => item.Rector.FullName)
                 </td>
                 <td>
-                    <a href="http:\\@item.University.Website" target="_blank">@Html.DisplayFor(modelItem => item.University.Website)</a>
+                    <a href="http:\\@item.Website" target="_blank">@Html.DisplayFor(modelItem => item.Website)</a>
                 </td>
 
             </tr>
