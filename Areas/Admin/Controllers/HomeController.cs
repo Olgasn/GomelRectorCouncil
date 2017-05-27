@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
 using GomelRectorCouncil.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -24,24 +25,40 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var users = _userManager.Users;
+            var users = _userManager.Users.OrderBy(user => user.Id);
             var universities = _context.Universities;
 
-            //var leftunion = from o in users
-            //                from od in universities
-            //                    .Where(details => o.UniversityId == details.UniversityId)
-            //                    .DefaultIfEmpty()
-            //                select new 
-            //                    {
-            //                        o.Id,
-            //                        o.UserName,
-            //                        od.UniversityName,
-            //                        o.Email,
-            //                        o.RegistrationDate
-            //                     };
-              
+            List<UserViewModel> userViewModel = new List<UserViewModel>();
 
-            return View(users.ToList());
+
+            string uname = "";
+            foreach (var user in users)
+            {
+                var universityName = (from un in universities
+                                      where (un.UniversityId == user.UniversityId)
+                                      select un.UniversityName);
+                if (universityName.Count()>0)
+                {
+                    uname = universityName.FirstOrDefault().ToString() ?? "";
+                }
+                userViewModel.Add(
+                    new UserViewModel
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        RegistrationDate = user.RegistrationDate,
+                        UniversityName = uname
+                    });            
+                
+
+
+            }
+
+            
+
+            
+            return View(userViewModel);
         }
 
         public IActionResult Create()
@@ -57,7 +74,13 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email, RegistrationDate = model.RegistrationDate };
+                ApplicationUser user = new ApplicationUser
+                {
+                    Email = model.Email,
+                    UserName = model.UserName,
+                    RegistrationDate = model.RegistrationDate,
+                    UniversityId=model.UniversityId
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -81,7 +104,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, RegistrationDate = user.RegistrationDate };
+            EditUserViewModel model = new EditUserViewModel
+            {
+                Id=user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                RegistrationDate = user.RegistrationDate,
+                UniversityId = user.UniversityId
+            };
             ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", model.UniversityId);
             return View(model);
         }
@@ -97,6 +127,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     user.Email = model.Email;
                     user.UserName = model.UserName;
                     user.RegistrationDate = model.RegistrationDate;
+                    user.UniversityId = model.UniversityId;
+
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)

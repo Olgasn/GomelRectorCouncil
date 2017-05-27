@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {
     public class EditUserViewModel
     {
         public string Id { get; set; }
+        [Display(Name = "Имя")]
         public string UserName { get; set; }
+        [EmailAddress(ErrorMessage = "Некорректный адрес")]
         public string Email { get; set; }
         [Display(Name = "Дата регистрации")]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
