@@ -12,6 +12,8 @@
             <li><a asp-area="Admin" asp-controller="Universities" asp-action="Index">Университеты</a></li>
             <li><a asp-area="Admin" asp-controller="Rectors" asp-action="Index">Ректоры</a></li>
             <li><a asp-area="Admin" asp-controller="ChairPersons" asp-action="Index">Председатели</a></li>
+            <li><a asp-controller="Documents" asp-action="Index">Документы</a></li>
+            <li><a asp-controller="Achievements" asp-action="Index">Результаты</a></li>
 
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)!</a>
@@ -25,7 +27,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Войти</a></li>
     </ul>
 }

@@ -20,13 +20,10 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
         [Display(Name = "Университет")]
         public int UniversityId { get; set; }
         [Display(Name = "Роль")]
-        public string RoleId { get; set; }
-        public List<IdentityRole> AllRoles { get; set; }
-        public IList<string> UserRoles { get; set; }
+        public string UserRole { get; set; }
         public CreateUserViewModel()
         {
-            AllRoles = new List<IdentityRole>();
-            UserRoles = new List<string>();
+            UserRole = "user";
         }
 
 

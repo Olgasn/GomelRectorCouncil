@@ -76,7 +76,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            var allRoles = _roleManager.Roles.ToList();
+
             ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName");
+            ViewData["UserRole"] = new SelectList(allRoles, "Name", "Name");
+
             return View();
 
         }

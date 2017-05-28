@@ -5,29 +5,35 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Добавить</h2>
 <form asp-action="Create" asp-controller="Home">
+    <h4>Пользователь</h4>
+    <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="UserName" class="control-label">Имя пользователя</label>
+        <label asp-for="UserName" class="col-md-2 control-label">Имя пользователя</label>
         <input type="text" asp-for="UserName" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Email" class="control-label">Email</label>
+        <label asp-for="Email" class="col-md-2 control-label">Email</label>
         <input type="text" asp-for="Email" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Password" class="control-label">Пароль</label>
+        <label asp-for="Password" class="col-md-2 control-label">Пароль</label>
         <input type="text" asp-for="Password" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="RegistrationDate" class="control-label">Дата регистрации</label>
+        <label asp-for="RegistrationDate" class="col-md-2 control-label">Дата регистрации</label>
         <input type="date" asp-for="RegistrationDate" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="UniversityId" class="col-md-2 control-label">Университет</label>
-        <div class="col-md-10">
-            <select asp-for="UniversityId" class="form-control" asp-items="ViewBag.UniversityId"></select>
-        </div>
+        <select asp-for="UniversityId" class="form-control" asp-items="ViewBag.UniversityId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserRole" class="control-label col-md-2"></label>
+        <select asp-for="UserRole" class="form-control" asp-items="ViewBag.UserRole"></select>
+        <span asp-validation-for="UserRole" class="text-danger"></span>
     </div>
     <div class="form-group">
         <input type="submit" value="Добавить" class="btn btn-default" />
