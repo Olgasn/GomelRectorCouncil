@@ -21,7 +21,7 @@ namespace GomelRectorCouncil.Models
 
         [Display(Name="Дата регистрации")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yy}", ApplyFormatInEditMode = true)]
         public DateTime RegistrationDate {get; set;}
 
         [Display(Name="Файл")]

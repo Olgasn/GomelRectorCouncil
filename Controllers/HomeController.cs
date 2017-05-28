@@ -18,7 +18,7 @@ namespace GomelRectorCouncil.Controllers
         public IActionResult Index()
         {
             var univ = _context.Universities.Include(c => c.Rector).OrderBy(i => i.UniversityName);
-            //var univ= _context.Rectors.Include(c => c.University).OrderBy(i=>i.University.UniversityName);            
+          
             return View(univ);
         }
 
@@ -30,14 +30,14 @@ namespace GomelRectorCouncil.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Сайт Совета ректоров Гомельской области.";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Контакты.";
 
             return View();
         }

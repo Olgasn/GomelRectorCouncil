@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GomelRectorCouncil.Areas.Admin.ViewModels
@@ -11,10 +13,16 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
         [EmailAddress(ErrorMessage = "Некорректный адрес")]
         public string Email { get; set; }
         [Display(Name = "Дата регистрации")]
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime RegistrationDate { get; set; }
         [Display(Name = "Университет")]
         public int UniversityId { get; set; }
+        [Display(Name = "Роль")]
+        public string UserRole { get; set; }
+        public EditUserViewModel()
+        {
+            UserRole = "user";
+        }
     }
 }

@@ -9,6 +9,9 @@ using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Services;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System;
 
 namespace GomelRectorCouncil
 {
@@ -85,10 +88,43 @@ namespace GomelRectorCouncil
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            // инициализация базы данных
+            DatabaseInitialize(app.ApplicationServices).Wait();
 
 
 
 
+        }
+        //Инициализация базы данных первой учетной записью и двумя ролями admin и user
+        public async Task DatabaseInitialize(IServiceProvider serviceProvider)
+        {
+            UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            RoleManager<IdentityRole> roleManager =               serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string adminEmail = "admin@gmail.com";
+            string password = "_Aa123456";
+            if (await roleManager.FindByNameAsync("admin") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("admin"));
+            }
+            if (await roleManager.FindByNameAsync("user") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("user"));
+            }
+            if (await userManager.FindByNameAsync(adminEmail) == null)
+            {
+                ApplicationUser admin = new ApplicationUser
+                {
+                    Email = adminEmail,
+                    UserName = adminEmail,
+                    RegistrationDate = DateTime.Now
+                };
+                IdentityResult result = await userManager.CreateAsync(admin, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "admin");
+                }
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using GomelRectorCouncil.Areas.Admin.ViewModels;
 using GomelRectorCouncil.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -14,17 +15,21 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         UserManager<ApplicationUser> _userManager;
+        RoleManager<IdentityRole> _roleManager;
+
         private readonly CouncilDbContext _context;
 
 
-        public HomeController(UserManager<ApplicationUser> userManager, CouncilDbContext context)
+        public HomeController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, CouncilDbContext context)
         {
+            _roleManager = roleManager;
             _userManager = userManager;
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            
             var users = _userManager.Users.OrderBy(user => user.Id);
             var universities = _context.Universities;
 
@@ -32,8 +37,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
 
             string uname = "";
+            string urole = "";
             foreach (var user in users)
             {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Count() > 0)
+                {
+                    urole = userRoles[0] ?? "";
+                }
                 var universityName = (from un in universities
                                       where (un.UniversityId == user.UniversityId)
                                       select un.UniversityName);
@@ -48,8 +59,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                         UserName = user.UserName,
                         Email = user.Email,
                         RegistrationDate = user.RegistrationDate,
-                        UniversityName = uname
-                    });            
+                        UniversityName = uname,
+                        RoleName = urole
+
+            });            
                 
 
 
@@ -104,15 +117,26 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            // получаем список ролей пользователя
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+            string userRole = "";
+            if (userRoles.Count() > 0)
+            {
+                userRole = userRoles[0] ?? "";
+            }
+
             EditUserViewModel model = new EditUserViewModel
             {
                 Id=user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
                 RegistrationDate = user.RegistrationDate,
-                UniversityId = user.UniversityId
+                UniversityId = user.UniversityId,
+                UserRole = userRole
             };
             ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", model.UniversityId);
+            ViewData["UserRole"] = new SelectList(allRoles, "Name", "Name", model.UserRole);
             return View(model);
         }
 
@@ -124,6 +148,21 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 ApplicationUser user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
+                    // получаем и удаляем прежние роль пользователя
+                    var oldRoles = await _userManager.GetRolesAsync(user);
+                    
+                    if (oldRoles.Count() > 0)
+                    {
+                        await _userManager.RemoveFromRolesAsync(user, oldRoles);
+
+                    }
+                    // получаем и устанавливаем новую роль пользователя
+                    var newRole = model.UserRole;
+                    if (newRole.Count() > 0)
+                    {
+                        await _userManager.AddToRoleAsync(user, newRole);
+
+                    }
                     user.Email = model.Email;
                     user.UserName = model.UserName;
                     user.RegistrationDate = model.RegistrationDate;

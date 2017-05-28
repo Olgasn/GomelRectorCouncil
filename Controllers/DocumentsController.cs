@@ -22,7 +22,7 @@ namespace GomelRectorCouncil.Controllers
         // GET: Documents
         public async Task<IActionResult> Index()
         {
-            var councilDbContext = _context.Documents.Include(d => d.Chairperson);
+            var councilDbContext = _context.Documents.Include(d => d.Chairperson).Include(r=>r.Chairperson.Rector);
             return View(await councilDbContext.ToListAsync());
         }
 
@@ -114,7 +114,7 @@ namespace GomelRectorCouncil.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons, "ChairpersonId", "ChairpersonId", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons, "ChairpersonId", "ChairpersonName", document.ChairpersonId);
             return View(document);
         }
 
