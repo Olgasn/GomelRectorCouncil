@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+п»їusing Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -88,20 +88,22 @@ namespace GomelRectorCouncil
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            // инициализация базы данных
+            // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
             DatabaseInitialize(app.ApplicationServices).Wait();
 
 
 
 
         }
-        //Инициализация базы данных первой учетной записью и двумя ролями admin и user
+        //РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С… РїРµСЂРІРѕР№ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃСЊСЋ Рё РґРІСѓРјСЏ СЂРѕР»СЏРјРё admin Рё user
         public async Task DatabaseInitialize(IServiceProvider serviceProvider)
         {
             UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             RoleManager<IdentityRole> roleManager =               serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             string adminEmail = "admin@gmail.com";
+            string adminName = "admin@gmail.com";
+
             string password = "_Aa123456";
             if (await roleManager.FindByNameAsync("admin") == null)
             {
@@ -116,7 +118,7 @@ namespace GomelRectorCouncil
                 ApplicationUser admin = new ApplicationUser
                 {
                     Email = adminEmail,
-                    UserName = adminEmail,
+                    UserName = adminName,
                     RegistrationDate = DateTime.Now
                 };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
