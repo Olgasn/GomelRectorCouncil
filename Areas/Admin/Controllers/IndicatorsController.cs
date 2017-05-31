@@ -25,12 +25,17 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public IActionResult Index(int? currentYear)
         {
             int currYear = currentYear??DateTime.Now.Year;
+            List<int> years=_context.Indicators
+                .OrderByDescending(f=>f.Year)
+                .Select(f=>f.Year)
+                .ToList();
+             years.Insert(0,currYear); years.Insert(0,currYear+1);
+
              IndicatorViewModel indicators = new IndicatorViewModel
             {
                 Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
-                CurrentYear = currYear
+                ListYears=new SelectList(years.Distinct(),currYear)
             };
-
             return View(indicators);
         }
 

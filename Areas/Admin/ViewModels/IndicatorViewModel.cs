@@ -11,18 +11,7 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
     {
         public IEnumerable<Indicator> Indicators{get;set;}
  
-        [Display(Name="Выберите год")]
-        public int CurrentYear { get; set; }
-        public SelectList ListYears 
-        { 
-            get
-            {
-                SelectList ls=new SelectList(Indicators.Where(f=>f.Year==CurrentYear).Select(f=>f.Year).Distinct());
-                return ls;
-
-            }
-        }
-
-
+        public SelectList ListYears {get;set;}
+        
     }
 }
