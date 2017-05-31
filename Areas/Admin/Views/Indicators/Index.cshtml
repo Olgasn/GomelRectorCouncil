@@ -1,47 +1,59 @@
-@model IEnumerable<GomelRectorCouncil.Models.Indicator>
+@model GomelRectorCouncil.Areas.Admin.ViewModels.IndicatorViewModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Показатели для подведения итогов в заданном году</h2>
+<h2>Показатели для подведения итогов </h2>
 
+
+<form method="get">
+    <div class="form-inline form-group">
+        <label asp-for="CurrentYear" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.TextBox("currentYear", Model.CurrentYear, htmlAttributes: new { @class = "form-control" })
+                <input type="submit" value="Показать" class="btn btn-default" />
+
+            </div>
+
+    </div>
+</form>
 <p>
-    <a asp-action="Create">Добавить</a>
+    <a asp-action="Create" class="col-md-2 control-label">Добавить</a>
 </p>
+
+
+
 <table class="table">
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorId1)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorId1)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorId2)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorId2)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorId3)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorId3)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorName)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorUnit)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorUnit)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorType)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorType)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorDescription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Year)
+                    @Html.DisplayNameFor(model => model.Indicators.FirstOrDefault().IndicatorDescription)
                 </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Indicators) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IndicatorId1)
@@ -64,9 +76,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IndicatorDescription)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IndicatorId">Изменить</a> |
                 <a asp-action="Details" asp-route-id="@item.IndicatorId">Подробно</a> |

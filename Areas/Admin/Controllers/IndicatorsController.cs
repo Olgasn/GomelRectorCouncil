@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -21,10 +22,19 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // GET: Indicators
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? currentYear)
         {
-            return View(await _context.Indicators.ToListAsync());
+            int currYear = currentYear??DateTime.Now.Year;
+             IndicatorViewModel indicators = new IndicatorViewModel
+            {
+                Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
+                CurrentYear = currYear
+            };
+
+            return View(indicators);
         }
+
+
 
         // GET: Indicators/Details/5
         public async Task<IActionResult> Details(int? id)
