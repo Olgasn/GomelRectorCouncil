@@ -23,7 +23,6 @@ namespace GomelRectorCouncil.Controllers
         // GET: Achievements
         public IActionResult Index(int? currentYear)
         {
-            var councilDbContext = _context.Achievements.Include(a => a.Indicator).Include(a => a.Univercity);
 
             int currYear = currentYear ?? DateTime.Now.Year;
             List<int> years = _context.Indicators

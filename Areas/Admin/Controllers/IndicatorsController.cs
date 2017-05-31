@@ -60,8 +60,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // GET: Indicators/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
+            ViewData["Year"] = id;
+
             return View();
         }
 
