@@ -1,12 +1,22 @@
-@model IEnumerable<GomelRectorCouncil.Models.Achievement>
+@model GomelRectorCouncil.ViewModels.AchievementsViewModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Достижения </h2>
+<form method="get">
+    <div class="form-inline form-group">
+        <label class="col-md-2 control-label">Год</label>
+        <div class="col-md-10">
+            @Html.DropDownList("currentYear", Model.ListYears as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+            <input type="submit" value="Показать" class="btn btn-default" />
+        </div>
 
+    </div>
+</form>
 <p>
     <a asp-action="Create">Добавить</a>
 </p>
@@ -14,19 +24,19 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.IndicatorValue)
+                    @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.Indicator)
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Univercity)
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Achievements) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IndicatorValue)

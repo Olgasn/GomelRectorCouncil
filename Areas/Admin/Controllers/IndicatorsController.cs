@@ -31,7 +31,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .ToList();
              years.Insert(0,currYear); years.Insert(0,currYear+1);
 
-             IndicatorViewModel indicators = new IndicatorViewModel
+             IndicatorsViewModel indicators = new IndicatorsViewModel
             {
                 Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
                 ListYears=new SelectList(years.Distinct(),currYear)

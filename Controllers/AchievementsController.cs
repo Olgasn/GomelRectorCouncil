@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
+using GomelRectorCouncil.ViewModels;
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -20,10 +21,27 @@ namespace GomelRectorCouncil.Controllers
         }
 
         // GET: Achievements
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? currentYear)
         {
             var councilDbContext = _context.Achievements.Include(a => a.Indicator).Include(a => a.Univercity);
-            return View(await councilDbContext.ToListAsync());
+
+            int currYear = currentYear ?? DateTime.Now.Year;
+            List<int> years = _context.Indicators
+                .OrderByDescending(f => f.Year)
+                .Select(f => f.Year)
+                .ToList();
+            years.Insert(0, currYear); years.Insert(0, currYear + 1);
+
+            AchievementsViewModel achievements = new AchievementsViewModel
+            {
+                Achievements = _context.Achievements.Include(a => a.Indicator).Include(a => a.Univercity).Where(t => t.Year == currYear).ToList(),
+                ListYears = new SelectList(years.Distinct(), currYear)
+            };
+
+
+            return View(achievements);
+
+            
         }
 
         // GET: Achievements/Details/5
