@@ -48,12 +48,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     t => new
                     {
                         t.IndicatorId,
+                        t.IndicatorCode,
                         t.IndicatorId1,
                         t.IndicatorId2,
                         t.IndicatorId3,
                         t.IndicatorName,
                         t.IndicatorType,
                         t.IndicatorUnit,
+                        t.IndicatorDescription,
                         t.Year
                     });
 
@@ -68,26 +70,26 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 }
             }
 
-            int totalRecords = fuels.Count();
+            int totalRecords = indicators.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                fuels = fuels.OrderByDescending(t => t.FuelType);
-                fuels = fuels.Skip(pageIndex * pageSize).Take(pageSize);
+                indicators = indicators.OrderByDescending(t => t.IndicatorId);
+                indicators = indicators.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                fuels = fuels.OrderBy(t => t.FuelType);
-                fuels = fuels.Skip(pageIndex * pageSize).Take(pageSize);
+                indicators = indicators.OrderBy(t => t.IndicatorId);
+                indicators = indicators.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
             {
                 total = totalPages,
                 page,
                 records = totalRecords,
-                rows = fuels
+                rows = indicators
             };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            return Json(jsonData);
         }
 
 

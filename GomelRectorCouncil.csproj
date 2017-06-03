@@ -24,13 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Areas\Admin\Scripts\scriptIndicators.js" />
-    <Content Include="Scripts\scriptAchievements.js" />
-    <Content Include="wwwroot\js\scriptAchievements.js" />
-    <Content Include="wwwroot\js\scriptAchivements.js" />
-    <Content Include="wwwroot\js\scriptFuels.js" />
     <Content Include="wwwroot\js\scriptIndicators.js" />
-    <Content Include="wwwroot\js\scriptTanks.js" />
+    <Content Include="wwwroot\js\scriptAchievements.js" />
   </ItemGroup>
 
   <ItemGroup>

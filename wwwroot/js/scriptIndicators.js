@@ -1,23 +1,29 @@
-﻿//Работа с данными таблицы Fuels с помощью jqGrid плагина JavaScript библиотеки jQuery
+﻿//Работа с данными таблицы Indicators с помощью jqGrid плагина JavaScript библиотеки jQuery
 $(function () {
     $("#jqGrid").jqGrid({
-        url: "/JQGridFuels/GetFuels",
+        url: "/GridIndicators/GetIndicators",
         datatype: 'json',
         mtype: 'Get',
-        colNames: ['FuelID', 'Вид топлива', 'Плотность'],
+        colNames: ['IndicatorID', 'IndicatorId1', 'IndicatorId2', 'IndicatorId3', 'IndicatorName', 'IndicatorUnit', 'IndicatorDescription', 'Year' ],
+
         colModel: [
-            { key: true, hidden: true, name: 'FuelID', index: 'FuelID', editable: true },
-            { key: false, name: 'FuelType', index: 'FuelType', sortable: true, editable: true },
-            { key: false, name: 'FuelDensity', index: 'FuelDensity', formatter: 'number', formatoptions: { decimalSeparator: "," }, unformat: unformatNumber, editable: true, search: false }],
+            { key: true, hidden: true, name: 'IndicatorID', index: 'IndicatorID', editable: true },
+            { key: false, name: 'IndicatorId1', index: 'IndicatorId1', sortable: true, editable: true },
+            { key: false, name: 'IndicatorId2', index: 'IndicatorId2', sortable: true, editable: true },
+            { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, editable: true },
+            { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true },
+            { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, editable: true },
+            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true },
+            { key: false, name: 'Year', index: 'Year', sortable: true, editable: true }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
         rowList: [15, 25, 35, 45],
-        sortname: "FuelType",
+        sortname: "IndicatorName",
         sortorder: "desc", // порядок сортировки,
         height: '100%',
         viewrecords: true,
-        caption: 'Виды топлива',
-        emptyrecords: 'Нет видов топлива для отображения',
+        caption: 'Перечень показателей',
+        emptyrecords: 'Нет показателей для отображения',
         jsonReader: {
             root: "rows",
             page: "page",
@@ -45,7 +51,7 @@ $(function () {
     },
         {
             zIndex: 100,
-            url: '/JQGridFuels/Edit',
+            url: '/GridIndicators/Edit',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
@@ -57,7 +63,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "/JQGridFuels/Create",
+            url: "/GridIndicators/Create",
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -68,7 +74,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "/JQGridFuels/Delete",
+            url: "/GridIndicators/Delete",
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,
