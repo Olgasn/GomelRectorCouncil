@@ -1,17 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Areas.Admin.ViewModels;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
-namespace GomelRectorCouncil.Areas.Admin.Controllers
+namespace GomelRectorCouncil.Controllers
 {
-    [Area("Admin")]
     public class GridIndicatorsController : Controller
     {
         private readonly CouncilDbContext _context;
@@ -24,23 +23,21 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Indicators
         public IActionResult Index(int? currentYear)
         {
-            int currYear = currentYear??DateTime.Now.Year;
-            List<int> years=_context.Indicators
-                .OrderByDescending(f=>f.Year)
-                .Select(f=>f.Year)
+            int currYear = currentYear ?? DateTime.Now.Year;
+            List<int> years = _context.Indicators
+                .OrderByDescending(f => f.Year)
+                .Select(f => f.Year)
                 .ToList();
-             years.Insert(0,currYear); years.Insert(0,currYear+1);
+            years.Insert(0, currYear); years.Insert(0, currYear + 1);
+            SelectList ListYears = new SelectList(years.Distinct(), currYear);
 
-             IndicatorsViewModel indicators = new IndicatorsViewModel
-            {
-                Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
-                ListYears=new SelectList(years.Distinct(),currYear)
-            };
-            return View(indicators);
+            return View(ListYears);
         }
 
-        public JsonResult GetIndicators(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
+        public string GetIndicators(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
         {
+
+            string currentYear = Request.Form["currentYear"].ToString();
             sord = (sord == null) ? "" : sord;
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
@@ -74,14 +71,21 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                indicators = indicators.OrderByDescending(t => t.IndicatorId);
+                indicators = indicators.OrderByDescending(t => t.IndicatorCode);
                 indicators = indicators.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                indicators = indicators.OrderBy(t => t.IndicatorId);
+                indicators = indicators.OrderBy(t => t.IndicatorCode);
                 indicators = indicators.Skip(pageIndex * pageSize).Take(pageSize);
             }
+            //var jsonData = new
+            //{
+            //    total = totalPages,
+            //    page,
+            //    records = totalRecords,
+            //    rows = indicators.ToList()
+            //};
             var jsonData = new
             {
                 total = totalPages,
@@ -89,7 +93,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 records = totalRecords,
                 rows = indicators
             };
-            return Json(jsonData);
+
+
+             
+            return JsonConvert.SerializeObject(jsonData);
         }
 
 

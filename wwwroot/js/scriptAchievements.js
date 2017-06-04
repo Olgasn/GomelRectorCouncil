@@ -18,7 +18,7 @@ $(function () {
         rowNum: 15,        
         rowList: [15, 25, 35, 45],
         sortname: "TankType",
-        sortorder: "desc",
+        sortorder: "asc",
         height: '100%',
         viewrecords: true,
         caption: 'Емкости',

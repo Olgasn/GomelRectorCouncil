@@ -4,22 +4,23 @@ $(function () {
         url: "/GridIndicators/GetIndicators",
         datatype: 'json',
         mtype: 'Get',
-        colNames: ['IndicatorID', 'IndicatorId1', 'IndicatorId2', 'IndicatorId3', 'IndicatorName', 'IndicatorUnit', 'IndicatorDescription', 'Year' ],
+        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'IndicatorUnit', 'IndicatorDescription', 'Year' ],
 
         colModel: [
-            { key: true, hidden: true, name: 'IndicatorID', index: 'IndicatorID', editable: true },
-            { key: false, name: 'IndicatorId1', index: 'IndicatorId1', sortable: true, editable: true },
-            { key: false, name: 'IndicatorId2', index: 'IndicatorId2', sortable: true, editable: true },
-            { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, editable: true },
-            { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true },
-            { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, editable: true },
-            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true },
-            { key: false, name: 'Year', index: 'Year', sortable: true, editable: true }],
+            { key: true, hidden: true, name: 'IndicatorID', index: 'IndicatorID', editable: true, search: false },
+            { key: false, hidden: true, name: 'IndicatorCode', index: 'IndicatorCode', editable: false, search: true },
+            { key: false, name: 'IndicatorId1', index: 'IndicatorId1', sortable: true, width: 40, editable: true, search: false },
+            { key: false, name: 'IndicatorId2', index: 'IndicatorId2', sortable: true, width: 40, editable: true, search: false },
+            { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: 40, editable: true, search: false },
+            { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
+            { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, editable: true, search: false },
+            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false },
+            { key: false, name: 'Year', index: 'Year', sortable: true, width: 40, editable: true, search: true}],
         pager: jQuery('#jqControls'),
         rowNum: 15,
         rowList: [15, 25, 35, 45],
-        sortname: "IndicatorName",
-        sortorder: "desc", // порядок сортировки,
+        sortname: "IndicatorCode",
+        sortorder: "asc", // порядок сортировки,
         height: '100%',
         viewrecords: true,
         caption: 'Перечень показателей',
@@ -86,7 +87,7 @@ $(function () {
             }
         },
         {
-            zIndex: 100,
+            zIndex: 200,
             caption: "Поиск",
             sopt: ['cn']
         }
