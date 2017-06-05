@@ -24,8 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\js\scriptIndicators.js" />
-    <Content Include="wwwroot\js\scriptAchievements.js" />
   </ItemGroup>
 
   <ItemGroup>
