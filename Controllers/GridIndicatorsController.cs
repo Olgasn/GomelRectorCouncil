@@ -34,14 +34,14 @@ namespace GomelRectorCouncil.Controllers
             return View(ListYears);
         }
 
-        public string GetIndicators(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
+        public string GetIndicators(int? currentYear, string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
         {
+            int currYear = currentYear ?? DateTime.Now.Year;
 
-            string currentYear = Request.Form["currentYear"].ToString();
             sord = (sord == null) ? "" : sord;
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var indicators = _context.Indicators.Select(
+            var indicators = _context.Indicators.Where(t => t.Year == currYear).Select(
                     t => new
                     {
                         t.IndicatorId,
@@ -53,20 +53,8 @@ namespace GomelRectorCouncil.Controllers
                         t.IndicatorType,
                         t.IndicatorUnit,
                         t.IndicatorDescription,
-                        t.Year
                     });
-
-            if (_search)
-            {
-                switch (searchField)
-                {
-                    case "Year":
-                        indicators = indicators.Where(t => t.Year.ToString().Contains(searchString));
-                        break;
-
-                }
-            }
-
+ 
             int totalRecords = indicators.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
@@ -79,13 +67,6 @@ namespace GomelRectorCouncil.Controllers
                 indicators = indicators.OrderBy(t => t.IndicatorCode);
                 indicators = indicators.Skip(pageIndex * pageSize).Take(pageSize);
             }
-            //var jsonData = new
-            //{
-            //    total = totalPages,
-            //    page,
-            //    records = totalRecords,
-            //    rows = indicators.ToList()
-            //};
             var jsonData = new
             {
                 total = totalPages,
@@ -93,8 +74,6 @@ namespace GomelRectorCouncil.Controllers
                 records = totalRecords,
                 rows = indicators
             };
-
-
              
             return JsonConvert.SerializeObject(jsonData);
         }

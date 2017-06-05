@@ -1,18 +1,22 @@
 @model SelectList
-
 @{
     ViewBag.Title = "Показатели";
-}
-
-
-@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<form method="get">
+    <div class="form-inline form-group">
+        <label class="col-md-2 control-label">Год</label>
+        <div class="col-md-10">
+            @Html.DropDownList("currentYear", Model as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+            <input type="submit" value="Показать" class="btn btn-default" />
+        </div>
+    </div>
+</form>
 <h2>Показатели для подведения итогов </h2>
 
-
-<div>
-    
+<div>    
     <table id="jqGrid"></table>
     <div id="jqControls"></div>
 </div>
@@ -28,14 +32,7 @@
 
 }
 
-<form method="get">
-    <div class="form-inline form-group">
-        <label class="col-md-2 control-label">Год</label>
-        <div class="col-md-10">
-            @Html.DropDownList("currentYear", Model as SelectList,
-                htmlAttributes: new { @class = "form-control" })
-            <input type="submit" value="Показать" class="btn btn-default" />
-        </div>
 
-    </div>
-</form>
+
+
+ 

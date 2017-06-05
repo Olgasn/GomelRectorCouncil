@@ -1,10 +1,10 @@
 ﻿//Работа с данными таблицы Indicators с помощью jqGrid плагина JavaScript библиотеки jQuery
 $(function () {
     $("#jqGrid").jqGrid({
-        url: "/GridIndicators/GetIndicators",
+        url: "/GridIndicators/GetIndicators?currentYear="+$("#currentYear").val(),
         datatype: 'json',
         mtype: 'Get',
-        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'IndicatorUnit', 'IndicatorDescription', 'Year' ],
+        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'IndicatorUnit', 'IndicatorDescription' ],
 
         colModel: [
             { key: true, hidden: true, name: 'IndicatorID', index: 'IndicatorID', editable: true, search: false },
@@ -14,8 +14,7 @@ $(function () {
             { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: 40, editable: true, search: false },
             { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
             { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, editable: true, search: false },
-            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false },
-            { key: false, name: 'Year', index: 'Year', sortable: true, width: 40, editable: true, search: true}],
+            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
         rowList: [15, 25, 35, 45],
@@ -45,14 +44,12 @@ $(function () {
         addtext: "Добавить",
         del: true,
         deltext: "Удалить",
-        search: true,
-        searchtext: "Найти",
         refresh: true,
         refreshtext: "Обновить"
     },
         {
             zIndex: 100,
-            url: '/GridIndicators/Edit',
+            url: "/GridIndicators/Edit?currentYear="+$("#currentYear").val(),
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
@@ -64,7 +61,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "/GridIndicators/Create",
+            url: "/GridIndicators/Create?currentYear=" + $("#currentYear").val(),
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -75,7 +72,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "/GridIndicators/Delete",
+            url: "/GridIndicators/Delete? currentYear = "+$("#currentYear").val(),
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,
