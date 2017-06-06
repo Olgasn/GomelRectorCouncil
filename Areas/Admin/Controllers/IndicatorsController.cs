@@ -30,7 +30,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .Select(f=>f.Year)
                 .ToList();
              years.Insert(0,currYear); years.Insert(0,currYear+1);
-
+             var ListYears=new SelectList(years.Distinct(),currYear);
              IndicatorsViewModel indicators = new IndicatorsViewModel
             {
                 Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
