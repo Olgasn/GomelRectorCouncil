@@ -8,13 +8,14 @@ using GomelRectorCouncil.Data;
 namespace GomelRectorCouncil.Migrations.CouncilDb
 {
     [DbContext(typeof(CouncilDbContext))]
-    [Migration("20170530183148_Year")]
-    partial class Year
+    [Migration("20170606143400_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.4");
+                .HasAnnotation("ProductVersion", "1.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
                 {

@@ -42,8 +42,10 @@ namespace GomelRectorCouncil
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CouncilDbContext>(options =>
+            //    options.UseSqlite(Configuration.GetConnectionString("CouncilConnectionSqlite")));
             services.AddDbContext<CouncilDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("CounsilConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("CouncilConnectionSQL")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

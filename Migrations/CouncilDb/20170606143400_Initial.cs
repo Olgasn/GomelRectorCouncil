@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GomelRectorCouncil.Migrations.CouncilDb
 {
@@ -13,7 +14,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     IndicatorId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IndicatorDescription = table.Column<string>(nullable: true),
                     IndicatorId1 = table.Column<byte>(nullable: false),
                     IndicatorId2 = table.Column<byte>(nullable: true),
@@ -33,7 +34,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     UniversityId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
                     Logo = table.Column<string>(nullable: true),
                     UniversityName = table.Column<string>(nullable: true),
@@ -49,10 +50,11 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     AchievementId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IndicatorId = table.Column<int>(nullable: false),
                     IndicatorValue = table.Column<float>(nullable: false),
-                    UnivercityId = table.Column<int>(nullable: false)
+                    UnivercityId = table.Column<int>(nullable: false),
+                    Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +78,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     RectorId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(nullable: true),
                     FirstMidName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
@@ -100,7 +102,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     ChairpersonId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RectorId = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     StopDate = table.Column<DateTime>(nullable: true)
@@ -121,7 +123,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     DocumentId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ChairpersonId = table.Column<int>(nullable: false),
                     DocumentDescription = table.Column<string>(nullable: true),
                     DocumentName = table.Column<string>(nullable: true),
@@ -163,7 +165,8 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
             migrationBuilder.CreateIndex(
                 name: "IX_Rectors_UniversityId",
                 table: "Rectors",
-                column: "UniversityId");
+                column: "UniversityId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

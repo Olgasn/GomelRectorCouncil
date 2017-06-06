@@ -13,7 +13,8 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.4");
+                .HasAnnotation("ProductVersion", "1.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
                 {
