@@ -46,4 +46,15 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link href="~/lib/jquery-ui/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/jquery-ui/ui/i18n/datepicker-ru.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#StartDate").datepicker({ dateFormat: "dd/mm/yy" });
+            $("#StopDate").datepicker({ dateFormat: "dd/mm/yy" });
+        });
+    </script>
+
 }

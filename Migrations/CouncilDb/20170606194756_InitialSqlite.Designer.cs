@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
 
 namespace GomelRectorCouncil.Migrations.CouncilDb
 {
     [DbContext(typeof(CouncilDbContext))]
-    [Migration("20170606143400_Initial")]
-    partial class Initial
+    [Migration("20170606194756_InitialSqlite")]
+    partial class InitialSqlite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.4")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "1.0.4");
 
             modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
                 {
@@ -96,7 +96,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
 
                     b.Property<string>("IndicatorName");
 
-                    b.Property<int?>("IndicatorType");
+                    b.Property<int>("IndicatorType");
 
                     b.Property<string>("IndicatorUnit");
 

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
 
 namespace GomelRectorCouncil.Migrations.CouncilDb
 {
@@ -13,8 +14,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.4")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "1.0.4");
 
             modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
                 {
@@ -95,7 +95,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
 
                     b.Property<string>("IndicatorName");
 
-                    b.Property<int?>("IndicatorType");
+                    b.Property<int>("IndicatorType");
 
                     b.Property<string>("IndicatorUnit");
 

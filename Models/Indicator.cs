@@ -7,9 +7,8 @@ namespace GomelRectorCouncil.Models
     // Типы значений показателя
     public enum IndicatorType
         {
-        text, 
-        int_number, 
-        float_number
+        min, 
+        max 
         }
     // Показатель для подведения итогов в заданном году
     public class Indicator
@@ -36,8 +35,8 @@ namespace GomelRectorCouncil.Models
         public string IndicatorUnit {get; set;}
 
         [Display(Name = "Тип показателя")]
-        [DisplayFormat(NullDisplayText = "-")]
-        public IndicatorType? IndicatorType { get; set; }
+        [Required]
+        public IndicatorType IndicatorType { get; set; }
 
         [Display(Name = "Описание показателя")]
         public string IndicatorDescription {get; set;}
@@ -48,7 +47,8 @@ namespace GomelRectorCouncil.Models
         public int Year {get; set;}
 
         [Display(Name = "Код показателя")]
-        public string IndicatorCode {
+        public string IndicatorCode
+        {
             get
             {
                 
@@ -57,6 +57,10 @@ namespace GomelRectorCouncil.Models
         }
 
         public ICollection<Achievement> Achievements {get; set;}
+        public Indicator()
+        {
+            this.IndicatorType = 0;
+        }
 
     }
 }

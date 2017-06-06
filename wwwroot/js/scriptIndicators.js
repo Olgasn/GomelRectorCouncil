@@ -4,7 +4,7 @@ $(function () {
         url: "GridIndicators/GetIndicators?currentYear="+$("#currentYear").val(),
         datatype: 'json',
         mtype: 'Get',
-        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'IndicatorUnit', 'IndicatorDescription' ],
+        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'Единица измерения', 'Тип показателя', 'Описание' ],
 
         colModel: [
             { key: true, hidden: true, name: 'IndicatorID', index: 'IndicatorID', editable: true, search: false },
@@ -14,6 +14,7 @@ $(function () {
             { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: 40, editable: true, search: false },
             { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
             { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, editable: true, search: false },
+            { key: false, name: 'IndicatorType', index: 'IndicatorType', sortable: true, editable: true, search: false },            
             { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
