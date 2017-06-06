@@ -1,7 +1,7 @@
 ﻿//Работа с данными таблицы Indicators с помощью jqGrid плагина JavaScript библиотеки jQuery
 $(function () {
     $("#jqGrid").jqGrid({
-        url: "/GridIndicators/GetIndicators?currentYear="+$("#currentYear").val(),
+        url: "GridIndicators/GetIndicators?currentYear="+$("#currentYear").val(),
         datatype: 'json',
         mtype: 'Get',
         colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'IndicatorUnit', 'IndicatorDescription' ],
@@ -49,7 +49,7 @@ $(function () {
     },
         {
             zIndex: 100,
-            url: "/GridIndicators/Edit?currentYear="+$("#currentYear").val(),
+            url: "GridIndicators/Edit?currentYear="+$("#currentYear").val(),
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
@@ -72,7 +72,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "/GridIndicators/Delete? currentYear = "+$("#currentYear").val(),
+            url: "GridIndicators/Delete? currentYear = "+$("#currentYear").val(),
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,

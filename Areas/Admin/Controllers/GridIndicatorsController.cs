@@ -9,8 +9,9 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace GomelRectorCouncil.Controllers
+namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class GridIndicatorsController : Controller
     {
         private readonly CouncilDbContext _context;
