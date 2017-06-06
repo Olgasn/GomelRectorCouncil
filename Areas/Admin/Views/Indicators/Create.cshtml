@@ -50,7 +50,7 @@
         <div class="form-group">
             <label asp-for="IndicatorType" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="IndicatorType" class="form-control" />
+                <select asp-for="IndicatorType" class="form-control" asp-items="Html.GetEnumSelectList<IndicatorType>()"></select>
                 <span asp-validation-for="IndicatorType" class="text-danger"></span>
             </div>
         </div>
