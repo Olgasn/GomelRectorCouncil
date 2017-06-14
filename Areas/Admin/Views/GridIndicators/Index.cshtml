@@ -10,6 +10,7 @@
         <div class="col-md-10">
             @Html.DropDownList("currentYear", Model as SelectList,
                 htmlAttributes: new { @class = "form-control" })
+            <input type="hidden" value="" id="Year"/>
             <input type="submit" value="Показать" class="btn btn-default" />
         </div>
     </div>

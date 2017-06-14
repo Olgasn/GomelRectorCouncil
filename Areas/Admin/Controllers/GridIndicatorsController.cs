@@ -53,7 +53,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                         t.IndicatorName,
                         t.IndicatorType,
                         t.IndicatorUnit,
-                        t.IndicatorDescription,
+                        t.IndicatorDescription
                     });
  
             int totalRecords = indicators.Count();
@@ -98,28 +98,23 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             return View(indicator);
         }
 
-        // GET: Indicators/Create
-        public IActionResult Create(int id)
-        {
-            ViewData["Year"] = id;
-
-            return View();
-        }
 
         // POST: Indicators/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IndicatorId,IndicatorId1,IndicatorId2,IndicatorId3,IndicatorName,IndicatorUnit,IndicatorType,IndicatorDescription,Year")] Indicator indicator)
+        public string Create([Bind("IndicatorId1,IndicatorId2,IndicatorId3,IndicatorName,IndicatorUnit,IndicatorType,IndicatorDescription,Year")] Indicator indicator)
         {
+
+            string msg ="Модель не прошла валидацию";
             if (ModelState.IsValid)
             {
                 _context.Add(indicator);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                _context.SaveChanges();
+                msg = "Сохранено";
+                return msg;
             }
-            return View(indicator);
+            return msg;
         }
 
         // GET: Indicators/Edit/5

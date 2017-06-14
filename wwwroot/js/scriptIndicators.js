@@ -1,10 +1,11 @@
 ﻿//Работа с данными таблицы Indicators с помощью jqGrid плагина JavaScript библиотеки jQuery
+$("#Year").val($("#currentYear").val());
 $(function () {
     $("#jqGrid").jqGrid({
         url: "GridIndicators/GetIndicators?currentYear="+$("#currentYear").val(),
         datatype: 'json',
         mtype: 'Get',
-        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'Единица измерения', 'Тип показателя', 'Описание' ],
+        colNames: ['IndicatorID', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'Единица измерения', 'Тип показателя', 'Описание'],
 
         colModel: [
             { key: true, hidden: true, name: 'IndicatorID', index: 'IndicatorID', editable: true, search: false },
@@ -49,7 +50,7 @@ $(function () {
         refreshtext: "Обновить"
     },
         {
-            zIndex: 100,
+            zIndex: 200,
             url: "GridIndicators/Edit?currentYear="+$("#currentYear").val(),
             closeOnEscape: true,
             closeAfterEdit: true,
@@ -61,8 +62,8 @@ $(function () {
             }
         },
         {
-            zIndex: 100,
-            url: "/GridIndicators/Create?currentYear=" + $("#currentYear").val(),
+            zIndex: 200,
+            url: "GridIndicators/Create?Year=" + $("#Year").val(),
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -73,7 +74,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "GridIndicators/Delete? currentYear = "+$("#currentYear").val(),
+            url: "GridIndicators/Delete?currentYear = "+$("#currentYear").val(),
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,
