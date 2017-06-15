@@ -106,91 +106,60 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public string Create([Bind("IndicatorId1,IndicatorId2,IndicatorId3,IndicatorName,IndicatorUnit,IndicatorType,IndicatorDescription,Year")] Indicator indicator)
         {
 
-            string msg ="������ �� ������ ���������";
+            string msg ="Модель не прошла валидацию";
             if (ModelState.IsValid)
             {
                 _context.Add(indicator);
                 _context.SaveChanges();
-                msg = "���������";
+                msg = "Сохранено";
                 return msg;
             }
             return msg;
         }
 
-        // GET: Indicators/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var indicator = await _context.Indicators.SingleOrDefaultAsync(m => m.IndicatorId == id);
-            if (indicator == null)
-            {
-                return NotFound();
-            }
-            return View(indicator);
-        }
-
+        
         // POST: Indicators/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("IndicatorId,IndicatorId1,IndicatorId2,IndicatorId3,IndicatorName,IndicatorUnit,IndicatorType,IndicatorDescription,Year")] Indicator indicator)
+
+        public string Edit(Indicator indicator)
         {
-            
+            string msg ="Модель не прошла валидацию";
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    msg = "Сохранено";
                     _context.Update(indicator);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!IndicatorExists(indicator.IndicatorId))
                     {
-                        return NotFound();
+                        msg = "Не найдено";
+                        return msg;
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return msg;
             }
-            return View(indicator);
+            return msg;
         }
 
-        // GET: Indicators/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var indicator = await _context.Indicators
-                .SingleOrDefaultAsync(m => m.IndicatorId == id);
-            if (indicator == null)
-            {
-                return NotFound();
-            }
-
-            return View(indicator);
-        }
 
         // POST: Indicators/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public string Delete(int id)
         {
-            var indicator = await _context.Indicators.SingleOrDefaultAsync(m => m.IndicatorId == id);
+            var indicator = _context.Indicators.SingleOrDefault(m => m.IndicatorId == id);
             _context.Indicators.Remove(indicator);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            _context.SaveChangesAsync();
+            return "Запись удалена";
         }
 
         private bool IndicatorExists(int id)

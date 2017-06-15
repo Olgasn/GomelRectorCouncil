@@ -15,7 +15,7 @@ $(function () {
             { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: 40, editable: true, search: false },
             { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
             { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, editable: true, search: false },
-            { key: false, name: 'IndicatorType', index: 'IndicatorType', sortable: true, editable: true, search: false },            
+            { key: false, name: 'IndicatorType', index: 'IndicatorType', sortable: true, editable: true, edittype:'select', editoptions:{value:{0:'min',1:'max'}}, search: false },            
             { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
@@ -51,7 +51,7 @@ $(function () {
     },
         {
             zIndex: 200,
-            url: "GridIndicators/Edit?currentYear="+$("#currentYear").val(),
+            url: "GridIndicators/Edit?Year=" + $("#Year").val(),
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
@@ -74,7 +74,7 @@ $(function () {
         },
         {
             zIndex: 100,
-            url: "GridIndicators/Delete?currentYear = "+$("#currentYear").val(),
+            url: "GridIndicators/Delete?Year=" + $("#Year").val(),
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,
