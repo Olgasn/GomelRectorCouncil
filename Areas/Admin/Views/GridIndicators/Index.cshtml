@@ -3,15 +3,19 @@
     ViewBag.Title = "Показатели";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript" language="javascript">
+    fireSubmit = function (event) {
+        document.forms["serchForm"].submit();
+    }
+</script>
 
-<form method="get">
+<form name="serchForm" method="get">
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
         <div class="col-md-10">
             @Html.DropDownList("currentYear", Model as SelectList,
-                htmlAttributes: new { @class = "form-control" })
+                htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
             <input type="hidden" value="" id="Year"/>
-            <input type="submit" value="Показать" class="btn btn-default" />
         </div>
     </div>
 </form>

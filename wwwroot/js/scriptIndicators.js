@@ -17,7 +17,7 @@ $(function () {
             { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
             { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, width: '17%', editable: true, search: false },
             { key: false, name: 'IndicatorType', index: 'IndicatorType', formatter: replaceNumber, width: '17%', sortable: true, editable: true, edittype:'select', editoptions:{value:{0:'min',1:'max'}}, search: false },            
-            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false }],
+            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, edittype: 'textarea', search: false }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
         rowList: [15, 25, 35, 45],

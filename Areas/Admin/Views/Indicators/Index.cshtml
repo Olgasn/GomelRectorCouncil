@@ -4,17 +4,22 @@
     ViewData["Title"] = "Показатели";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script type="text/javascript" language="javascript">
+            fireSubmit = function(event) {
+                document.forms["serchForm"].submit();
+            }
+</script>
 <h2>Показатели для подведения итогов </h2>
-<form method="get">
+<form name="serchForm" method="get">
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
             <div class="col-md-10">
                 @Html.DropDownList("currentYear", Model.ListYears as SelectList,
-                htmlAttributes: new { @class = "form-control" })                
-                <input type="submit" value="Показать" class="btn btn-default" />
+                htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })                
                 Запретить изменения
                 @Html.CheckBox("disableForEdition", true, htmlAttributes: new { @class = "form-control" })
+                <input type="submit" value="Загрузить университетам" class="btn btn-default" />
+
 
             </div>
 
