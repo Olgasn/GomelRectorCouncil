@@ -1,4 +1,5 @@
 ﻿//Работа с данными таблицы Indicators с помощью jqGrid плагина JavaScript библиотеки jQuery
+var lastsel;
 $("#Year").val($("#currentYear").val());
 $(function () {
     $("#jqGrid").jqGrid({
@@ -10,13 +11,13 @@ $(function () {
         colModel: [
             { key: true, hidden: true, name: 'IndicatorId', index: 'IndicatorId', editable: true, search: false },
             { key: false, hidden: true, name: 'IndicatorCode', index: 'IndicatorCode', editable: false, search: true },
-            { key: false, name: 'IndicatorId1', index: 'IndicatorId1', sortable: true, width: '11%', editable: true, search: false },
-            { key: false, name: 'IndicatorId2', index: 'IndicatorId2', sortable: true, width: '11%', editable: true, search: false },
-            { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: '11%', editable: true, search: false },
+            { key: false, name: 'IndicatorId1', index: 'IndicatorId1', sortable: true, width: '12%', editable: true, search: false },
+            { key: false, name: 'IndicatorId2', index: 'IndicatorId2', sortable: true, width: '12%', editable: true, search: false },
+            { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: '12%', editable: true, search: false },
             { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
-            { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, width: '16%', editable: true, search: false },
-            { key: false, name: 'IndicatorType', index: 'IndicatorType', formatter: replaceNumber, width: '16%', sortable: true, editable: true, edittype:'select', editoptions:{value:{0:'min',1:'max'}}, search: false },            
-            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, width: 0.1, editable: true, search: false }],
+            { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, width: '17%', editable: true, search: false },
+            { key: false, name: 'IndicatorType', index: 'IndicatorType', formatter: replaceNumber, width: '17%', sortable: true, editable: true, edittype:'select', editoptions:{value:{0:'min',1:'max'}}, search: false },            
+            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, search: false }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
         rowList: [15, 25, 35, 45],
@@ -24,6 +25,16 @@ $(function () {
         sortorder: "asc", // порядок сортировки,
         height: '100%',
         viewrecords: true,
+        onSelectRow: function (id)
+        {
+            if (id && id !== lastsel)
+            {
+                jQuery('#jqGrid').jqGrid('restoreRow', lastsel);
+                jQuery('#jqGrid').jqGrid('editRow', id, true);
+                lastsel = id;
+            }
+        },
+        editurl: "GridIndicators/Edit?Year=" + $("#Year").val(),
         caption: 'Перечень показателей',
         emptyrecords: 'Нет показателей для отображения',
         jsonReader: {
