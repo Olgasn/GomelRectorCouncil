@@ -6,9 +6,14 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {
     public class IndicatorsViewModel
     {
-        public IEnumerable<Indicator> Indicators{get;set;}
- 
+        public IEnumerable<Indicator> Indicators{get;set;} 
         public SelectList ListYears {get;set;}
+        public bool EnableForEdition { get; set; }
+        public IndicatorsViewModel()
+        {
+            EnableForEdition = true;
+        }
+        
         
     }
 }
