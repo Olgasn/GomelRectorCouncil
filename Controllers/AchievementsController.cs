@@ -33,7 +33,12 @@ namespace GomelRectorCouncil.Controllers
 
             AchievementsViewModel achievements = new AchievementsViewModel
             {
-                Achievements = _context.Achievements.Include(a => a.Indicator).Include(a => a.Univercity).Where(t => t.Year == currYear).ToList(),
+                Achievements = _context.Achievements
+                    .Include(a => a.Indicator)
+                    .Include(a => a.Univercity)
+                    .Where(t => t.Year == currYear)
+                    .OrderBy(c=>c.Indicator.IndicatorCode)
+                    .ToList(),
                 ListYears = new SelectList(years.Distinct(), currYear)
             };
 
@@ -63,32 +68,7 @@ namespace GomelRectorCouncil.Controllers
             return View(achievement);
         }
 
-        // GET: Achievements/Create
-        public IActionResult Create()
-        {
-            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorId");
-            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityId");
-            return View();
-        }
-
-        // POST: Achievements/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AchievementId,IndicatorId,UnivercityId,IndicatorValue")] Achievement achievement)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(achievement);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorId", achievement.IndicatorId);
-            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityId", achievement.UnivercityId);
-            return View(achievement);
-        }
-
+        
         // GET: Achievements/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -141,36 +121,6 @@ namespace GomelRectorCouncil.Controllers
             return View(achievement);
         }
 
-        // GET: Achievements/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var achievement = await _context.Achievements
-                .Include(a => a.Indicator)
-                .Include(a => a.Univercity)
-                .SingleOrDefaultAsync(m => m.AchievementId == id);
-            if (achievement == null)
-            {
-                return NotFound();
-            }
-
-            return View(achievement);
-        }
-
-        // POST: Achievements/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var achievement = await _context.Achievements.SingleOrDefaultAsync(m => m.AchievementId == id);
-            _context.Achievements.Remove(achievement);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
 
         private bool AchievementExists(int id)
         {

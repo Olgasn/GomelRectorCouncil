@@ -17,15 +17,11 @@
 
     </div>
 </form>
-<p>
-    <a asp-action="Create" >Добавить</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorCode)
             </th>
@@ -35,15 +31,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Achievements) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IndicatorValue)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Indicator.IndicatorCode)
             </td>
@@ -54,9 +50,11 @@
                 @Html.DisplayFor(modelItem => item.Univercity.UniversityName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.IndicatorValue)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.AchievementId">Изменить</a> |
                 <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a> |
-                <a asp-action="Delete" asp-route-id="@item.AchievementId">Удалить</a>
             </td>
         </tr>
 }

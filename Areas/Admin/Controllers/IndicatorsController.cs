@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize (Roles="admin")]
     public class IndicatorsController : Controller
     {
         private readonly CouncilDbContext _context;
@@ -41,6 +43,36 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             };
             return View(indicators);
         }
+        // POST: Indicators
+        [HttpPost]
+        public async Task<IActionResult> Index(int currentYear, bool? disableForEdition)
+        {
+            bool enableForEdition = !(disableForEdition ?? true);
+            List<int> years=_context.Indicators
+                .OrderByDescending(f=>f.Year)
+                .Select(f=>f.Year)
+                .ToList();
+             years.Insert(0,currentYear); years.Insert(0,currentYear+1);
+             var ListYears=new SelectList(years.Distinct(),currentYear);
+            IndicatorsViewModel indicators = new IndicatorsViewModel()
+            {
+                Indicators = _context.Indicators.Where(t => t.Year == currentYear).ToList(),
+                ListYears=new SelectList(years.Distinct(),currentYear),
+                EnableForEdition = enableForEdition
+
+            };
+            if (await DeleteIndicatorsForUniversities(currentYear))
+            {
+                        if (await PublishIndicatorsForUniversities(currentYear))
+                        {
+
+                        };
+             
+            }
+
+            return View(indicators);
+        }
+
 
 
 
@@ -166,20 +198,24 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             return _context.Indicators.Any(e => e.IndicatorId == id);
         }
-        private async Task<bool> PublishIndicatorsForUniversities (int Year)
+        private async Task<bool> PublishIndicatorsForUniversities (int currYear)
         {
             bool publishResult = false;
-            List<int> indicators = _context.Indicators.Where(y => y.Year == Year).Select(id=>id.IndicatorId).ToList();
+            List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id=>id.IndicatorId).ToList();
             List<int> universities=_context.Universities.Select(u=>u.UniversityId).ToList();
-            Achievement achievement = new Achievement();
 
             foreach (int university in universities)
             {
                 foreach (int indicator in indicators)
                 {
-                    achievement.Year = Year;
-                    achievement.IndicatorId = university;
+                    Achievement achievement = new Achievement
+                    {
+                    Year = currYear,
+                    IndicatorId = indicator,
+                    UnivercityId = university
+                    };
                     _context.Add(achievement);
+
                 }
             }
             await _context.SaveChangesAsync();
@@ -187,10 +223,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             return publishResult;
         }
-        private async Task<bool> DeleteIndicatorsForUniversities(int Year)
+        private async Task<bool> DeleteIndicatorsForUniversities(int currYear)
         {
             bool deleteResult = false;
-            var achievements =  _context.Achievements.Where(m => m.Year == Year);
+            var achievements =  _context.Achievements.Where(m => m.Year == currYear);
             if (achievements.Count()>0)
             {
                 _context.Achievements.RemoveRange(achievements);

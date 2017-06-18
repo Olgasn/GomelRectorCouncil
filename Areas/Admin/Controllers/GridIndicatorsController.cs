@@ -8,10 +8,12 @@ using GomelRectorCouncil.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize (Roles="admin")]
     public class GridIndicatorsController : Controller
     {
         private readonly CouncilDbContext _context;
@@ -31,6 +33,27 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .ToList();
             years.Insert(0, currYear); years.Insert(0, currYear + 1);
             SelectList ListYears = new SelectList(years.Distinct(), currYear);
+
+            return View(ListYears);
+        }
+        // POST: Indicators
+        [HttpPost]
+        public async Task<IActionResult> Index(int currentYear)
+        {
+            List<int> years = _context.Indicators
+                .OrderByDescending(f => f.Year)
+                .Select(f => f.Year)
+                .ToList();
+            years.Insert(0, currentYear); years.Insert(0, currentYear + 1);
+            SelectList ListYears = new SelectList(years.Distinct(), currentYear);
+            if (await DeleteIndicatorsForUniversities(currentYear))
+            {
+                        if (await PublishIndicatorsForUniversities(currentYear))
+                        {
+
+                        };
+             
+            }
 
             return View(ListYears);
         }
@@ -165,6 +188,44 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         private bool IndicatorExists(int id)
         {
             return _context.Indicators.Any(e => e.IndicatorId == id);
+        }
+        private async Task<bool> PublishIndicatorsForUniversities (int currYear)
+        {
+            bool publishResult = false;
+            List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id=>id.IndicatorId).ToList();
+            List<int> universities=_context.Universities.Select(u=>u.UniversityId).ToList();
+
+            foreach (int university in universities)
+            {
+                foreach (int indicator in indicators)
+                {
+                    Achievement achievement = new Achievement
+                    {
+                    Year = currYear,
+                    IndicatorId = indicator,
+                    UnivercityId = university
+                    };
+                    _context.Add(achievement);
+
+                }
+            }
+            await _context.SaveChangesAsync();
+            publishResult = true;
+
+            return publishResult;
+        }
+        private async Task<bool> DeleteIndicatorsForUniversities(int Year)
+        {
+            bool deleteResult = false;
+            var achievements =  _context.Achievements.Where(m => m.Year == Year);
+            if (achievements.Count()>0)
+            {
+                _context.Achievements.RemoveRange(achievements);
+                await _context.SaveChangesAsync();
+            }
+            deleteResult = true;
+
+            return deleteResult;
         }
     }
 }

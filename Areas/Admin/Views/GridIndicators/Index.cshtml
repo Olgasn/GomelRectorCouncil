@@ -5,17 +5,18 @@
 }
 <script type="text/javascript" language="javascript">
     fireSubmit = function (event) {
-        document.forms["serchForm"].submit();
+        document.forms["searchForm"].submit();
     }
 </script>
 
-<form name="serchForm" method="get">
+<form name="searchForm" method="post">
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
         <div class="col-md-10">
             @Html.DropDownList("currentYear", Model as SelectList,
                 htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
             <input type="hidden" value="" id="Year"/>
+            <input type="submit" value="Загрузить показатели университетам" class="btn btn-default" />
         </div>
     </div>
 </form>
