@@ -22,6 +22,10 @@
     <None Remove="Areas\Admin\Views\Новая папка\**" />
     <None Remove="Data\Migrations\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\files\logos\1gstu.png" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="1.0.5" />
@@ -47,7 +51,11 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="wwwroot\Files\Logos\gstu.png" />
+    <None Include="wwwroot\files\logos\gstu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\files\documents\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
   
   

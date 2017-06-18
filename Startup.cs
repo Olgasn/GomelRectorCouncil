@@ -52,6 +52,7 @@ namespace GomelRectorCouncil
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSingleton<IConfiguration>(Configuration);
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

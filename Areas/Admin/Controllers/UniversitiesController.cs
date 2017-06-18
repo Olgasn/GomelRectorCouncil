@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -17,11 +18,12 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     {
         private readonly CouncilDbContext _context;
         private IHostingEnvironment _environment;
-
-        public UniversitiesController(CouncilDbContext context, IHostingEnvironment environment)
+        IConfiguration _iconfiguration;
+        public UniversitiesController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;
             _environment = environment;
+            _iconfiguration = iconfiguration;
         }
 
         // GET: Universities
@@ -59,7 +61,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UniversityId,UniversityName,Address,Website,Logo")] University university)
+        public async Task<IActionResult> Create([Bind("UniversityId,UniversityName,Address,Website,Logo")] University university, IFormFile upload)
         {
             if (ModelState.IsValid)
             {
@@ -92,31 +94,22 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(University university, IFormFile upload)
-        {          
-            
-
+        {
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (upload!=null)
                     {
-
-                        string uploadfileName = "\\Files\\Logos\\"+university.UniversityId.ToString()+ upload.FileName;
+                        string uploadfileName = _iconfiguration.GetSection("Paths").GetSection("PathToLogos").Value+university.UniversityId.ToString()+ upload.FileName;
                         university.Logo = uploadfileName;
                         uploadfileName = _environment.WebRootPath + uploadfileName;
-
-
-
                         using (var fileStream = new FileStream(uploadfileName, FileMode.Create))
                         {
                             await upload.CopyToAsync(fileStream);
                         }
 
                     }
-
-
-
 
                     _context.Update(university);
                     await _context.SaveChangesAsync();
