@@ -7,12 +7,22 @@
 
 <h2>Редактировать</h2>
 
-<form asp-action="Edit">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+     @Html.HiddenFor(model => model.Logo)
+ 
     <div class="form-horizontal">
         <h4>Университет</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="UniversityId" />
+        <div class="form-group">
+            <label asp-for="Logo" class="col-md-2 control-label"></label>
+
+            <div class="col-md-10">
+                <img src="@Model.Logo" alt="Фотография отсутствует" width="100" height="100" class="col-md-2">
+                <input type="file" name="upload" />
+             </div>
+        </div>
         <div class="form-group">
             <label asp-for="UniversityName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -34,19 +44,14 @@
                 <span asp-validation-for="Website" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Logo" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Logo" class="form-control" />
-                <span asp-validation-for="Logo" class="text-danger"></span>
-            </div>
-        </div>
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
+
 </form>
 
 <div>

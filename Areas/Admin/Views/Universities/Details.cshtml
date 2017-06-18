@@ -12,6 +12,13 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+        <dd>
+            <img src="@Model.Logo" alt="Фотография отсутствует" width="80" height="80">
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.UniversityName)
         </dt>
         <dd>
@@ -28,12 +35,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Website)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Logo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Logo)
         </dd>
     </dl>
 </div>

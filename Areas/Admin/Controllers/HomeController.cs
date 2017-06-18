@@ -8,10 +8,12 @@ using GomelRectorCouncil.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize (Roles="admin")]
     public class HomeController : Controller
     {
         UserManager<ApplicationUser> _userManager;
@@ -121,7 +123,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            // получаем список ролей пользователя
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             var userRoles = await _userManager.GetRolesAsync(user);
             var allRoles = _roleManager.Roles.ToList();
             string userRole = "";
@@ -152,7 +154,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 ApplicationUser user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    // получаем и удаляем прежние роль пользователя
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     var oldRoles = await _userManager.GetRolesAsync(user);
                     
                     if (oldRoles.Count() > 0)
@@ -160,7 +162,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                         await _userManager.RemoveFromRolesAsync(user, oldRoles);
 
                     }
-                    // получаем и устанавливаем новую роль пользователя
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     var newRole = model.UserRole;
                     if (newRole.Count() > 0)
                     {

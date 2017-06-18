@@ -1,23 +1,27 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize (Roles="admin")]
     public class UniversitiesController : Controller
     {
         private readonly CouncilDbContext _context;
+        private IHostingEnvironment _environment;
 
-        public UniversitiesController(CouncilDbContext context)
+        public UniversitiesController(CouncilDbContext context, IHostingEnvironment environment)
         {
-            _context = context;    
+            _context = context;
+            _environment = environment;
         }
 
         // GET: Universities
@@ -87,13 +91,33 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("UniversityId,UniversityName,Address,Website,Logo")] University university)
-        {
+        public async Task<IActionResult> Edit(University university, IFormFile upload)
+        {          
             
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (upload!=null)
+                    {
+
+                        string uploadfileName = "\\Files\\Logos\\"+university.UniversityId.ToString()+ upload.FileName;
+                        university.Logo = uploadfileName;
+                        uploadfileName = _environment.WebRootPath + uploadfileName;
+
+
+
+                        using (var fileStream = new FileStream(uploadfileName, FileMode.Create))
+                        {
+                            await upload.CopyToAsync(fileStream);
+                        }
+
+                    }
+
+
+
+
                     _context.Update(university);
                     await _context.SaveChangesAsync();
                 }
