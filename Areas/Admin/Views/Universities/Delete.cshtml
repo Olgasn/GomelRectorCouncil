@@ -12,7 +12,6 @@
     <h4>Университет</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="UniversityId" />
         <dt>
             @Html.DisplayNameFor(model => model.UniversityName)
         </dt>
@@ -35,12 +34,14 @@
             @Html.DisplayNameFor(model => model.Logo)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Logo)
+            <img src="@Model.Logo" alt="Изображение отсутствует"/>
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
+            <input type="hidden" asp-for="UniversityId" />
+
             <input type="submit" value="Удалить" class="btn btn-default" /> |
             <a asp-action="Index">Вернуться</a>
         </div>

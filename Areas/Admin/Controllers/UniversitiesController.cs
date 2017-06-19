@@ -6,7 +6,6 @@ using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -18,12 +17,15 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     {
         private readonly CouncilDbContext _context;
         private IHostingEnvironment _environment;
-        IConfiguration _iconfiguration;
+        private IConfiguration _iconfiguration;
+        private ExternalFile _externalFile;
         public UniversitiesController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;
             _environment = environment;
             _iconfiguration = iconfiguration;
+            _externalFile = new ExternalFile(_environment, _iconfiguration);
+
         }
 
         // GET: Universities
@@ -65,7 +67,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(university);
+                var universityWithLogo = await _externalFile.UploadUniversityLogo(university, upload);
+                _context.Add(universityWithLogo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -99,18 +102,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 try
                 {
-                    if (upload!=null)
-                    {
-                        string uploadfileName = _iconfiguration.GetSection("Paths").GetSection("PathToLogos").Value+university.UniversityId.ToString()+ upload.FileName;
-                        university.Logo = uploadfileName;
-                        uploadfileName = _environment.WebRootPath + uploadfileName;
-                        using (var fileStream = new FileStream(uploadfileName, FileMode.Create))
-                        {
-                            await upload.CopyToAsync(fileStream);
-                        }
-
-                    }
-
+                    university = await _externalFile.UploadUniversityLogo(university, upload);
                     _context.Update(university);
                     await _context.SaveChangesAsync();
                 }
@@ -151,9 +143,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // POST: Universities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int UniversityId)
         {
-            var university = await _context.Universities.SingleOrDefaultAsync(m => m.UniversityId == id);
+            var university = await _context.Universities.SingleOrDefaultAsync(m => m.UniversityId == UniversityId);
             _context.Universities.Remove(university);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -163,5 +155,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             return _context.Universities.Any(e => e.UniversityId == id);
         }
+        
     }
 }

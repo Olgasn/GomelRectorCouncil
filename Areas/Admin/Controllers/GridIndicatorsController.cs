@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {

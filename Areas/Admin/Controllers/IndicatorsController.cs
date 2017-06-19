@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {

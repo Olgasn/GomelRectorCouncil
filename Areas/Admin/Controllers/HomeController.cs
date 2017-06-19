@@ -1,14 +1,14 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using GomelRectorCouncil.Models;
 using System.Threading.Tasks;
-using GomelRectorCouncil.Areas.Admin.ViewModels;
-using GomelRectorCouncil.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using GomelRectorCouncil.Models;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
+using GomelRectorCouncil.Data;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
