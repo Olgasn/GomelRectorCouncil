@@ -1,27 +1,65 @@
 ﻿using System;
-public class Element : IComparable
+using System.Collections.Generic;
+
+namespace GomelRectorCouncil.Calculations
 {
-
-    public int Index { get; set; }
-    public double Value { get; set; }
-
- 
-    public int CompareTo(object o)
+    public class IndexComparer : IComparer<Element>
     {
-        Element p = o as Element;
-        if (p != null)
-            return Value.CompareTo(p.Value);
-        else
-            throw new Exception("Невозможно сравнить два объекта");
-    }
-
-    public String toString()
+        public int Compare(Element x, Element y)
         {
-            return "Element [index=" + Index + ", value=" + Value + "]";
+            // Compare y and x in direct order.
+            return x.Index.CompareTo(y.Index);
         }
     }
-}
+    public class ReverseIndexComparer : IComparer<Element>
+    {
+        public int Compare(Element x, Element y)
+        {
+            // Compare y and x in reverse order.
+            return y.Index.CompareTo(x.Index);
+        }
+    }
 
+    public class ValueComparer : IComparer<Element>
+    {
+        public int Compare(Element x, Element y)
+        {
+            // Compare y and x in direct order.
+            return x.Value.CompareTo(y.Value);
+        }
+    }
+    public class ReverseValueComparer : IComparer<Element>
+    {
+        public int Compare(Element x, Element y)
+        {
+            // Compare y and x in reverse order.
+            return y.Value.CompareTo(x.Value);
+        }
+    }
+
+
+
+
+    public class Element : IComparable
+    {
+
+        public int Index { get; set; }
+        public double Value { get; set; }
+
+
+        public int CompareTo(object o)
+        {
+            Element p = o as Element;
+            if (p != null)
+                return Value.CompareTo(p.Value);
+            else
+                throw new Exception("Невозможно сравнить два объекта");
+        }
+
+ 
+    }
+
+}
 
 
 

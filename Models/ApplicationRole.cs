@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GomelRectorCouncil.Models

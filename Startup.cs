@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Services;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
@@ -19,6 +18,7 @@ namespace GomelRectorCouncil
     {
         public Startup(IHostingEnvironment env)
         {
+            
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

@@ -7,22 +7,16 @@ namespace GomelRectorCouncil.Calculations
     public class Positions
     {
 
-        static double[] anArray = new double[] { 17, 11, 18, 18, 12, 17, 19 };
-
-        private Positions()
-        {
-            // empty
-        }
-        private static void arraySort(Element[] array, int param)
+        private static void arraySort(Element[] array, int SortParam)
         {
 
-            if (param == 0)
+            if (SortParam == 0)
             {
-                Array.Sort(array);
+                Array.Sort(array, new ValueComparer());
             }
             else
             {
-                Array.Sort(array);
+                Array.Sort(array, new ReverseValueComparer());
             }
         }
         /**
@@ -33,7 +27,7 @@ namespace GomelRectorCouncil.Calculations
          * @param param
          *            int
          */
-        public static void arrayCheck(double[] array, int param)
+        public static double[] Calculate(double[] array, int SortParam)
         {
 
             // an Objects array
@@ -44,24 +38,31 @@ namespace GomelRectorCouncil.Calculations
             for (int i = 0; i < array.Length; i++)
             {
                 input[i] = new Element()
-                { 
-                    Index=i, Value = array[i]
+                {
+                    Index = i,
+                    Value = array[i]
                 };
                 output[i] = new Element()
                 {
-                    Index = i,Value = array[i]
+                    Index = i,
+                    Value = array[i]
                 };
-                
+
             }
 
             // sort
-            Positions.arraySort(input, param);
+            Positions.arraySort(input, SortParam);
 
             // used elements
             HashSet<double> used = new HashSet<double>();
             // output array
             double[] places = new double[array.Length];
-
+            // index in array
+            int place = 0;
+            // count how many duplicates
+            int count = 0;
+            // calculated index
+            double index;
             // going through array first cycle
             for (int i = 0; i < input.Length; i++)
             {
@@ -90,11 +91,10 @@ namespace GomelRectorCouncil.Calculations
                     }
                 }
                 // index in array
-                int place = 0;
+                place = 0;
                 // count how many duplicates
-                int count = 0;
+                count = 0;
                 // calculated index
-                double index;
                 // for each positions count the sum of indexes and count duplicates
                 foreach (int p in positions)
                 {
@@ -107,36 +107,31 @@ namespace GomelRectorCouncil.Calculations
                 // write them to output array
                 foreach (int p in positions)
                 {
-                    output[p].Value=index + 1;
+                    output[p].Value = index + 1;
                 }
 
             }
 
             for (int i = 0; i < input.Length; i++)
             {
-                output[i].Index=input[i].Index;
+                output[i].Index = input[i].Index;
             }
 
-            // print
-            foreach (Element e in output)
-            {
-                Console.WriteLine(e.toString());
-            }
+  
 
             // sort objects by the index to the previous view
-            Array.Sort(output, new Comparer<Element>()
+            Array.Sort(output, new IndexComparer());
+
+            for (int i = 0; i < places.Length; i++)
             {
-            int Compare(Element o1, Element o2)
-            {
-                return o1.getIndex().CompareTo(o2.getIndex());
+                places[i] = output[i].Value;
             }
-        });
+            return places;
 
-        for (int i = 0; i<places.Length; i++) {
-            places[i] = output[i].Value;
+
+
         }
-      
-
+    }
 }
 
 
