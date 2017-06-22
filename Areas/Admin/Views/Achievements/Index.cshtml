@@ -1,0 +1,62 @@
+@model GomelRectorCouncil.ViewModels.AchievementsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Достижения </h2>
+<form method="get">
+    <div class="form-inline form-group">
+        <label class="col-md-2 control-label">Год</label>
+        <div class="col-md-10">
+            @Html.DropDownList("currentYear", Model.ListYears as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+            <input type="submit" value="Показать" class="btn btn-default" />
+        </div>
+
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Achievements) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indicator.IndicatorCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indicator.IndicatorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Univercity.UniversityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IndicatorValue)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AchievementId">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

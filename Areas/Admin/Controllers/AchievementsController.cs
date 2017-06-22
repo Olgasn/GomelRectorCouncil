@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
-using GomelRectorCouncil.ViewModels;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
 
-namespace GomelRectorCouncil.Controllers
+namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize (Roles="admin")]
     public class AchievementsController : Controller
     {
         private readonly CouncilDbContext _context;
@@ -116,8 +119,8 @@ namespace GomelRectorCouncil.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorName", achievement.IndicatorId);
-            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", achievement.UnivercityId);
+            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorId", achievement.IndicatorId);
+            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityId", achievement.UnivercityId);
             return View(achievement);
         }
 
