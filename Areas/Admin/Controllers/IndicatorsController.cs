@@ -45,7 +45,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
         // POST: Indicators
         [HttpPost]
-        public async Task<IActionResult> Index(int currentYear, bool? disableForEdition)
+        public async Task<IActionResult> Index(int currentYear, bool? disableForEdition, string enableForDownloading)
         {
             bool enableForEdition = !(disableForEdition ?? true);
             List<int> years=_context.Indicators
@@ -61,15 +61,20 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 EnableForEdition = enableForEdition
 
             };
-            if (await DeleteIndicatorsForUniversities(currentYear))
+            if (enableForDownloading == "1")
             {
-                        if (await PublishIndicatorsForUniversities(currentYear))
-                        {
 
-                        };
-             
+                //«агрузка набора показателей дл€ университетов на заданный год
+                if (await DeleteIndicatorsForUniversities(currentYear))
+                {
+                    if (await PublishIndicatorsForUniversities(currentYear))
+                    {
+                        return Redirect("~/Admin/Achievements/Index");
+                    };
+                    return new BadRequestObjectResult("Ќевозможно вставить данные");
+                }
+                return new BadRequestObjectResult("Ќевозможно удалить данные");
             }
-
             return View(indicators);
         }
 
@@ -198,6 +203,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             return _context.Indicators.Any(e => e.IndicatorId == id);
         }
+
+        // «агрузка показателей дл€ университетов за заданный год
         private async Task<bool> PublishIndicatorsForUniversities (int currYear)
         {
             bool publishResult = false;
@@ -223,6 +230,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             return publishResult;
         }
+        // ”даление данных университетов за заданный год
         private async Task<bool> DeleteIndicatorsForUniversities(int currYear)
         {
             bool deleteResult = false;
