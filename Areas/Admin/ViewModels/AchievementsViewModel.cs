@@ -6,8 +6,7 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {
     public class AchievementsViewModel
     {
-        public IEnumerable<Achievement> Achievements { get;set;}
- 
+        public IEnumerable<Achievement> Achievements { get;set;} 
         public SelectList ListYears {get;set;}
         
     }

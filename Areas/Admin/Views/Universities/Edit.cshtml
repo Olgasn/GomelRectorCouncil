@@ -1,12 +1,11 @@
 ﻿@model GomelRectorCouncil.Models.University
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "СРГО";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Редактировать</h2>
-
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
      @Html.HiddenFor(model => model.Logo)
  
@@ -14,10 +13,9 @@
         <h4>Университет</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="UniversityId" />
+        <input type="hidden" asp-for="UniversityId" />
         <div class="form-group">
             <label asp-for="Logo" class="col-md-2 control-label"></label>
-
             <div class="col-md-10">
                 <img src="@Model.Logo" alt="Фотография отсутствует" width="100" height="100" class="col-md-2">
                 <input type="file" name="upload" />

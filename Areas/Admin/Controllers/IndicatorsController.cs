@@ -71,9 +71,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     {
                         return Redirect("~/Admin/Achievements/Index");
                     };
-                    return new BadRequestObjectResult("Невозможно вставить данные");
+                    return Content("Невозможно вставить данные");
                 }
-                return new BadRequestObjectResult("Невозможно удалить данные");
+                return Content("Невозможно удалить данные");
             }
             return View(indicators);
         }
