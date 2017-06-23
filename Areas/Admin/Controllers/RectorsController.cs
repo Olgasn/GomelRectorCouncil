@@ -23,11 +23,15 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
         public RectorsController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
         {
-            _context = context;    
+            _context = context;
+            _environment = environment;
+            _iconfiguration = iconfiguration;
+            _externalFile = new RectorExternalFile(_environment, _iconfiguration);
         }
 
-        // GET: Rectors
-        public async Task<IActionResult> Index()
+
+            // GET: Rectors
+            public async Task<IActionResult> Index()
         {
             var councilDbContext = _context.Rectors.Include(r => r.University);
             return View(await councilDbContext.ToListAsync());

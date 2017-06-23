@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Photo)
+                <img src="@item.Photo" alt="Нет фото" width="30" height="30">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.University.UniversityName)

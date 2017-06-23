@@ -1,14 +1,14 @@
 ﻿@model GomelRectorCouncil.Models.Rector
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "СРГО";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Подробности</h2>
 
 <div>
-    <h4>Rector</h4>
+    <h4>Ректор</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -39,7 +39,7 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Photo)
+            <img src="@Model.Photo" alt="Фото отсутсвует" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.University.UniversityName)
