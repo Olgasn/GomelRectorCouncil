@@ -18,13 +18,13 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         private readonly CouncilDbContext _context;
         private IHostingEnvironment _environment;
         private IConfiguration _iconfiguration;
-        private ExternalFile _externalFile;
+        private UniversityExternalFile _externalFile;
         public UniversitiesController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;
             _environment = environment;
             _iconfiguration = iconfiguration;
-            _externalFile = new ExternalFile(_environment, _iconfiguration);
+            _externalFile = new UniversityExternalFile(_environment, _iconfiguration);
 
         }
 

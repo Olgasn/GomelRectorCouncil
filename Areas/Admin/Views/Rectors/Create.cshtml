@@ -6,7 +6,7 @@
 }
 
 <h2>Добавить</h2>
-<form asp-action="Create" asp-controller="Rectors">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>Ректор</h4>
         <hr />
@@ -44,13 +44,6 @@
             <div class="col-md-10">
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Photo" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

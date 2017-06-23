@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -14,8 +17,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class RectorsController : Controller
     {
         private readonly CouncilDbContext _context;
+        private IHostingEnvironment _environment;
+        private IConfiguration _iconfiguration;
+        private RectorExternalFile _externalFile;
 
-        public RectorsController(CouncilDbContext context)
+        public RectorsController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;    
         }
@@ -58,11 +64,12 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RectorId,LastName,FirstMidName,MiddleName,Email,Photo,UniversityId")] Rector rector)
+        public async Task<IActionResult> Create([Bind("RectorId,LastName,FirstMidName,MiddleName,Email,Photo,UniversityId")] Rector rector,  IFormFile upload)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rector);
+                var rectorWithPhoto = await _externalFile.UploadRectorPhoto(rector, upload);
+                _context.Add(rectorWithPhoto);              
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -92,13 +99,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("RectorId,LastName,FirstMidName,MiddleName,Email,Photo,UniversityId")] Rector rector)
+        public async Task<IActionResult> Edit(Rector rector, IFormFile upload)
         {
             
             if (ModelState.IsValid)
             {
                 try
                 {
+                    rector = await _externalFile.UploadRectorPhoto(rector, upload);                    
                     _context.Update(rector);
                     await _context.SaveChangesAsync();
                 }
