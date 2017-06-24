@@ -1,7 +1,7 @@
 @model GomelRectorCouncil.Areas.Admin.ViewModels.AchievementsViewModel
-
+@addTagHelper "GomelRectorCouncil.Areas.Admin.TagHelpers.PageLinkTagHelper, GomelRectorCouncil"
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "СРГО";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -53,11 +53,14 @@
                 @Html.DisplayFor(modelItem => item.IndicatorValue)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AchievementId">Изменить</a> |
-                <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a> |
+                <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-<a asp-action="../Indicators/Index">Вернуться к показателям</a>
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+<p>
+    <a asp-action="../Indicators/Index">Вернуться к показателям</a>
+
+</p>

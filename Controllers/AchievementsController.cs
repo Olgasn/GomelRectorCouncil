@@ -12,7 +12,7 @@ using GomelRectorCouncil.ViewModels;
 
 namespace GomelRectorCouncil.Controllers
 {
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "user, admin")]
     public class AchievementsController : Controller
     {
         private readonly CouncilDbContext _context;

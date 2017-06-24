@@ -14,6 +14,9 @@
     <thead>
         <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.Logo)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.UniversityName)
                 </th>
                 <th>
@@ -22,9 +25,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Website)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Logo)
-                </th>
             <th></th>
         </tr>
     </thead>
@@ -32,17 +32,18 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="@item.Logo" alt="Фотография отсутствует" width="30" height="30">
+            </td>
+
+            <td>
                 @Html.DisplayFor(modelItem => item.UniversityName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Website)
-            </td>
-            <td>
-                <img src="@item.Logo" alt="Фотография отсутствует" width="30" height="30">
-            </td>
+                <a href="http:\\@item.Website" target="_blank">@Html.DisplayFor(modelItem => item.Website)</a>
+           </td>
             <td>
                 <a asp-controller="Universities" asp-action="Edit"  asp-route-id="@item.UniversityId">Изменить</a> |
                 <a asp-action="Details" asp-route-id="@item.UniversityId">Подробно</a> |

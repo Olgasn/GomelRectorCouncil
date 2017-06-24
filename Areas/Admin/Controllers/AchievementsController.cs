@@ -23,31 +23,29 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // GET: Achievements
-        public IActionResult Index(int? currentYear)
+        public IActionResult Index(int? currentYear, int page = 1)
         {
-
+            int pageSize = 10;   // количество элементов на странице
             int currYear = currentYear ?? DateTime.Now.Year;
+            var achievements = _context.Achievements
+                    .Include(a => a.Indicator)
+                    .Include(a => a.Univercity)
+                    .Where(t => t.Year == currYear)
+                    .OrderBy(c => c.Indicator.IndicatorCode);
+            int count = achievements.Count();
             List<int> years = _context.Indicators
                 .OrderByDescending(f => f.Year)
                 .Select(f => f.Year)
                 .ToList();
             years.Insert(0, currYear); years.Insert(0, currYear + 1);
-
-            AchievementsViewModel achievements = new AchievementsViewModel
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            AchievementsViewModel achievementsViewModel = new AchievementsViewModel
             {
-                Achievements = _context.Achievements
-                    .Include(a => a.Indicator)
-                    .Include(a => a.Univercity)
-                    .Where(t => t.Year == currYear)
-                    .OrderBy(c=>c.Indicator.IndicatorCode)
-                    .ToList(),
+                PageViewModel = pageViewModel,
+                Achievements = achievements.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
                 ListYears = new SelectList(years.Distinct(), currYear)
             };
-
-
-            return View(achievements);
-
-            
+            return View(achievementsViewModel);            
         }
 
         // GET: Achievements/Details/5
@@ -71,9 +69,5 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
 
-        private bool AchievementExists(int id)
-        {
-            return _context.Achievements.Any(e => e.AchievementId == id);
-        }
     }
 }
