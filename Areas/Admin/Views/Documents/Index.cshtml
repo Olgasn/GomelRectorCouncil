@@ -7,7 +7,9 @@
 
 <h2>Документы Совета</h2>
 
-
+<p>
+    <a asp-action="Create">Добавить</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -54,7 +56,9 @@
                 @Html.DisplayFor(modelItem => item.Chairperson.ChairpersonId)
             </td>
             <td>
+                <a asp-action="Edit" asp-route-id="@item.DocumentId">Изменить</a> |
                 <a asp-action="Details" asp-route-id="@item.DocumentId">Подробно</a> |
+                <a asp-action="Delete" asp-route-id="@item.DocumentId">Удалить</a>
             </td>
         </tr>
 }
