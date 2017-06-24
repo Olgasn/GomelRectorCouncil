@@ -1,14 +1,17 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
+
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -59,7 +62,18 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Rectors/Create
         public IActionResult Create()
         {
-            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName");
+            EditRectorViewModel rectorView = new EditRectorViewModel()
+            {
+                Universities = _context.Universities,
+                Rectors = _context.Rectors
+            };
+            SelectList listFreeUniversities = rectorView.ListUniversities;
+            if (listFreeUniversities.Count()==0)
+            {
+                string message = "” всех университетов уже есть ректоры!";
+                return View("Message",message);
+            };
+            ViewData["UniversityId"] = listFreeUniversities;
             return View();
         }
 
@@ -68,7 +82,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RectorId,LastName,FirstMidName,MiddleName,Email,Photo,UniversityId")] Rector rector,  IFormFile upload)
+        public async Task<IActionResult> Create(Rector rector,  IFormFile upload)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +91,13 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", rector.UniversityId);
+            EditRectorViewModel rectorView = new EditRectorViewModel()
+            {
+                CurrentRector = rector,
+                Universities = _context.Universities,
+                Rectors = _context.Rectors
+            };
+            ViewData["UniversityId"] = rectorView.ListUniversities;
             return View(rector);
         }
 
@@ -94,8 +114,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", rector.UniversityId);
-            return View(rector);
+            EditRectorViewModel rectorView = new EditRectorViewModel()
+            {
+                CurrentRector = rector,
+                Universities = _context.Universities,
+                Rectors = _context.Rectors
+            };
+
+            return View(rectorView);
         }
 
         // POST: Rectors/Edit/5
@@ -103,14 +129,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Rector rector, IFormFile upload)
+        public async Task<IActionResult> Edit(Rector CurrentRector, IFormFile upload)
         {
-            
+            Rector rector= CurrentRector;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    rector = await _externalFile.UploadRectorPhoto(rector, upload);                    
+                    rector = await _externalFile.UploadRectorPhoto(CurrentRector, upload);                   
                     _context.Update(rector);
                     await _context.SaveChangesAsync();
                 }
@@ -127,8 +153,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["UniversityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", rector.UniversityId);
-            return View(rector);
+
+            EditRectorViewModel rectorView = new EditRectorViewModel()
+            {
+                CurrentRector = rector,
+                Universities = _context.Universities,
+                Rectors = _context.Rectors
+            };
+            return View(rectorView);
         }
 
         // GET: Rectors/Delete/5
@@ -165,5 +197,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             return _context.Rectors.Any(e => e.RectorId == id);
         }
+
     }
 }

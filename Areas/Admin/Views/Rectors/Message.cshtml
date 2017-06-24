@@ -1,0 +1,20 @@
+﻿@model String
+
+@{
+    ViewData["Title"] = "СРГО";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Сообщение: </h2>
+<div>
+    <h3>
+        @Model.ToString()
+    </h3>
+
+
+
+</div>
+
+<div>
+    <a asp-action="Index">Вернуться</a>
+</div>
