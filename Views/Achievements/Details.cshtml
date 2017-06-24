@@ -7,9 +7,15 @@
 
 <h2>Подробности</h2>
 <div>
-    <h4>Достижение</h4>
+    <h4>Результат по показателю</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Indicator.IndicatorCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Indicator.IndicatorCode)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.IndicatorValue)
         </dt>
@@ -17,16 +23,16 @@
             @Html.DisplayFor(model => model.IndicatorValue)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Indicator)
+            @Html.DisplayNameFor(model => model.Indicator.IndicatorName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Indicator.IndicatorId)
+            @Html.DisplayFor(model => model.Indicator.IndicatorName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Univercity)
+            @Html.DisplayNameFor(model => model.Univercity.UniversityName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Univercity.UniversityId)
+            @Html.DisplayFor(model => model.Univercity.UniversityName)
         </dd>
     </dl>
 </div>
