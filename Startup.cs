@@ -11,6 +11,7 @@ using GomelRectorCouncil.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
+using GomelRectorCouncil.Settings;
 
 namespace GomelRectorCouncil
 {
@@ -53,9 +54,12 @@ namespace GomelRectorCouncil
 
             services.AddMvc();
             services.AddSingleton<IConfiguration>(Configuration);
-
+            
+            
+            // Read email settings
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
