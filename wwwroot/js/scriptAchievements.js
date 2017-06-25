@@ -3,21 +3,16 @@ var lastsel;
 $("#Year").val($("#currentYear").val());
 $(function () {
     $("#jqGrid").jqGrid({
-        url: "GridIndicators/GetIndicators?currentYear="+$("#currentYear").val(),
+        url: "GridAchievements/GetAchievements?currentYear=" + $("#currentYear").val(),
         datatype: 'json',
         mtype: 'Get',
-        colNames: ['IndicatorId', 'Код', 'Раздел', 'Подраздел', 'Пункт', 'Показатель', 'Единица измерения', 'Тип показателя', 'Описание'],
+        colNames: ['AchievementId', 'Код', 'Показатель', 'Значение'],
         width: '100%',
         colModel: [
-            { key: true, hidden: true, name: 'IndicatorId', index: 'IndicatorId', editable: true, search: false },
-            { key: false, hidden: true, name: 'IndicatorCode', index: 'IndicatorCode', editable: false, search: true },
-            { key: false, name: 'IndicatorId1', index: 'IndicatorId1', sortable: true, width: '12%', editable: true, search: false },
-            { key: false, name: 'IndicatorId2', index: 'IndicatorId2', sortable: true, width: '12%', editable: true, search: false },
-            { key: false, name: 'IndicatorId3', index: 'IndicatorId3', sortable: true, width: '12%', editable: true, search: false },
-            { key: false, name: 'IndicatorName', index: 'IndicatorName', sortable: true, editable: true, search: false },
-            { key: false, name: 'IndicatorUnit', index: 'IndicatorUnit', sortable: true, width: '17%', editable: true, search: false },
-            { key: false, name: 'IndicatorType', index: 'IndicatorType', formatter: replaceNumber, width: '17%', sortable: true, editable: true, edittype:'select', editoptions:{value:{0:'min',1:'max'}}, search: false },            
-            { key: false, name: 'IndicatorDescription', index: 'IndicatorDescription', sortable: true, editable: true, edittype: 'textarea', search: false }],
+            { key: true, hidden: true, name: 'AchievementId', index: 'IndicatorId', editable: true, search: false },
+            { key: false, name: 'IndicatorCode', index: 'IndicatorCode', sortable: true, width: '20%', editable: false, search: true },
+            { key: false, name: 'IndicatorName', index: 'IndicatorName', editable: false, search: false },
+            { key: false, name: 'IndicatorValue', index: 'IndicatorValue', width: '30%', editable: true, search: false }],
         pager: jQuery('#jqControls'),
         rowNum: 15,
         rowList: [15, 25, 35, 45],
@@ -34,7 +29,7 @@ $(function () {
                 lastsel = id;
             }
         },
-        editurl: "GridIndicators/Edit?Year=" + $("#Year").val(),
+        editurl: "GridAchievements/Edit?Year=" + $("#Year").val(),
         caption: 'Перечень показателей',
         emptyrecords: 'Нет показателей для отображения',
         jsonReader: {
@@ -74,7 +69,7 @@ $(function () {
         },
         {
             zIndex: 200,
-            url: "GridIndicators/Create?Year=" + $("#Year").val(),
+            url: "GridAchievements/Create?Year=" + $("#Year").val(),
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -85,7 +80,7 @@ $(function () {
         },
         {
             zIndex: 200,
-            url: "GridIndicators/Delete?Year=" + $("#Year").val(),
+            url: "GridAchievements/Delete?Year=" + $("#Year").val(),
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,

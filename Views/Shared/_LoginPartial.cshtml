@@ -11,15 +11,32 @@
         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
             <ul class="nav navbar-nav">
                 <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Пользователи</a></li>
-                <li><a asp-area="Admin" asp-controller="Universities" asp-action="Index">Университеты</a></li>
-                <li><a asp-area="Admin" asp-controller="Rectors" asp-action="Index">Ректоры</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        УВО
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="Admin" asp-controller="Universities" asp-action="Index">Университеты</a></li>
+                        <li><a asp-area="Admin" asp-controller="Rectors" asp-action="Index">Ректоры</a></li>
+                    </ul>
+                </li>
                 <li><a asp-area="Admin" asp-controller="ChairPersons" asp-action="Index">Председатели</a></li>
-                <li><a asp-area="Admin" asp-controller="Indicators" asp-action="Index">Показатели</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Показатели
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="Admin" asp-controller="Indicators" asp-action="Index">Показатели (View)</a></li>
+                        <li><a asp-area="Admin" asp-controller="GridIndicators" asp-action="Index">Показатели (jqGrid)</a></li>
+                        <li><a asp-area="Admin" asp-controller="Achievements" asp-action="Index">Результаты</a></li>
+                    </ul>
+                </li>
                 <li><a asp-area="Admin" asp-controller="Documents" asp-action="Index">Документы</a></li>
-                <li><a asp-area="Admin" asp-controller="Achievements" asp-action="Index">Результаты</a></li>
                 <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)!</a></li>
                 <li><button type="submit" class="btn btn-link navbar-btn navbar-link">Выход</button></li>
-            </ul>
+             </ul>
         </form>
     }
     else
@@ -28,6 +45,7 @@
             <ul class="nav navbar-nav">
                 <li><a asp-controller="Documents" asp-action="Index">Документы</a></li>
                 <li><a asp-area="" asp-controller="Achievements" asp-action="Index">Результаты</a></li>
+                <li><a asp-area="" asp-controller="GridAchievements" asp-action="Index">Результаты (jqGrid)</a></li>
                 <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)!</a></li>
                 <li><button type="submit" class="btn btn-link navbar-btn navbar-link">Выход</button></li>
             </ul>
