@@ -31,14 +31,14 @@ namespace GomelRectorCouncil.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Сайт Совета ректоров Гомельской области";
+            ViewData["Message"] = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Контакты";
+            ViewData["Message"] = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
             return View();
         }
