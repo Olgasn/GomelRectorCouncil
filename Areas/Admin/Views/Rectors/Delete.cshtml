@@ -7,9 +7,9 @@
 
 <h2>Удалить</h2>
 
-<h3>Вы действительно хотите удалить это?</h3>
+<h3>Вы действительно хотите удалить?</h3>
 <div>
-    <h4>Rector</h4>
+    <h4>Ректор</h4>
     <hr />
     <dl class="dl-horizontal">
         
@@ -41,7 +41,7 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Photo)
+            <img src="@Model.Photo" alt="Изображение отсутствует" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.University.UniversityName)

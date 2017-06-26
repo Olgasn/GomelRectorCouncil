@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -145,10 +146,21 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int UniversityId)
         {
+
             var university = await _context.Universities.SingleOrDefaultAsync(m => m.UniversityId == UniversityId);
+            string fullFileName = _environment.WebRootPath + university.Logo;
             _context.Universities.Remove(university);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            //Удаление фотографии
+            try
+            {
+                System.IO.File.Delete(fullFileName);
+                return RedirectToAction("Index");
+            }
+            catch (IOException deleteError)
+            {
+                return View("Message", deleteError.Message);
+            }
         }
 
         private bool UniversityExists(int id)

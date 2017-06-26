@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
-
+using System.IO;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -188,9 +187,19 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int RectorId)
         {
             var rector = await _context.Rectors.SingleOrDefaultAsync(m => m.RectorId == RectorId);
+            string fullFileName = _environment.WebRootPath + rector.Photo; 
             _context.Rectors.Remove(rector);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            //Удаление фотографии
+            try
+            {
+                System.IO.File.Delete(fullFileName);
+                return RedirectToAction("Index");
+            }
+            catch (IOException deleteError)
+            {
+                return View("Message", deleteError.Message);
+            }
         }
 
         private bool RectorExists(int id)
