@@ -12,7 +12,6 @@
     <h4>Председатель</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="ChairpersonId" />
         <dt>
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
@@ -35,6 +34,7 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
+            <input type="hidden" asp-for="ChairpersonId" />
             <input type="submit" value="Удалить" class="btn btn-default" /> |
             <a asp-action="Index">Вернуться</a>
         </div>

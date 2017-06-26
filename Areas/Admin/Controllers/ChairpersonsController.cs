@@ -142,9 +142,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // POST: Chairpersons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int ChairpersonId)
         {
-            var chairperson = await _context.Chairpersons.SingleOrDefaultAsync(m => m.ChairpersonId == id);
+            var chairperson = await _context.Chairpersons.SingleOrDefaultAsync(m => m.ChairpersonId == ChairpersonId);
             _context.Chairpersons.Remove(chairperson);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

@@ -12,7 +12,7 @@
     <h4>Rector</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="RectorId" />
+        
         <dt>
             @Html.DisplayNameFor(model => model.LastName)
         </dt>
@@ -53,6 +53,7 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
+            <input type="hidden" asp-for="RectorId" />
             <input type="submit" value="Удалить" class="btn btn-default" /> |
             <a asp-action="Index">Вернуться</a>
         </div>

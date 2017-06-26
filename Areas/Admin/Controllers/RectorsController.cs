@@ -70,7 +70,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             SelectList listFreeUniversities = rectorView.ListUniversities;
             if (listFreeUniversities.Count()==0)
             {
-                string message = "У всех университетов уже есть ректоры!";
+                string message = "пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
                 return View("Message",message);
             };
             ViewData["UniversityId"] = listFreeUniversities;
@@ -185,9 +185,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // POST: Rectors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int RectorId)
         {
-            var rector = await _context.Rectors.SingleOrDefaultAsync(m => m.RectorId == id);
+            var rector = await _context.Rectors.SingleOrDefaultAsync(m => m.RectorId == RectorId);
             _context.Rectors.Remove(rector);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
