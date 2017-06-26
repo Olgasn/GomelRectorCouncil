@@ -64,7 +64,7 @@ namespace GomelRectorCouncil
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CouncilDbContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -95,9 +95,10 @@ namespace GomelRectorCouncil
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            // инициализация базы данных
+            // инициализация базы данных пользователей
             DatabaseInitialize(app.ApplicationServices).Wait();
-
+            // инициализация базы данных по университетам
+            DbInitializer.Initialize(context);
 
 
 
@@ -106,8 +107,7 @@ namespace GomelRectorCouncil
         public async Task DatabaseInitialize(IServiceProvider serviceProvider)
         {
             UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            RoleManager<IdentityRole> roleManager =               serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
+            RoleManager<IdentityRole> roleManager =    serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             string adminEmail = "admin@gmail.com";
             string adminName = "admin@gmail.com";
 

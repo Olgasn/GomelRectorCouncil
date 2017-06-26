@@ -18,7 +18,15 @@ namespace GomelRectorCouncil.Controllers
         public IActionResult Index()
         {
             var univ = _context.Universities.Include(c => c.Rector).OrderBy(i => i.UniversityName);
-            ViewData["ChairpersonName"] = _context.Chairpersons.Where(s => s.StopDate == null).Select(s => s.Rector.FullName).Last().ToString();
+           
+            if (_context.Chairpersons.Count()>0)
+            {
+            ViewData["ChairpersonName"] = _context.Chairpersons
+                .Where(s => s.StopDate == null)
+                .Select(s => s.Rector.FullName)
+                .Last()
+                .ToString();
+            };
 
             return View(univ);
         }
