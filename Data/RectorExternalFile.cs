@@ -22,7 +22,7 @@ namespace GomelRectorCouncil.Data
 
         }
 
-        public async Task<Rector> UploadRectorPhoto(Rector rector, IFormFile upload)
+        public async Task<Rector> UploadRectorWithPhoto(Rector rector, IFormFile upload)
         {
             string relativeFileName = "";
             string absoluteFileName = "";

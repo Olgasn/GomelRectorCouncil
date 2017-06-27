@@ -23,7 +23,7 @@ namespace GomelRectorCouncil.Data
         }
 
 
-        public async Task<University> UploadUniversityLogo(University university, IFormFile upload)
+        public async Task<University> UploadUniversityWithLogo(University university, IFormFile upload)
         {
             string relativeFileName = "";
             string absoluteFileName = "";

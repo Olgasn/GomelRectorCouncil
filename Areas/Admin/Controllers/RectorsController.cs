@@ -85,11 +85,12 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rectorWithPhoto = await _externalFile.UploadRectorPhoto(rector, upload);
+                var rectorWithPhoto = await _externalFile.UploadRectorWithPhoto(rector, upload);
                 _context.Add(rectorWithPhoto);              
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            
             EditRectorViewModel rectorView = new EditRectorViewModel()
             {
                 CurrentRector = rector,
@@ -135,7 +136,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 try
                 {
-                    rector = await _externalFile.UploadRectorPhoto(CurrentRector, upload);                   
+                    rector = await _externalFile.UploadRectorWithPhoto(CurrentRector, upload);                   
                     _context.Update(rector);
                     await _context.SaveChangesAsync();
                 }

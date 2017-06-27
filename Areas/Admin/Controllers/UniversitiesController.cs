@@ -68,7 +68,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var universityWithLogo = await _externalFile.UploadUniversityLogo(university, upload);
+                var universityWithLogo = await _externalFile.UploadUniversityWithLogo(university, upload);
                 _context.Add(universityWithLogo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -103,7 +103,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 try
                 {
-                    university = await _externalFile.UploadUniversityLogo(university, upload);
+                    university = await _externalFile.UploadUniversityWithLogo(university, upload);
                     _context.Update(university);
                     await _context.SaveChangesAsync();
                 }

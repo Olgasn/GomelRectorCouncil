@@ -63,10 +63,16 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_context.Chairpersons.Where(d => d.StopDate == null).Count() > 0)
+                {
+                    return View("Message", "Уже существует действующий председатель!");
+
+                }
                 _context.Add(chairperson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             ViewData["RectorId"] = new SelectList(_context.Rectors, "RectorId", "FullName", chairperson.RectorId);
             return View(chairperson);
         }
