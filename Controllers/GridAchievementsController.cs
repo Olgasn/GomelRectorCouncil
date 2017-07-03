@@ -8,9 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
-using GomelRectorCouncil.ViewModels;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Identity;
 
 namespace GomelRectorCouncil.Controllers
 {

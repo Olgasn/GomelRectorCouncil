@@ -1,11 +1,12 @@
 @model GomelRectorCouncil.ViewModels.AchievementsViewModel
 
+@addTagHelper "GomelRectorCouncil.TagHelpers.PageLinkTagHelper, GomelRectorCouncil"
 @{
     ViewData["Title"] = "СРГО";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Достижения</h2>
+<h2>Достижения </h2>
 <form method="get">
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
@@ -14,6 +15,7 @@
                 htmlAttributes: new { @class = "form-control" })
             <input type="submit" value="Показать" class="btn btn-default" />
         </div>
+
     </div>
 </form>
 
@@ -22,13 +24,21 @@
         <tr>
 
             <th>
-                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorCode)
+                <a asp-action="Index"
+                   asp-route-sortOrder="@(Model.SortViewModel.IndicatorCodeSort)"
+                   asp-route-currentYear="@(Model.ListYears.SelectedValue)">
+                    @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorCode)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
+                <a asp-action="Index"
+                   asp-route-sortOrder="@(Model.SortViewModel.UniversityNameSort)"
+                   asp-route-currentYear="@(Model.ListYears.SelectedValue)">
+                    @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)
@@ -37,25 +47,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Achievements) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Indicator.IndicatorCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Indicator.IndicatorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Univercity.UniversityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IndicatorValue)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AchievementId">Изменить</a> 
-                <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Achievements)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Indicator.IndicatorCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Indicator.IndicatorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Univercity.UniversityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndicatorValue)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+<p>
+    <a asp-action="../Indicators/Index">Вернуться к показателям</a>
+
+</p>
+

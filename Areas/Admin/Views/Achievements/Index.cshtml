@@ -23,13 +23,21 @@
         <tr>
 
             <th>
-                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorCode)
+                <a asp-action="Index"
+                   asp-route-sortOrder="@(Model.SortViewModel.IndicatorCodeSort)"
+                   asp-route-currentYear="@(Model.ListYears.SelectedValue)">
+                    @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorCode)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
+                <a asp-action="Index"
+                   asp-route-sortOrder="@(Model.SortViewModel.UniversityNameSort)"
+                   asp-route-currentYear="@(Model.ListYears.SelectedValue)">
+                    @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)

@@ -23,7 +23,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // GET: Achievements
-        public IActionResult Index(int? currentYear, int page = 1)
+        public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc)
         {
             int pageSize = 10;   // количество элементов на странице
             int currYear = currentYear ?? DateTime.Now.Year;
@@ -31,7 +31,26 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     .Include(a => a.Indicator)
                     .Include(a => a.Univercity)
                     .Where(t => t.Year == currYear)
-                    .OrderBy(c => c.Indicator.IndicatorCode);
+                    .OrderBy(s => s.Indicator.IndicatorCode);
+
+
+            // сортировка
+            switch (sortOrder)
+            {
+                case SortState.IndicatorCodeDesc:
+                    achievements = achievements.OrderByDescending(s => s.Indicator.IndicatorCode);
+                    break;
+                case SortState.UniversityNameAsc:
+                    achievements = achievements.OrderBy(s => s.Univercity.UniversityName);
+                    break;
+                case SortState.UniversityNameDesc:
+                    achievements = achievements.OrderByDescending(s => s.Univercity.UniversityName);
+                    break;
+                default:
+                    achievements = achievements.OrderBy(s => s.Indicator.IndicatorCode);
+                    break;
+            }
+
             int count = achievements.Count();
             List<int> years = _context.Indicators
                 .OrderByDescending(f => f.Year)
@@ -39,9 +58,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .ToList();
             years.Insert(0, currYear); years.Insert(0, currYear + 1);
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+
             AchievementsViewModel achievementsViewModel = new AchievementsViewModel
             {
                 PageViewModel = pageViewModel,
+                SortViewModel = new SortViewModel(sortOrder),
                 Achievements = achievements.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
                 ListYears = new SelectList(years.Distinct(), currYear)
             };
