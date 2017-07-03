@@ -29,7 +29,7 @@
                     @Html.DisplayNameFor(model => model.DocumentURL)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.Chairperson)
+                @Html.DisplayNameFor(model => model.Chairperson.Rector.FullName)
             </th>
             <th></th>
         </tr>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.DocumentURL)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Chairperson.ChairpersonId)
+                @Html.DisplayFor(modelItem => item.Chairperson.Rector.FullName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.DocumentId">Изменить</a> |
