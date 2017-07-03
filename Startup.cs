@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+//using MySQL.Data.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -47,6 +48,8 @@ namespace GomelRectorCouncil
                 options.UseSqlite(Configuration.GetConnectionString("CouncilConnectionSqlite")));
             //services.AddDbContext<CouncilDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("CouncilConnectionSQL")));
+            //services.AddDbContext<CouncilDbContext>(options =>
+            //    options.UseMySQL(Configuration.GetConnectionString("CouncilConnectionMysql")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

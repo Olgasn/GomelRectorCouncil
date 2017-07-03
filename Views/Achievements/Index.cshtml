@@ -34,11 +34,7 @@
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Indicator.IndicatorName)
             </th>
             <th>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@(Model.SortViewModel.UniversityNameSort)"
-                   asp-route-currentYear="@(Model.ListYears.SelectedValue)">
-                    @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
-                </a>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Univercity.UniversityName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)

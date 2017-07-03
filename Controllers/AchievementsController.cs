@@ -50,12 +50,6 @@ namespace GomelRectorCouncil.Controllers
                 case SortState.IndicatorCodeDesc:
                     achievements = achievements.OrderByDescending(s => s.Indicator.IndicatorCode);
                     break;
-                case SortState.UniversityNameAsc:
-                    achievements = achievements.OrderBy(s => s.Univercity.UniversityName);
-                    break;
-                case SortState.UniversityNameDesc:
-                    achievements = achievements.OrderByDescending(s => s.Univercity.UniversityName);
-                    break;
                 default:
                     achievements = achievements.OrderBy(s => s.Indicator.IndicatorCode);
                     break;
