@@ -45,40 +45,71 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
         // POST: Indicators
         [HttpPost]
-        public async Task<IActionResult> Index(int currentYear, bool? disableForEdition, string enableForDownloading)
+        public async Task<IActionResult> Index(int currentYear, bool? disableForEdition, string action)
         {
             bool enableForEdition = !(disableForEdition ?? true);
+
             List<int> years=_context.Indicators
                 .OrderByDescending(f=>f.Year)
                 .Select(f=>f.Year)
                 .ToList();
-             years.Insert(0,currentYear); years.Insert(0,currentYear+1);
-             var ListYears=new SelectList(years.Distinct(),currentYear);
-            IndicatorsViewModel indicators = new IndicatorsViewModel()
+            years.Insert(0,currentYear); years.Insert(0,currentYear+1);
+            var ListYears=new SelectList(years.Distinct(),currentYear);
+            var indicators = _context.Indicators.Where(t => t.Year == currentYear).ToList();
+
+            switch (action)
             {
-                Indicators = _context.Indicators.Where(t => t.Year == currentYear).ToList(),
-                ListYears=new SelectList(years.Distinct(),currentYear),
+                case "FillDataFromLastYear":
+                    if (indicators.Count() == 0)
+                    {
+                        var indicatorsLastYear = _context.Indicators
+                            .Where(y => y.Year == (currentYear - 1));
+                        foreach (var ind in indicatorsLastYear)
+                        {
+                            var indicator = new Indicator()
+                            {
+                                Year = currentYear,
+                                IndicatorDescription= ind.IndicatorDescription,
+                                IndicatorId1=ind.IndicatorId1,
+                                IndicatorId2 = ind.IndicatorId2,
+                                IndicatorId3 = ind.IndicatorId3,
+                                IndicatorType=ind.IndicatorType,
+                                IndicatorName=ind.IndicatorName,
+                                IndicatorUnit=ind.IndicatorUnit
+                            };
+                            indicators.Add(indicator);
+                        }
+                        _context.AddRange(indicators);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        return View("Message", "¬ текущем году уже загружены данные!");
+                    }
+                    break;
+                case "FillDataForUniversities":
+                    //«агрузка набора показателей дл€ университетов на заданный год
+                    if (await DeleteIndicatorsForUniversities(currentYear))
+                    {
+                            if (await PublishIndicatorsForUniversities(currentYear))
+                            {
+                                return Redirect("~/Admin/Achievements/Index");
+                            };
+                            return View("Message", "Ќевозможно вставить данные");
+                    }
+                    return View("Message", "Ќевозможно удалить данные");                   
+                default:
+                    break;
+            }
+            IndicatorsViewModel indicatorsViewModel = new IndicatorsViewModel()
+            {
+                Indicators = indicators,
+                ListYears = new SelectList(years.Distinct(), currentYear),
                 EnableForEdition = enableForEdition
 
             };
-            if (enableForDownloading == "1")
-            {
-
-                //«агрузка набора показателей дл€ университетов на заданный год
-                if (await DeleteIndicatorsForUniversities(currentYear))
-                {
-                    if (await PublishIndicatorsForUniversities(currentYear))
-                    {
-                        return Redirect("~/Admin/Achievements/Index");
-                    };
-                    return Content("Ќевозможно вставить данные");
-                }
-                return Content("Ќевозможно удалить данные");
-            }
-            return View(indicators);
+            return View(indicatorsViewModel);
         }
-
-
 
 
         // GET: Indicators/Details/5
@@ -191,9 +222,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // POST: Indicators/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int IndicatorId)
         {
-            var indicator = await _context.Indicators.SingleOrDefaultAsync(m => m.IndicatorId == id);
+            var indicator = await _context.Indicators.SingleOrDefaultAsync(m => m.IndicatorId == IndicatorId);
             _context.Indicators.Remove(indicator);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

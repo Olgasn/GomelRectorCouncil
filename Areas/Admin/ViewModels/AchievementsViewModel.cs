@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
-using GomelRectorCouncil.Models;
 using System.Collections.Generic;
+using GomelRectorCouncil.Models;
+
 
 namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {

@@ -11,8 +11,8 @@
 <div>
     <h4>Показатель</h4>
     <hr />
+
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="IndicatorId" />
         <dt>
             @Html.DisplayNameFor(model => model.IndicatorId1)
         </dt>
@@ -65,6 +65,7 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
+            <input type="hidden" asp-for="IndicatorId" />
             <input type="submit" value="Удалить" class="btn btn-default" /> |
             <a asp-action="Index">Вернуться</a>
         </div>

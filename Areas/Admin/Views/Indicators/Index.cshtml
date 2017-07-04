@@ -6,26 +6,28 @@
 }
 <script type="text/javascript" language="javascript">
     fireSubmit = function (event) {
-                document.forms["searchForm"].enableForDownloading="0"
                 document.forms["searchForm"].submit();
             }
 
 </script>
 <h2>Показатели для подведения итогов </h2>
 <form name="searchForm" method="post">
-    <input type="hidden" id="enableForDownloading" name="enableForDownloading" value="1"/>
-
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
-            <div class="col-md-10">
-                @Html.DropDownList("currentYear", Model.ListYears as SelectList,
-                htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })                
-                Запретить изменения
-                @Html.CheckBox("disableForEdition", true, htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)"})
-                <input name="download" type="submit" value="Загрузить показатели университетам" class="btn btn-default" />
+        <div class="col-md-10">
+            @Html.DropDownList("currentYear", Model.ListYears as SelectList,
+                htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
+        </div>
+        <div class="col-md-10">
+
+            <button name="action" value="FillDataForUniversities" class="btn btn-default">Загрузить показатели университетам</button>
+            <button name="action" value="FillDataFromLastYear" class="btn btn-default">Загрузить из прошлого года</button>
+        </div>
+        Запретить изменения
+        @Html.CheckBox("disableForEdition", true, htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
 
 
-            </div>
+
 
     </div>
 </form>

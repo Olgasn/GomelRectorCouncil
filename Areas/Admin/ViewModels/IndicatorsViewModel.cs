@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
-using GomelRectorCouncil.Models;
 using System.Collections.Generic;
+using GomelRectorCouncil.Models;
+
 
 namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {
@@ -11,6 +12,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
         public PageViewModel PageViewModel { get; set; }
         //Список отчетных годов
         public SelectList ListYears {get;set;}
+        //Свойство для сортировки
+        public SortViewModel SortViewModel { get; set; }
         public bool EnableForEdition { get; set; }
         public IndicatorsViewModel()
         {
