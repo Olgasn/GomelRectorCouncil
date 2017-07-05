@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -14,10 +18,17 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class DocumentsController : Controller
     {
         private readonly CouncilDbContext _context;
+        private IHostingEnvironment _environment;
+        private IConfiguration _iconfiguration;
+        private DocumentExternalFile _externalFile;
 
-        public DocumentsController(CouncilDbContext context)
+        public DocumentsController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
         {
-            _context = context;    
+            _context = context;
+            _environment = environment;
+            _iconfiguration = iconfiguration;
+            _externalFile = new DocumentExternalFile(_environment, _iconfiguration);
+    
         }
 
         // GET: Documents
@@ -49,7 +60,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Documents/Create
         public IActionResult Create()
         {
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons, "ChairpersonId", "ChairpersonId");
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName");
             return View();
         }
 
@@ -58,15 +69,16 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DocumentId,RegistrationNumber,DocumentName,DocumentDescription,RegistrationDate,DocumentURL,ChairpersonId")] Document document)
+        public async Task<IActionResult> Create([Bind("DocumentId,RegistrationNumber,DocumentName,DocumentDescription,RegistrationDate,DocumentURL,ChairpersonId")] Document document, IFormFile upload)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(document);
+                var documentWithFile = await _externalFile.UploadDocument(document, upload);
+                _context.Add(documentWithFile);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons, "ChairpersonId", "ChairpersonId", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
             return View(document);
         }
 
@@ -83,7 +95,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons, "ChairpersonId", "ChairpersonId", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
             return View(document);
         }
 
@@ -92,7 +104,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("DocumentId,RegistrationNumber,DocumentName,DocumentDescription,RegistrationDate,DocumentURL,ChairpersonId")] Document document)
+        public async Task<IActionResult> Edit(Document document)
         {
             
             if (ModelState.IsValid)
@@ -115,7 +127,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons, "ChairpersonId", "ChairpersonName", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
             return View(document);
         }
 
@@ -141,12 +153,23 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // POST: Documents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int DocumentId)
         {
-            var document = await _context.Documents.SingleOrDefaultAsync(m => m.DocumentId == id);
+
+            var document = await _context.Documents.SingleOrDefaultAsync(m => m.DocumentId == DocumentId);
+            string fullFileName = _environment.WebRootPath + document.DocumentURL; 
             _context.Documents.Remove(document);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            //Удаление фотографии
+            try
+            {
+                System.IO.File.Delete(fullFileName);
+                return RedirectToAction("Index");
+            }
+            catch (IOException deleteError)
+            {
+                return View("Message", deleteError.Message);
+            }
         }
 
         private bool DocumentExists(int id)

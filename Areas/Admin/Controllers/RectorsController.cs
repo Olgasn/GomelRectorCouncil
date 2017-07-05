@@ -69,7 +69,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             SelectList listFreeUniversities = rectorView.ListUniversities;
             if (listFreeUniversities.Count()==0)
             {
-                string message = "� ���� ������������� ��� ���� �������!";
+                string message = "Нет университетов не занятых ректорами!";
                 return View("Message",message);
             };
             ViewData["UniversityId"] = listFreeUniversities;

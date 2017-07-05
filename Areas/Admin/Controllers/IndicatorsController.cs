@@ -84,20 +84,20 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return View("Message", "В текущем году уже загружены данные!");
+                        return View("Message", "В¬ С‚РµРєСѓС‰РµРј РіРѕРґСѓ СѓР¶Рµ Р·Р°РіСЂСѓР¶РµРЅС‹ РґР°РЅРЅС‹Рµ!");
                     }
                     break;
                 case "FillDataForUniversities":
-                    //Загрузка набора показателей для университетов на заданный год
+                    //Р—Р°РіСЂСѓР·РєР° РЅР°Р±РѕСЂР° РїРѕРєР°Р·Р°С‚РµР»РµР№ РґР»В¤ СѓРЅРёРІРµСЂСЃРёС‚РµС‚РѕРІ РЅР° Р·Р°РґР°РЅРЅС‹Р№ РіРѕРґ
                     if (await DeleteIndicatorsForUniversities(currentYear))
                     {
                             if (await PublishIndicatorsForUniversities(currentYear))
                             {
                                 return Redirect("~/Admin/Achievements/Index");
                             };
-                            return View("Message", "Невозможно вставить данные");
+                            return View("Message", "РЊРµРІРѕР·РјРѕР¶РЅРѕ РІСЃС‚Р°РІРёС‚СЊ РґР°РЅРЅС‹Рµ");
                     }
-                    return View("Message", "Невозможно удалить данные");                   
+                    return View("Message", "РЊРµРІРѕР·РјРѕР¶РЅРѕ СѓРґР°Р»РёС‚СЊ РґР°РЅРЅС‹Рµ");                   
                 default:
                     break;
             }
@@ -235,7 +235,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             return _context.Indicators.Any(e => e.IndicatorId == id);
         }
 
-        // Загрузка показателей для университетов за заданный год
+        // Р—Р°РіСЂСѓР·РєР° РїРѕРєР°Р·Р°С‚РµР»РµР№ РґР»В¤ СѓРЅРёРІРµСЂСЃРёС‚РµС‚РѕРІ Р·Р° Р·Р°РґР°РЅРЅС‹Р№ РіРѕРґ
         private async Task<bool> PublishIndicatorsForUniversities (int currYear)
         {
             bool publishResult = false;
@@ -261,7 +261,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             return publishResult;
         }
-        // Удаление данных университетов за заданный год
+        // РЈРґР°Р»РµРЅРёРµ РґР°РЅРЅС‹С… СѓРЅРёРІРµСЂСЃРёС‚РµС‚РѕРІ Р·Р° Р·Р°РґР°РЅРЅС‹Р№ РіРѕРґ
         private async Task<bool> DeleteIndicatorsForUniversities(int currYear)
         {
             bool deleteResult = false;

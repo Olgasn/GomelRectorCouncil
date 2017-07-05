@@ -25,9 +25,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.RegistrationDate)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DocumentURL)
-                </th>
             <th>
                 @Html.DisplayNameFor(model => model.Chairperson.Rector.FullName)
             </th>
@@ -41,16 +38,13 @@
                 @Html.DisplayFor(modelItem => item.RegistrationNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DocumentName)
+                <a href="@item.DocumentURL" target="_blank">@Html.DisplayFor(modelItem => item.DocumentName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DocumentDescription)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RegistrationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocumentURL)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Chairperson.Rector.FullName)
