@@ -29,12 +29,12 @@ namespace GomelRectorCouncil.Controllers
         // GET: Achievements
         public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc)
         {
-            int pageSize = 10;   // количество элементов на странице
+            int pageSize = 10;   // РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
             int currYear = currentYear ?? DateTime.Now.Year;
             int univercityId = GetUniversiryId();
             if (univercityId == 0)
             {
-                string message = "Текущий пользователь не привязан к университету";
+                string message = "РўРµРєСѓС‰РёР№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РїСЂРёРІВ¤Р·Р°РЅ Рє СѓРЅРёРІРµСЂСЃРёС‚РµС‚Сѓ";
                 return View("Message", message);
             }
             var achievements = _context.Achievements
@@ -44,7 +44,7 @@ namespace GomelRectorCouncil.Controllers
                     .OrderBy(s => s.Indicator.IndicatorCode);
 
 
-            // сортировка
+            // СЃРѕСЂС‚РёСЂРѕРІРєР°
             switch (sortOrder)
             {
                 case SortState.IndicatorCodeDesc:

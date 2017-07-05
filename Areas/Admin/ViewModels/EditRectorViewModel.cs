@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
+п»їusing Microsoft.AspNetCore.Mvc.Rendering;
 using GomelRectorCouncil.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
         public Rector CurrentRector { get; set; }
         public IEnumerable<Rector> Rectors { get;set;}
         public IEnumerable<University> Universities { get;set; }
-        //Список университетов, не занятых ректорами
+        //РЎРїРёСЃРѕРє СѓРЅРёРІРµСЂСЃРёС‚РµС‚РѕРІ, РЅРµ Р·Р°РЅСЏС‚С‹С… СЂРµРєС‚РѕСЂР°РјРё
         public SelectList ListUniversities
         {
             get

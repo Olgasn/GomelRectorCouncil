@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
+п»їusing Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using GomelRectorCouncil.Models;
 
@@ -8,11 +8,11 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
     public class IndicatorsViewModel
     {
         public IEnumerable<Indicator> Indicators{get;set;}
-        //Свойство для навигации по страницам
+        //РЎРІРѕР№СЃС‚РІРѕ РґР»СЏ РЅР°РІРёРіР°С†РёРё РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј
         public PageViewModel PageViewModel { get; set; }
-        //Список отчетных годов
+        //РЎРїРёСЃРѕРє РѕС‚С‡РµС‚РЅС‹С… РіРѕРґРѕРІ
         public SelectList ListYears {get;set;}
-        //Свойство для сортировки
+        //РЎРІРѕР№СЃС‚РІРѕ РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё
         public SortViewModel SortViewModel { get; set; }
         public bool EnableForEdition { get; set; }
         public IndicatorsViewModel()

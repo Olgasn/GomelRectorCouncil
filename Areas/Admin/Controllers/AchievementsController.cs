@@ -25,7 +25,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Achievements
         public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc)
         {
-            int pageSize = 10;   // количество элементов на странице
+            int pageSize = 10;   // РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
             int currYear = currentYear ?? DateTime.Now.Year;
             var achievements = _context.Achievements
                     .Include(a => a.Indicator)
@@ -34,7 +34,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     .OrderBy(s => s.Indicator.IndicatorCode);
 
 
-            // сортировка
+            // СЃРѕСЂС‚РёСЂРѕРІРєР°
             switch (sortOrder)
             {
                 case SortState.IndicatorCodeDesc:
