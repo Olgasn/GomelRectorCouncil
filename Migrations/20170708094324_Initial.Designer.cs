@@ -8,17 +8,18 @@ using GomelRectorCouncil.Data;
 namespace GomelRectorCouncil.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170511201943_Initial")]
+    [Migration("20170708094324_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.3");
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("GomelRectorCouncil.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -71,7 +72,8 @@ namespace GomelRectorCouncil.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -85,6 +87,7 @@ namespace GomelRectorCouncil.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
+                        .IsUnique()
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
@@ -155,8 +158,6 @@ namespace GomelRectorCouncil.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserRoles");
                 });

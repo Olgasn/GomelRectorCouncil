@@ -19,6 +19,9 @@ namespace GomelRectorCouncil.Models
         [Display(Name = "Значение показателя")]
         public float IndicatorValue { get; set; }
 
+        [Display(Name = "Место")]
+        public float Position { get; set; }
+
         [Required]
         [Display(Name = "Год")]
         [Range(2010, 2050, ErrorMessage = "Недопустимый год")]

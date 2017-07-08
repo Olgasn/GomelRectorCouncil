@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GomelRectorCouncil.Migrations.CouncilDb
 {
-    public partial class InitialSqlite : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     IndicatorId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     IndicatorDescription = table.Column<string>(nullable: true),
                     IndicatorId1 = table.Column<byte>(nullable: false),
                     IndicatorId2 = table.Column<byte>(nullable: true),
@@ -33,7 +33,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     UniversityId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Address = table.Column<string>(nullable: true),
                     Logo = table.Column<string>(nullable: true),
                     UniversityName = table.Column<string>(nullable: true),
@@ -49,9 +49,10 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     AchievementId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     IndicatorId = table.Column<int>(nullable: false),
                     IndicatorValue = table.Column<float>(nullable: false),
+                    Position = table.Column<float>(nullable: false),
                     UnivercityId = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false)
                 },
@@ -77,7 +78,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     RectorId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Email = table.Column<string>(nullable: true),
                     FirstMidName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
@@ -101,7 +102,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     ChairpersonId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     RectorId = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     StopDate = table.Column<DateTime>(nullable: true)
@@ -122,7 +123,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                 columns: table => new
                 {
                     DocumentId = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     ChairpersonId = table.Column<int>(nullable: false),
                     DocumentDescription = table.Column<string>(nullable: true),
                     DocumentName = table.Column<string>(nullable: true),

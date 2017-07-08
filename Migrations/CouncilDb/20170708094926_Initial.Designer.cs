@@ -9,13 +9,13 @@ using GomelRectorCouncil.Models;
 namespace GomelRectorCouncil.Migrations.CouncilDb
 {
     [DbContext(typeof(CouncilDbContext))]
-    [Migration("20170606194756_InitialSqlite")]
-    partial class InitialSqlite
+    [Migration("20170708094926_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.4");
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
                 {
@@ -25,6 +25,8 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                     b.Property<int>("IndicatorId");
 
                     b.Property<float>("IndicatorValue");
+
+                    b.Property<float>("Position");
 
                     b.Property<int>("UnivercityId");
 

@@ -14,7 +14,7 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.4");
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("GomelRectorCouncil.Models.Achievement", b =>
                 {
@@ -24,6 +24,8 @@ namespace GomelRectorCouncil.Migrations.CouncilDb
                     b.Property<int>("IndicatorId");
 
                     b.Property<float>("IndicatorValue");
+
+                    b.Property<float>("Position");
 
                     b.Property<int>("UnivercityId");
 
