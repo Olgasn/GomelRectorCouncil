@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -32,30 +33,82 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .Select(f => f.Year)
                 .ToList();
             years.Insert(0, currYear); years.Insert(0, currYear + 1);
-            SelectList ListYears = new SelectList(years.Distinct(), currYear);
+            var ListYears = new SelectList(years.Distinct(), currYear);
+            var achievementsCount = _context.Achievements.Where(m => m.Year == currYear).Count();
 
-            return View(ListYears);
+            IndicatorsViewModel indicators = new IndicatorsViewModel()
+            {
+                ListYears = new SelectList(years.Distinct(), currYear),
+                AchievementsCount = achievementsCount
+            };
+            return View(indicators);
         }
         // POST: Indicators
         [HttpPost]
-        public async Task<IActionResult> Index(int currentYear)
+        public async Task<IActionResult> Index(int currentYear, string action)
         {
-            List<int> years = _context.Indicators
-                .OrderByDescending(f => f.Year)
-                .Select(f => f.Year)
-                .ToList();
-            years.Insert(0, currentYear); years.Insert(0, currentYear + 1);
-            SelectList ListYears = new SelectList(years.Distinct(), currentYear);
-            if (await DeleteIndicatorsForUniversities(currentYear))
             {
-                        if (await PublishIndicatorsForUniversities(currentYear))
+
+                List<int> years = _context.Indicators
+                    .OrderByDescending(f => f.Year)
+                    .Select(f => f.Year)
+                    .ToList();
+                years.Insert(0, currentYear); years.Insert(0, currentYear + 1);
+                var ListYears = new SelectList(years.Distinct(), currentYear);
+                var indicators = _context.Indicators.Where(t => t.Year == currentYear).ToList();
+                var achievementsCount = _context.Achievements.Where(m => m.Year == currentYear).Count();
+
+                switch (action)
+                {
+                    case "FillDataFromLastYear":
+                        if (indicators.Count() == 0)
                         {
-
-                        };
-             
+                            var indicatorsLastYear = _context.Indicators
+                                .Where(y => y.Year == (currentYear - 1));
+                            foreach (var ind in indicatorsLastYear)
+                            {
+                                var indicator = new Indicator()
+                                {
+                                    Year = currentYear,
+                                    IndicatorDescription = ind.IndicatorDescription,
+                                    IndicatorId1 = ind.IndicatorId1,
+                                    IndicatorId2 = ind.IndicatorId2,
+                                    IndicatorId3 = ind.IndicatorId3,
+                                    IndicatorType = ind.IndicatorType,
+                                    IndicatorName = ind.IndicatorName,
+                                    IndicatorUnit = ind.IndicatorUnit
+                                };
+                                indicators.Add(indicator);
+                            }
+                            _context.AddRange(indicators);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            return View("Message", "Для текущего года уже загружены данные!");
+                        }
+                        break;
+                    case "FillDataForUniversities":
+                        //Загрузка набора показателей дл¤ университетов на заданный год
+                        string resultPublishIndicatorsForUniversities = await PublishIndicatorsForUniversities(currentYear);
+                        if (resultPublishIndicatorsForUniversities == "")
+                        {
+                            return Redirect("~/Admin/Achievements/Index");
+                        }
+                        else
+                        {
+                            return View("Message", resultPublishIndicatorsForUniversities);
+                        }
+                    default:
+                        break;
+                }
+                IndicatorsViewModel indicatorsViewModel = new IndicatorsViewModel()
+                {
+                    ListYears = new SelectList(years.Distinct(), currentYear),
+                    AchievementsCount = achievementsCount
+                };
+                return View(indicatorsViewModel);
             }
-
-            return View(ListYears);
         }
 
         public string GetIndicators(int? currentYear, string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
@@ -189,43 +242,45 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             return _context.Indicators.Any(e => e.IndicatorId == id);
         }
-        private async Task<bool> PublishIndicatorsForUniversities (int currYear)
+        private async Task<string> PublishIndicatorsForUniversities(int currYear)
         {
-            bool publishResult = false;
-            List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id=>id.IndicatorId).ToList();
-            List<int> universities=_context.Universities.Select(u=>u.UniversityId).ToList();
-
-            foreach (int university in universities)
-            {
-                foreach (int indicator in indicators)
-                {
-                    Achievement achievement = new Achievement
-                    {
-                    Year = currYear,
-                    IndicatorId = indicator,
-                    UnivercityId = university
-                    };
-                    _context.Add(achievement);
-
-                }
-            }
-            await _context.SaveChangesAsync();
-            publishResult = true;
-
-            return publishResult;
-        }
-        private async Task<bool> DeleteIndicatorsForUniversities(int Year)
-        {
-            bool deleteResult = false;
-            var achievements =  _context.Achievements.Where(m => m.Year == Year);
-            if (achievements.Count()>0)
+            // Удаление данных университетов за заданный год
+            var achievements = _context.Achievements.Where(m => m.Year == currYear);
+            if (achievements.Count() > 0)
             {
                 _context.Achievements.RemoveRange(achievements);
                 await _context.SaveChangesAsync();
-            }
-            deleteResult = true;
+            };
 
-            return deleteResult;
+            // Вставка данных университетов за заданный год
+            string publishResult = "Невозможно вставить данные";
+            List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id => id.IndicatorId).ToList();
+            List<int> universities = _context.Universities.Select(u => u.UniversityId).ToList();
+            try
+            {
+                foreach (int university in universities)
+                {
+                    foreach (int indicator in indicators)
+                    {
+                        Achievement achievement = new Achievement
+                        {
+                            Year = currYear,
+                            IndicatorId = indicator,
+                            UnivercityId = university
+                        };
+                        _context.Add(achievement);
+                    }
+                }
+                await _context.SaveChangesAsync();
+                publishResult = "";
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                publishResult = ex.Message;
+                return publishResult;
+            }
+            return publishResult;
         }
+
     }
 }

@@ -42,6 +42,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().IndicatorValue)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements.FirstOrDefault().Position)
+            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -60,6 +64,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IndicatorValue)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+
             <td>
                 <a asp-action="Details" asp-route-id="@item.AchievementId">Подробно</a>
             </td>

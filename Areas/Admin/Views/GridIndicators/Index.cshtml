@@ -1,27 +1,44 @@
-@model SelectList
+@model GomelRectorCouncil.Areas.Admin.ViewModels.IndicatorsViewModel
 @{
     ViewBag.Title = "Показатели";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" language="javascript">
     fireSubmit = function (event) {
-        document.forms["searchForm"].submit();
+        document.searchForm.onsubmit = function () { return true; };
+        document.searchForm.submit();
     }
+    confirmFillDataForUniversities = function (event) {
+        document.searchForm.onsubmit = function () { return true; };
+        var ev = document.getElementById("AchievementsCount").value;
+        if (ev > 0) {
+            if (confirm("Все данные университетов за заданный год будут изменены. Вы подтверждаете выполнение?"))
+                document.searchForm.submit()
+            else document.searchForm.onsubmit = function () { return false; }
+        }
+        else {
+            document.searchForm.submit();
+        }
+    };
 </script>
-
 <form name="searchForm" method="post">
+    <input type="hidden" name="AchievementsCount" id="AchievementsCount" value=@Model.AchievementsCount>
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
         <div class="col-md-10">
-            @Html.DropDownList("currentYear", Model as SelectList,
+            @Html.DropDownList("currentYear", Model.ListYears as SelectList,
                 htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
-            <input type="hidden" value="" id="Year"/>
-            <input type="submit" value="Загрузить показатели университетам" class="btn btn-default" />
+            <button name="action" value="FillDataForUniversities" class="btn btn-default" onclick="confirmFillDataForUniversities(event)">
+                Загрузить показатели университетам
+            </button>
+            <button name="action" value="FillDataFromLastYear" class="btn btn-default" onclick="fireSubmit(event)">
+                Загрузить из прошлого года
+            </button>
         </div>
     </div>
 </form>
-<h2>Показатели для подведения итогов</h2>
 
+<h2>Показатели для подведения итогов </h2>
 <div>    
     <table id="jqGrid"></table>
     <div id="jqControls"></div>
@@ -35,7 +52,6 @@
     <script src="~/lib/jqGrid/js/i18n/grid.locale-ru.js" type="text/javascript"></script>
     <script src="~/lib/jqGrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
     <script src="~/js/scriptIndicators.js"></script>
-
 }
 
 

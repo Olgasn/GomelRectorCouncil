@@ -6,12 +6,25 @@
 }
 <script type="text/javascript" language="javascript">
     fireSubmit = function (event) {
-                document.forms["searchForm"].submit();
+                document.searchForm.onsubmit = function () {return true;};
+                document.searchForm.submit();
             }
-
+    confirmFillDataForUniversities = function (event) {
+        document.searchForm.onsubmit = function () { return true; };
+        var ev = document.getElementById("AchievementsCount").value;
+        if (ev > 0) {
+            if (confirm("Все данные университетов за заданный год будут изменены. Вы подтверждаете выполнение?"))
+                document.searchForm.submit()
+            else document.searchForm.onsubmit = function () { return false; }
+        }
+        else {
+            document.searchForm.submit();  
+        }
+    };
 </script>
 <h2>Показатели для подведения итогов </h2>
 <form name="searchForm" method="post">
+    <input type="hidden" name="AchievementsCount" id="AchievementsCount" value=@Model.AchievementsCount>
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
         <div class="col-md-10">
@@ -19,15 +32,13 @@
                 htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
         </div>
         <div class="col-md-10">
-
-            <button name="action" value="FillDataForUniversities" class="btn btn-default">Загрузить показатели университетам</button>
-            <button name="action" value="FillDataFromLastYear" class="btn btn-default">Загрузить из прошлого года</button>
+            <button name="action" value="FillDataForUniversities" class="btn btn-default" onclick="confirmFillDataForUniversities(event)">
+                Загрузить показатели университетам</button>
+            <button name="action" value="FillDataFromLastYear" class="btn btn-default" onclick="fireSubmit(event)">
+                Загрузить из прошлого года</button>
         </div>
         Запретить изменения
         @Html.CheckBox("disableForEdition", true, htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
-
-
-
 
     </div>
 </form>

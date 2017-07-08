@@ -33,13 +33,15 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .Select(f=>f.Year)
                 .ToList();
              years.Insert(0,currYear); years.Insert(0,currYear+1);
-             var ListYears=new SelectList(years.Distinct(),currYear);
+            var ListYears=new SelectList(years.Distinct(),currYear);
+            var achievementsCount =  _context.Achievements.Where(m => m.Year == currYear).Count();
+
             IndicatorsViewModel indicators = new IndicatorsViewModel()
             {
                 Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
                 ListYears=new SelectList(years.Distinct(),currYear),
-                EnableForEdition = enableForEdition
-
+                EnableForEdition = enableForEdition,
+                AchievementsCount=achievementsCount
             };
             return View(indicators);
         }
@@ -56,6 +58,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             years.Insert(0,currentYear); years.Insert(0,currentYear+1);
             var ListYears=new SelectList(years.Distinct(),currentYear);
             var indicators = _context.Indicators.Where(t => t.Year == currentYear).ToList();
+            var achievementsCount =  _context.Achievements.Where(m => m.Year == currentYear).Count();
 
             switch (action)
             {
@@ -84,20 +87,20 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return View("Message", "¬ текущем году уже загружены данные!");
+                        return View("Message", "Для текущего года уже загружены данные!");
                     }
                     break;
                 case "FillDataForUniversities":
                     //Загрузка набора показателей дл¤ университетов на заданный год
-                    if (await DeleteIndicatorsForUniversities(currentYear))
+                    string resultPublishIndicatorsForUniversities=await PublishIndicatorsForUniversities(currentYear);
+                    if (resultPublishIndicatorsForUniversities=="")
                     {
-                            if (await PublishIndicatorsForUniversities(currentYear))
-                            {
-                                return Redirect("~/Admin/Achievements/Index");
-                            };
-                            return View("Message", "Ќевозможно вставить данные");
+                        return Redirect("~/Admin/Achievements/Index");
                     }
-                    return View("Message", "Ќевозможно удалить данные");                   
+                    else
+                    {
+                        return View("Message", resultPublishIndicatorsForUniversities);
+                    }
                 default:
                     break;
             }
@@ -105,8 +108,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 Indicators = indicators,
                 ListYears = new SelectList(years.Distinct(), currentYear),
-                EnableForEdition = enableForEdition
-
+                EnableForEdition = enableForEdition,
+                AchievementsCount=achievementsCount
             };
             return View(indicatorsViewModel);
         }
@@ -119,7 +122,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var indicator = await _context.Indicators
                 .SingleOrDefaultAsync(m => m.IndicatorId == id);
             if (indicator == null)
@@ -208,14 +210,12 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var indicator = await _context.Indicators
                 .SingleOrDefaultAsync(m => m.IndicatorId == id);
             if (indicator == null)
             {
                 return NotFound();
             }
-
             return View(indicator);
         }
 
@@ -236,44 +236,44 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // Загрузка показателей дл¤ университетов за заданный год
-        private async Task<bool> PublishIndicatorsForUniversities (int currYear)
+        private async Task<string> PublishIndicatorsForUniversities (int currYear)
         {
-            bool publishResult = false;
+            // Удаление данных университетов за заданный год
+            var achievements =  _context.Achievements.Where(m => m.Year == currYear);
+            if (achievements.Count()>0)
+            {
+                _context.Achievements.RemoveRange(achievements);
+                await _context.SaveChangesAsync();
+            };
+
+            // Вставка данных университетов за заданный год
+            string publishResult = "Невозможно вставить данные";
             List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id=>id.IndicatorId).ToList();
             List<int> universities=_context.Universities.Select(u=>u.UniversityId).ToList();
-
+            try
+            {
             foreach (int university in universities)
             {
                 foreach (int indicator in indicators)
                 {
                     Achievement achievement = new Achievement
                     {
-                    Year = currYear,
-                    IndicatorId = indicator,
-                    UnivercityId = university
+                        Year = currYear,
+                        IndicatorId = indicator,
+                        UnivercityId = university
                     };
                     _context.Add(achievement);
-
                 }
             }
-            await _context.SaveChangesAsync();
-            publishResult = true;
-
-            return publishResult;
-        }
-        // Удаление данных университетов за заданный год
-        private async Task<bool> DeleteIndicatorsForUniversities(int currYear)
-        {
-            bool deleteResult = false;
-            var achievements =  _context.Achievements.Where(m => m.Year == currYear);
-            if (achievements.Count()>0)
-            {
-                _context.Achievements.RemoveRange(achievements);
                 await _context.SaveChangesAsync();
+                publishResult = "";
             }
-            deleteResult = true;
-
-            return deleteResult;
+            catch (DbUpdateConcurrencyException ex)
+            {
+                publishResult = ex.Message;
+                return publishResult;
+            }
+            return publishResult;
         }
     }
 }

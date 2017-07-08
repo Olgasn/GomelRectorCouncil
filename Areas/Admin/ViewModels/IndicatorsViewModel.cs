@@ -19,6 +19,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
         {
             EnableForEdition = true;
         }
+        //Количесвтво записей достижений по показателям
+        public int AchievementsCount {get;set;}
         
         
     }
