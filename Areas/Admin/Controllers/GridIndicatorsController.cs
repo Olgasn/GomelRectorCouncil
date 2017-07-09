@@ -67,18 +67,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                                 .Where(y => y.Year == (currentYear - 1));
                             foreach (var ind in indicatorsLastYear)
                             {
-                                var indicator = new Indicator()
-                                {
-                                    Year = currentYear,
-                                    IndicatorDescription = ind.IndicatorDescription,
-                                    IndicatorId1 = ind.IndicatorId1,
-                                    IndicatorId2 = ind.IndicatorId2,
-                                    IndicatorId3 = ind.IndicatorId3,
-                                    IndicatorType = ind.IndicatorType,
-                                    IndicatorName = ind.IndicatorName,
-                                    IndicatorUnit = ind.IndicatorUnit
-                                };
-                                indicators.Add(indicator);
+                                ind.Year = currentYear;
+                                ind.IndicatorId = 0;
+                                indicators.Add(ind);
                             }
                             _context.AddRange(indicators);
                             await _context.SaveChangesAsync();

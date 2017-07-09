@@ -63,11 +63,12 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" method="post">
         <div class="form-actions no-color">
             <input type="hidden" asp-for="IndicatorId" />
-            <input type="submit" value="Удалить" class="btn btn-sm btn-danger" /> |
-            <a asp-action="Index">Вернуться</a>
+            <input type="hidden" name="currentYear" id="currentYear" value="@Model.Year" />
+            <input type="submit" value="Удалить" class="btn btn-sm btn-danger" />
+            <a asp-action="Index" asp-route-currentYear="@Model.Year" asp-route-disableForEdition ="false">Вернуться</a>
         </div>
     </form>
 </div>

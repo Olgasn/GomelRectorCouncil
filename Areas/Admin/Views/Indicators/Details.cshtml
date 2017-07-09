@@ -63,5 +63,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.IndicatorId">Изменить</a> |
-    <a asp-action="Index">Вернуться</a>
+    <a asp-action="Index" asp-route-currentYear="@Model.Year" asp-route-disableForEdition="false">Вернуться</a>
 </div>
