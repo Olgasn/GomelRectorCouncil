@@ -28,6 +28,7 @@
         <div class="col-md-10">
             @Html.DropDownList("currentYear", Model.ListYears as SelectList,
                 htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
+            <input type="hidden" value="" id="Year" />
             <button name="action" value="FillDataForUniversities" class="btn btn-default" onclick="confirmFillDataForUniversities(event)">
                 Загрузить показатели университетам
             </button>
