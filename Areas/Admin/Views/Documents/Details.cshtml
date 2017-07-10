@@ -8,7 +8,7 @@
 <h2>Подробности</h2>
 
 <div>
-    <h4>Document</h4>
+    <h4>Документ</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -39,13 +39,13 @@
             @Html.DisplayNameFor(model => model.DocumentURL)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DocumentURL)
+            <a href="@Model.DocumentURL" target="_blank">@Model.DocumentName</a>
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Chairperson)
+            @Html.DisplayNameFor(model => model.Chairperson.Rector.FullName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Chairperson.ChairpersonId)
+            @Html.DisplayFor(model => model.Chairperson.Rector.FullName)
         </dd>
     </dl>
 </div>
