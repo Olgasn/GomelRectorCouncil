@@ -22,8 +22,6 @@ namespace GomelRectorCouncil.Controllers
         {
             _context = context;
             _contextUser = contextUser;
-
-
         }
 
         // GET: Achievements
@@ -92,9 +90,9 @@ namespace GomelRectorCouncil.Controllers
 
             return View(achievement);
         }
+        //Определение университета, к которому принадлежит пользователь
         private int GetUniversiryId()
         {
-
             int[] universiryId = _contextUser.Users.Where(t => t.UserName == User.Identity.Name).Select(t => t.UniversityId).ToArray<int>();
             return universiryId[0];
         }

@@ -50,7 +50,7 @@ namespace GomelRectorCouncil.Controllers
             int univercityId = GetUniversiryId();
             if (univercityId == 0)
             {
-                string message = "Текущий пользователь не прив¤зан к университету";
+                string message = "Текущий пользователь не привязан к университету";
                 return message;
             }
             sord = (sord == null) ? "" : sord;

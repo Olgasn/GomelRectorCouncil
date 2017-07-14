@@ -19,29 +19,26 @@ namespace GomelRectorCouncil
     public class Startup
     {
         public Startup(IHostingEnvironment env)
-        {
-            
+        {            
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                //Для получения дополнительной информации об использовании секретного хранилища пользователя см. https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
             }
-
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // Этот метод вызывается во время выполнения. Используйте этот метод для добавления сервисов в контейнер..
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            // Добавьте службы инфраструктуры.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<CouncilDbContext>(options =>
@@ -59,14 +56,14 @@ namespace GomelRectorCouncil
             services.AddSingleton<IConfiguration>(Configuration);
             
             
-            // Read email settings
+            // Чтение настроек электронной почты
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CouncilDbContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -87,7 +84,7 @@ namespace GomelRectorCouncil
 
             app.UseIdentity();
 
-            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            // Добавьте внешнее промежуточное программное обеспечение для проверки подлинности. Чтобы настроить их, см. https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
