@@ -60,7 +60,7 @@ namespace GomelRectorCouncil
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            //services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.

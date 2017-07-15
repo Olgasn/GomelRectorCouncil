@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html ng-app="examinationApp" class="ng-scope"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}</style>
+  <link rel="icon" href="http://testprovider.com/favicon.png" type="image/x-icon">
+
+  <meta name="viewport" content="width=device-width">
+  <title>Тестирование</title>
+  <link href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/Windows%25208%2520Loader%2520Ajax%2520loader.css" rel="stylesheet">
+  <link href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/ace.css" rel="stylesheet">
+  <link rel="stylesheet" href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/bootstrap.css">
+  <link href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/Exam.css" rel="stylesheet">
+  <link href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/changeColor.css" rel="stylesheet">
+  <link href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/modal-viewes.css" rel="stylesheet">
+  <link href="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/banner-button.css" rel="stylesheet">
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/jquery.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/jquery-ui.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/angular.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/angular-sanitize.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/examination.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/app.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/examCtrl.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/modalDialog.js"></script>
+  <script src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/modalTestEnd.js"></script>
+
+  <!--[if IE]>
+  <style>
+  .question-title {
+      top: -38px;
+  }
+
+  .blue-border {
+      text-indent: -815px;
+  }
+
+  .ng-modal-dialog {
+      top: 20% !important;
+      left: 50% !important;
+      margin-left: -17% !important;
+  }
+  </style>
+  <![endif]-->
+</head>
+
+<body ng-controller="examinationCtrl" id="testContent" class="ng-scope">
+  <div class="content1">
+    <div id="StartExamPrompt" style="display: none;">
+          <div id="Text_Buttons_div">
+            <div id="StartPromtText">Вы собираетесь пройти тест "C# Starter", продолжительность теста - 36 минут </div>
+            <div id="ButtonPromt">
+              <a href="http://testprovider.com/ru/catalog" class="bttn btn-1 btn-1e">Назад</a>
+              <button id="StartButtonPromt" class="bttn btn-1 btn-1e" ng-click="beginExam('csharp-starter')">Начать тест</button>
+
+            </div>
+          </div> 
+    </div>
+    <div id="BackImageLoad" style="display: none;"></div>
+    <div id="wait" style="display: none;">
+      <div id="AjaxLoader">
+        <div class="windows8">
+          <div class="wBall" id="wBall_1">
+            <div class="wInnerBall">
+            </div>
+          </div>
+          <div class="wBall" id="wBall_2">
+            <div class="wInnerBall">
+            </div>
+          </div>
+          <div class="wBall" id="wBall_3">
+            <div class="wInnerBall">
+            </div>
+          </div>
+          <div class="wBall" id="wBall_4">
+            <div class="wInnerBall">
+            </div>
+          </div>
+          <div class="wBall" id="wBall_5">
+            <div class="wInnerBall">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="testBlock" style="">
+      <header>
+        <div class="wrapper">
+          <div class="logo"></div>
+          <span class="exam-name ng-binding">C# Starter</span>
+          <div class="timer">
+            <span>Осталось: </span><span id="timer_span" class="ng-binding">00:31:06</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="container" id="content">
+        <div class="col-lg-10 col-lg-push-1 content reset">
+          <!-- Block of questions buttons -->
+          <div class="questions-buttons-block questions-buttons-block-big" ng-class="getQuestAmountClass()">
+            <!-- ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope Viewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="0" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 1
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope Viewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="1" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 2
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope Viewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="2" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 3
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="3" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 4
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="4" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 5
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="5" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 6
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope active Viewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="6" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" checked="checked" type="radio"> 7
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="7" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 8
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="8" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 9
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="9" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 10
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="10" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 11
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="11" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 12
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="12" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 13
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="13" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 14
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="14" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 15
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="15" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 16
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="16" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 17
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="17" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 18
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="18" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 19
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="19" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 20
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="20" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 21
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="21" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 22
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="22" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 23
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="23" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 24
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="24" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 25
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="25" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 26
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="26" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 27
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="27" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 28
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="28" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 29
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="29" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 30
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="30" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 31
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="31" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 32
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="32" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 33
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="33" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 34
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="34" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 35
+            </label><!-- end ngRepeat: item in data.tests --><label class="questions-buttons ng-binding ng-scope unViewed" ng-class="{ 'Viewed' : answeredTests.indexOf(item.id) != -1, 'unViewed' : answeredTests.indexOf(item.id) == -1, 'active': $index+1 == getCurrentQN()}" ng-repeat="item in data.tests">
+              <input name="options" id="35" ng-click="showQuestion($index); saveAnswers(); saveTime(); questionInQuestions()" type="radio"> 36
+            </label><!-- end ngRepeat: item in data.tests -->
+          </div>
+
+          <!-- Block of manage buttons -->
+          <div class="manage-buttons-block clearfix">
+            <div class="b-buttons">
+              <div class="b-buttons_center-left">
+                <button class="left-buttons Support" ng-click="toggleModal('error')">Ошибка в вопросе</button>
+                <button class="left-buttons FinishExam" ng-click="toggleModal('end')">Завершить тест</button>
+              </div>
+            </div>
+            <div class="b-buttons">
+              <div class="b-buttons_center-right">
+                <button class="right-buttons" id="PreviousQuestion" ng-click="previousQuestion()"><div class="triangle-left" style="border-right: 16px solid rgb(234, 234, 234);"></div></button>
+                <div class="question-title ng-binding">Вопрос 7 из 36</div>
+                <button class="right-buttons" id="NextQuestion" ng-click="nextQuestion()"><div class="triangle-right" style="border-left: 16px solid rgb(234, 234, 234);"></div></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Block of question -->
+          <div class="question-block">
+            <div class="blue-border">
+              <pre id="questionText" ng-bind="selectedTest.question" class="ng-binding">Все арифметические операции производимые над двумя значениями типа ( byte , sbyte , short , ushort) в качестве результата, возвращают значение тип:</pre>
+            </div>
+          </div>
+
+          <!-- Block of answers -->
+          <div class="answers-block" ng-switch="" on="selectedTest.testType">
+            <!-- ngSwitchWhen: MultipleAnswers -->
+            <!-- ngSwitchWhen: OneAnswer --><!-- ngRepeat: answer in selectedTest.answers --><div ng-switch-when="OneAnswer" ng-repeat="answer in selectedTest.answers" class="ng-scope">
+              <input id="fece0ff5-db2e-42aa-b329-8b38e8e0d718" style="margin: 5px 0px;" name="question" ng-model="selectedTest.answers[$index].userAnswer" ng-click="oneAnswerPush(selectedTest.answers[$index].id); changeColor(selectedTest.id); saveAnswers()" value="true" class="ng-untouched ng-valid ng-dirty ng-valid-parse" checked="checked" type="radio">
+              <label for="fece0ff5-db2e-42aa-b329-8b38e8e0d718"><span></span><div class="question-text ng-binding">short</div></label>
+            </div><!-- end ngRepeat: answer in selectedTest.answers --><div ng-switch-when="OneAnswer" ng-repeat="answer in selectedTest.answers" class="ng-scope">
+              <input id="415d0cc8-8624-4299-a3ec-a2bc71aac683" style="margin: 5px 0px;" name="question" ng-model="selectedTest.answers[$index].userAnswer" ng-click="oneAnswerPush(selectedTest.answers[$index].id); changeColor(selectedTest.id); saveAnswers()" value="true" class="ng-pristine ng-untouched ng-valid" type="radio">
+              <label for="415d0cc8-8624-4299-a3ec-a2bc71aac683"><span></span><div class="question-text ng-binding">int</div></label>
+            </div><!-- end ngRepeat: answer in selectedTest.answers --><div ng-switch-when="OneAnswer" ng-repeat="answer in selectedTest.answers" class="ng-scope">
+              <input id="7f380aaa-2129-49e6-b9b4-e74ed0c47f4d" style="margin: 5px 0px;" name="question" ng-model="selectedTest.answers[$index].userAnswer" ng-click="oneAnswerPush(selectedTest.answers[$index].id); changeColor(selectedTest.id); saveAnswers()" value="true" class="ng-pristine ng-untouched ng-valid" type="radio">
+              <label for="7f380aaa-2129-49e6-b9b4-e74ed0c47f4d"><span></span><div class="question-text ng-binding">uint</div></label>
+            </div><!-- end ngRepeat: answer in selectedTest.answers --><div ng-switch-when="OneAnswer" ng-repeat="answer in selectedTest.answers" class="ng-scope">
+              <input id="2a73fe59-5045-4a0d-b572-fb7edd2704fa" style="margin: 5px 0px;" name="question" ng-model="selectedTest.answers[$index].userAnswer" ng-click="oneAnswerPush(selectedTest.answers[$index].id); changeColor(selectedTest.id); saveAnswers()" value="true" class="ng-pristine ng-untouched ng-valid" type="radio">
+              <label for="2a73fe59-5045-4a0d-b572-fb7edd2704fa"><span></span><div class="question-text ng-binding">byte</div></label>
+            </div><!-- end ngRepeat: answer in selectedTest.answers --><!-- end ngSwitchWhen: -->
+            <!-- ngSwitchWhen: TrueFalse -->
+            <!-- ngSwitchWhen: OpenAnswer -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ng-modal ng-isolate-scope ng-hide" ng-show="show" show="modalErrorShown" width="460px" height="450px"><div class="ng-modal-overlay" ng-click="hideModal()"></div><div class="ng-modal-dialog" ng-style="dialogStyle" style="width: 460px; height: 450px;"><div class="ng-modal-close" ng-click="hideModal()"></div><div class="ng-modal-dialog-content" ng-transclude="">
+      <div class="modal-header ng-binding ng-scope">Ошибка в вопросе № 7</div>
+      <form class="modal-form ng-pristine ng-scope ng-valid-email ng-invalid ng-invalid-required">
+        <label ng-hide="$parent.requestSent[selectedTest.id]">Введите пожалуйста Ваш e-mail:<br><input id="errorInQuestionEmail" data-exam="C# Starter" data-login="olgasn@inbox.ru" ng-model="$parent.userEmail" required="required" placeholder="Ваш e-mail" class="modal-email ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required" type="email"></label><br>
+        <label ng-hide="$parent.requestSent[selectedTest.id]">В чем заключается ошибка?<br><textarea ng-model="$parent.errorMessage" required="required" class="modal-textarea ng-pristine ng-untouched ng-invalid ng-invalid-required"></textarea></label><br>
+        <p ng-show="$parent.requestSent[selectedTest.id]" class="ng-hide">Ваше сообщение успешно отправлено, нажмите "Вернуться" для возврата к тестированию.</p>
+        <input ng-click="$parent.returnToMain(); toggleModal('error')" value="Вернуться" class="left-buttons Support back1" type="button">
+        <input ng-hide="$parent.requestSent[selectedTest.id]" class="left-buttons FinishExam finish finish1" ng-click="$parent.sendMessage(selectedTest.id)" value="Отправить" type="submit">
+        <img src="%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_files/ajax-loader.gif" ng-hide="$parent.requestSent[selectedTest.id]" id="form-loader">
+      </form>
+    </div></div></div>
+    <div class="ng-modal ng-isolate-scope ng-hide" ng-show="show" show="modalEndShown" width="460px" height="240px"><div class="ng-modal-overlay" ng-click="hideModal()"></div><div class="ng-modal-dialog" ng-style="dialogStyle" style="width: 460px; height: 240px;"><div class="ng-modal-close" ng-click="hideModal()"></div><div class="ng-modal-dialog-content" ng-transclude="">
+      <div class="modal-finish-test ng-scope">
+        <p>Вы уверены, что хотите закончить тестирование?</p>
+        <!-- ngIf: unAnsweredQuestions()!==0 --><p ng-if="unAnsweredQuestions()!==0" class="ng-scope">У Вас осталось <span class="red ng-binding">32</span> неотвеченных вопросов</p><!-- end ngIf: unAnsweredQuestions()!==0 -->
+        <input ng-click="toggleModal('end')" value="Вернуться" class="left-buttons Support back" type="button">
+        <input ng-click="send()" value="Завершить тест" class="left-buttons FinishExam finish" type="button">
+      </div>
+    </div></div></div>
+  </div>
+
+
+</body></html>
