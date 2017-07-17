@@ -44,7 +44,7 @@ namespace GomelRectorCouncil.Calculations
     {
 
         public int Index { get; set; }
-        public double Value { get; set; }
+        public float Value { get; set; }
 
 
         public int CompareTo(object o)

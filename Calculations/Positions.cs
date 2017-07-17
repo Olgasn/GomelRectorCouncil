@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
-
+using GomelRectorCouncil.Models;
 
 namespace GomelRectorCouncil.Calculations
 {
@@ -27,7 +28,7 @@ namespace GomelRectorCouncil.Calculations
          * @param param
          *            int
          */
-        public static double[] Calculate(double[] array, int SortParam)
+        public static float[] Calculate(float[] array, int SortParam)
         {
 
             // an Objects array
@@ -54,15 +55,15 @@ namespace GomelRectorCouncil.Calculations
             Positions.arraySort(input, SortParam);
 
             // used elements
-            HashSet<double> used = new HashSet<double>();
+            HashSet<float> used = new HashSet<float>();
             // output array
-            double[] places = new double[array.Length];
+            float[] places = new float[array.Length];
             // index in array
             int place = 0;
             // count how many duplicates
             int count = 0;
             // calculated index
-            double index;
+            float index;
             // going through array first cycle
             for (int i = 0; i < input.Length; i++)
             {
@@ -103,7 +104,7 @@ namespace GomelRectorCouncil.Calculations
 
                 }
                 // count result
-                index = (double)place / count;
+                index = (float)place / count;
                 // write them to output array
                 foreach (int p in positions)
                 {
@@ -129,6 +130,48 @@ namespace GomelRectorCouncil.Calculations
             return places;
 
 
+
+        }
+        public static List<Achievement> Get(List<Achievement> inputAchievementsYear)
+        {
+            List<Achievement> outputAchievementsYear=new List<Achievement>();
+            int i3=0;
+            var groupIndicatorId1=inputAchievementsYear.GroupBy(j1=>j1.Indicator.IndicatorId1);
+            foreach (var item1 in groupIndicatorId1)
+            {
+                var groupIndicatorId2=item1.GroupBy(j2=>j2.Indicator.IndicatorId3);
+                foreach (var item2 in groupIndicatorId2)
+                {
+                    var groupIndicatorId3=item2.GroupBy(j3=>j3.Indicator.IndicatorId3);
+                    foreach (var item3 in groupIndicatorId3)
+                    {
+                        float[] inputarray3=item3.Select(t=>t.IndicatorValue).ToArray();
+                        int indicatorType3=(int)item3.Select(o=>o.Indicator.IndicatorType).FirstOrDefault();
+                        float[] outputarray3=Calculate(inputarray3,indicatorType3);
+                        i3=0;
+                        foreach (var t in item3)
+                        {
+                            t.Position=outputarray3[i3];
+                        }
+                    }
+                    // var inputarray2=item2.Select(t=> new {t.IndicatorValue,t.Position}).ToArray();
+                    // int indicatorType2=(int)item2.Select(o=>o.Indicator.IndicatorType).FirstOrDefault();
+                    // float[] outputarray2=Calculate(inputarray2,indicatorType2);
+                    // var i2=0;
+                    // foreach (var t in item2)
+                    // {
+                    //     t.Position=outputarray2[i2];
+                    // }
+                    
+
+
+                }
+
+
+                
+
+            }
+            return outputAchievementsYear;
 
         }
     }
