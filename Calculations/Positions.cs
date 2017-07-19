@@ -8,16 +8,16 @@ namespace GomelRectorCouncil.Calculations
     public class Positions
     {
 
-        private static void arraySort(Element[] array, int SortParam)
+        private static void arraySort(Element[] arrayInput, int SortParam)
         {
 
             if (SortParam == 0)
             {
-                Array.Sort(array, new ValueComparer());
+                Array.Sort(arrayInput, new ValueComparer());
             }
             else
             {
-                Array.Sort(array, new ReverseValueComparer());
+                Array.Sort(arrayInput, new ReverseValueComparer());
             }
         }
         /**
@@ -28,25 +28,25 @@ namespace GomelRectorCouncil.Calculations
          * @param param
          *            int
          */
-        public static float[] Calculate(float[] array, int SortParam)
+        public static float[] Calculate(float[] arrayValues, int SortParam)
         {
 
             // an Objects array
-            Element[] input = new Element[array.Length];
+            Element[] input = new Element[arrayValues.Length];
 
-            Element[] output = new Element[array.Length];
+            Element[] output = new Element[arrayValues.Length];
 
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < arrayValues.Length; i++)
             {
                 input[i] = new Element()
                 {
                     Index = i,
-                    Value = array[i]
+                    Value = arrayValues[i]
                 };
                 output[i] = new Element()
                 {
                     Index = i,
-                    Value = array[i]
+                    Value = arrayValues[i]
                 };
 
             }
@@ -57,7 +57,7 @@ namespace GomelRectorCouncil.Calculations
             // used elements
             HashSet<float> used = new HashSet<float>();
             // output array
-            float[] places = new float[array.Length];
+            float[] places = new float[arrayValues.Length];
             // index in array
             int place = 0;
             // count how many duplicates
@@ -117,7 +117,6 @@ namespace GomelRectorCouncil.Calculations
             {
                 output[i].Index = input[i].Index;
             }
-
   
 
             // sort objects by the index to the previous view
@@ -128,7 +127,6 @@ namespace GomelRectorCouncil.Calculations
                 places[i] = output[i].Value;
             }
             return places;
-
 
 
         }
@@ -158,11 +156,15 @@ namespace GomelRectorCouncil.Calculations
                 .GroupBy(j=>new {j.Indicator.IndicatorId1,j.Indicator.IndicatorId2,j.UnivercityId});
             foreach (var item in groupSumIndicatorCode2University)
             {
-                float sumElements=item.Where(j=>(j.Indicator.IndicatorId3!=null)).Sum(s=>s.Position);
-                var item2=item.Where(j=>(j.Indicator.IndicatorId3==null)).FirstOrDefault();
-                if (item2!=null)
+                var subItems=item.Where(j=>(j.Indicator.IndicatorId3!=null));
+                if (subItems.Count()>0)
                 {
-                outputAchievementsYear.ElementAt(item2.AchievementId).IndicatorValue=sumElements;
+                    float sumElements=subItems.Sum(s=>s.Position);
+                    var headElement=item.Where(j=>(j.Indicator.IndicatorId3==null)).FirstOrDefault();
+                    if (headElement!=null)
+                    {
+                        outputAchievementsYear.ElementAt(headElement.AchievementId).IndicatorValue=sumElements;
+                    }
                 }
             }
             //вычисление мест по уровню 2 для всех университетов на основе значений показателей
@@ -187,13 +189,33 @@ namespace GomelRectorCouncil.Calculations
                 .GroupBy(j=>new {j.Indicator.IndicatorId1,j.UnivercityId});
             foreach (var item in groupSumIndicatorCode1University)
             {
-                float sumElements=item.Where(j=>(j.Indicator.IndicatorId2==null)).Sum(s=>s.Position);
-                var item1=item.Where(j=>(j.Indicator.IndicatorId2==null)).FirstOrDefault();
-                if (item1!=null)
+                var subItems=item.Where(j=>(j.Indicator.IndicatorId2!=null));
+                if (subItems.Count()>0)
                 {
-                outputAchievementsYear.ElementAt(item1.AchievementId).IndicatorValue=sumElements;
+                    float sumElements=subItems.Sum(s=>s.Position);
+                    var headElement=item.Where(j=>(j.Indicator.IndicatorId2==null)).FirstOrDefault();
+                    if (headElement!=null)
+                    {
+                        outputAchievementsYear.ElementAt(headElement.AchievementId).IndicatorValue=sumElements;
+                    }
                 }
             }
+
+            //вычисление мест по уровню 1 для всех университетов на основе значений показателей
+            var groupIndicatorCode1=inputAchievementsYear
+                .Where(j=>(j.Indicator.IndicatorId2==null&j.Indicator.IndicatorId3==null))
+                .GroupBy(j=>new {j.Indicator.IndicatorId1});
+            foreach (var item in groupIndicatorCode1)
+            {
+                float[] inputarray=item.Select(t=>t.IndicatorValue).ToArray();
+                int indicatorType=(int)item.Select(o=>o.Indicator.IndicatorType).FirstOrDefault();
+                float[] outputarray=Calculate(inputarray,indicatorType);
+                jj=0;
+                foreach (var t in item)
+                {
+                    outputAchievementsYear.ElementAt(t.AchievementId).Position=outputarray[jj];
+                }
+            }         
 
 
 
