@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GomelRectorCouncil", "GomelRectorCouncil.csproj", "{1E67FB38-A350-4F72-BF16-C665CBB0312E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GomelRectorCouncil", "GomelRectorCouncil\GomelRectorCouncil.csproj", "{1E67FB38-A350-4F72-BF16-C665CBB0312E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GomelRectorCouncil.Tests", "..\GomelRectorCouncil.Tests\GomelRectorCouncil.Tests.csproj", "{D44E4531-841F-4A84-B229-14D3832439B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GomelRectorCouncil.Tests", "GomelRectorCouncil.Tests\GomelRectorCouncil.Tests.csproj", "{D44E4531-841F-4A84-B229-14D3832439B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
