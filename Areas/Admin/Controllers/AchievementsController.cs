@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
+using GomelRectorCouncil.Calculations;
+using GomelRectorCouncil.Models;
+
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -23,16 +26,20 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // GET: Achievements
-        public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc)
+        public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc, string cmd="")
         {
             int pageSize = 10;   // количество элементов на странице
             int currYear = currentYear ?? DateTime.Now.Year;
-            var achievements = _context.Achievements
+            IEnumerable<Achievement> achievements = _context.Achievements
                     .Include(a => a.Indicator)
                     .Include(a => a.Univercity)
                     .Where(t => t.Year == currYear)
                     .OrderBy(s => s.Indicator.IndicatorCode);
-
+            //Вычисление занятых мест
+            if (cmd=="CalculatePositions")
+            {
+                achievements=Positions.Get(achievements.ToList());
+            }
 
             // сортировка
             switch (sortOrder)
@@ -69,6 +76,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             return View(achievementsViewModel);            
         }
 
+
+        
+
         // GET: Achievements/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -87,6 +97,13 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             }
 
             return View(achievement);
+        }
+
+        public ActionResult Places()
+        {
+
+            return View();
+
         }
 
 

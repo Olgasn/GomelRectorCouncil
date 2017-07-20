@@ -4,15 +4,23 @@
     ViewData["Title"] = "СРГО";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript" language="javascript">
+    fireSubmit = function (event) {
+                document.searchForm.onsubmit = function () {return true;};
+                document.searchForm.submit();
+            }
+
+</script>
 
 <h2>Достижения </h2>
-<form method="get">
+<form name="searchForm" method="get">
     <div class="form-inline form-group">
         <label class="col-md-2 control-label">Год</label>
         <div class="col-md-10">
             @Html.DropDownList("currentYear", Model.ListYears as SelectList,
-                htmlAttributes: new { @class = "form-control" })
-            <input type="submit" value="Показать" class="btn btn-default" />
+                htmlAttributes: new { @class = "form-control", onchange = "fireSubmit(event)" })
+            <button name="cmd" value="CalculatePositions" class="btn btn-default" onclick="fireSubmit(event)">
+                Расчет</button>
         </div>
 
     </div>
@@ -77,6 +85,6 @@
 </table>
 <page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
 <p>
-    <a asp-action="../Indicators/Index" class="btn btn-sm btn-primary">Вернуться к показателям</a>
+    <a asp-action=".../Indicators/Index" class="btn btn-sm btn-primary">Вернуться к показателям</a>
 
 </p>
