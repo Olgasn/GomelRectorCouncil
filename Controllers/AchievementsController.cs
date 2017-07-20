@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
 using GomelRectorCouncil.ViewModels;
 
 namespace GomelRectorCouncil.Controllers
@@ -32,7 +33,7 @@ namespace GomelRectorCouncil.Controllers
             int univercityId = GetUniversiryId();
             if (univercityId == 0)
             {
-                string message = "Текущий пользователь не прив¤зан к университету";
+                string message = "Текущий пользователь не привязан к университету";
                 return View("Message", message);
             }
             var achievements = _context.Achievements
@@ -90,6 +91,70 @@ namespace GomelRectorCouncil.Controllers
 
             return View(achievement);
         }
+
+
+        // GET: Achievements/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var achievement = await _context.Achievements.SingleOrDefaultAsync(m => m.AchievementId == id);
+            if (achievement == null)
+            {
+                return NotFound();
+            }
+            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorName", achievement.IndicatorId);
+            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", achievement.UnivercityId);
+            return View(achievement);
+        }
+
+        // POST: Achievements/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("AchievementId,IndicatorId,UnivercityId,IndicatorValue")] Achievement achievement)
+        {           
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(achievement);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AchievementExists(achievement.AchievementId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorName", achievement.IndicatorId);
+            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", achievement.UnivercityId);
+            return View(achievement);
+        }
+
+
+        private bool AchievementExists(int id)
+        {
+            return _context.Achievements.Any(e => e.AchievementId == id);
+}
+
+
+
+
+
+
         //Определение университета, к которому принадлежит пользователь
         private int GetUniversiryId()
         {
