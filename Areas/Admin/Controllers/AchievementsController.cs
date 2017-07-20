@@ -39,6 +39,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             if (cmd=="CalculatePositions")
             {
                 achievements=Positions.Get(achievements.ToList());
+                 _context.UpdateRange(achievements);
+                 _context.SaveChanges();
             }
 
             // сортировка
@@ -75,8 +77,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             };
             return View(achievementsViewModel);            
         }
-
-
         
 
         // GET: Achievements/Details/5
@@ -86,7 +86,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var achievement = await _context.Achievements
                 .Include(a => a.Indicator)
                 .Include(a => a.Univercity)
@@ -95,15 +94,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(achievement);
-        }
-
-        public ActionResult Places()
-        {
-
-            return View();
-
         }
 
 

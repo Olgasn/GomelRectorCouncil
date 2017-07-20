@@ -50,8 +50,7 @@ namespace GomelRectorCouncil.Models
         public string IndicatorCode
         {
             get
-            {
-                
+            {                
                 return Convert.ToString(IndicatorId1) +"."+ Convert.ToString(IndicatorId2)??"."+ Convert.ToString(IndicatorId3);
             }
         }

@@ -191,7 +191,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             string fullFileName = _environment.WebRootPath + rector.Photo; 
             _context.Rectors.Remove(rector);
             await _context.SaveChangesAsync();
-            //Удаление фотографии
+
+            //Удаление файла фотографии
             try
             {
                 System.IO.File.Delete(fullFileName);

@@ -147,6 +147,7 @@ namespace GomelRectorCouncil.Calculations
                 foreach (var t in item)
                 {
                     outputAchievementsYear.ElementAt(t.AchievementId).Position=outputarray[jj];
+                    jj+=1;
                 }
             }
 
@@ -179,7 +180,8 @@ namespace GomelRectorCouncil.Calculations
                 jj=0;
                 foreach (var t in item)
                 {
-                    outputAchievementsYear.ElementAt(t.AchievementId).Position=outputarray[jj];
+                    outputAchievementsYear.ElementAt(t.AchievementId-1).Position=outputarray[jj];
+                    jj+=1;
                 }
             }
 
@@ -196,7 +198,7 @@ namespace GomelRectorCouncil.Calculations
                     var headElement=item.Where(j=>(j.Indicator.IndicatorId2==null)).FirstOrDefault();
                     if (headElement!=null)
                     {
-                        outputAchievementsYear.ElementAt(headElement.AchievementId).IndicatorValue=sumElements;
+                        outputAchievementsYear.ElementAt(headElement.AchievementId-1).IndicatorValue=sumElements;
                     }
                 }
             }
@@ -213,7 +215,8 @@ namespace GomelRectorCouncil.Calculations
                 jj=0;
                 foreach (var t in item)
                 {
-                    outputAchievementsYear.ElementAt(t.AchievementId).Position=outputarray[jj];
+                    outputAchievementsYear.ElementAt(t.AchievementId-1).Position=outputarray[jj];
+                    jj+=1;
                 }
             }         
 

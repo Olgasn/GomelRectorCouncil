@@ -45,6 +45,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             };
             return View(indicators);
         }
+        
         // POST: Indicators
         [HttpPost]
         public async Task<IActionResult> Index(int currentYear, bool? disableForEdition, string action)
@@ -119,7 +120,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(indicator);
         }
 

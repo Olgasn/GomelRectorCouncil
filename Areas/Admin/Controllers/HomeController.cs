@@ -18,9 +18,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     {
         UserManager<ApplicationUser> _userManager;
         RoleManager<IdentityRole> _roleManager;
-
         private readonly CouncilDbContext _context;
-
 
         public HomeController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, CouncilDbContext context)
         {
@@ -30,13 +28,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {
-            
+        {            
             var users = _userManager.Users.OrderBy(user => user.Id);
             var universities = _context.Universities;
 
             List<UserViewModel> userViewModel = new List<UserViewModel>();
-
 
             string uname = "";
             string urole = "";
@@ -64,14 +60,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                         UniversityName = uname,
                         RoleName = urole
 
-            });            
-                
-
+            });
 
             }
-
-            
-
             
             return View(userViewModel);
         }
@@ -85,8 +76,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             return View();
 
-        }
-        
+        }        
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
@@ -167,7 +157,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     if (newRole.Count() > 0)
                     {
                         await _userManager.AddToRoleAsync(user, newRole);
-
                     }
                     user.Email = model.Email;
                     user.UserName = model.UserName;
