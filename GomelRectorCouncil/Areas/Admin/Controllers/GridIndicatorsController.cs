@@ -48,7 +48,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int currentYear, string action)
         {
             {
-
                 List<int> years = _context.Indicators
                     .OrderByDescending(f => f.Year)
                     .Select(f => f.Year)
@@ -185,10 +184,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         
-        // POST: Indicators/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
+        // GET: Indicators/Edit/5
         public string Edit(Indicator indicator)
         {
             string msg ="Модель не прошла валидацию";
@@ -220,7 +216,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
 
 
-        // POST: Indicators/Delete/5
+        // GET: Indicators/Delete/5
         public string Delete(int id)
         {
             var indicator = _context.Indicators.SingleOrDefault(m => m.IndicatorId == id);

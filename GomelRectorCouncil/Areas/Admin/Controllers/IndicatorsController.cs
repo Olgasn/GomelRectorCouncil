@@ -38,7 +38,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             IndicatorsViewModel indicators = new IndicatorsViewModel()
             {
-                Indicators = _context.Indicators.Where(t => t.Year == currYear).ToList(),
+                Indicators = _context.Indicators.Where(t => t.Year == currYear).OrderBy(s => s.IndicatorCode).ToList(),
                 ListYears=new SelectList(years.Distinct(),currYear),
                 EnableForEdition = enableForEdition,
                 AchievementsCount=achievementsCount
@@ -58,7 +58,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 .ToList();
             years.Insert(0,currentYear); years.Insert(0,currentYear+1);
             var ListYears=new SelectList(years.Distinct(),currentYear);
-            var indicators = _context.Indicators.Where(t => t.Year == currentYear).ToList();
+            var indicators = _context.Indicators
+                            .Where(t => t.Year == currentYear)
+                            .OrderBy(s => s.IndicatorCode)
+                            .ToList();
             var achievementsCount =  _context.Achievements.Where(m => m.Year == currentYear).Count();
 
             switch (action)

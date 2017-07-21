@@ -33,9 +33,17 @@
                 <span asp-validation-for="IndicatorValue" class="text-danger"></span>
             </div>
         </div>
+                
+        <div class="form-group">
+            <label asp-for="Year" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Year" class="form-control" disabled/>
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Сохранить" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-warning" />
             </div>
         </div>
     </div>

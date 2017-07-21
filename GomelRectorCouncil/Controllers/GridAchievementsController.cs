@@ -24,14 +24,11 @@ namespace GomelRectorCouncil.Controllers
         {
             _context = context;
             _contextUser = contextUser;
-
-
         }
 
         // GET: Achievements
         public IActionResult Index(int? currentYear)
         {
-
             int currYear = currentYear ?? DateTime.Now.Year;
             List<int> years = _context.Indicators
                 .OrderByDescending(f => f.Year)
@@ -39,11 +36,9 @@ namespace GomelRectorCouncil.Controllers
                 .ToList();
             years.Insert(0, currYear); years.Insert(0, currYear + 1);
             SelectList ListYears = new SelectList(years.Distinct(), currYear);
-
             return View(ListYears);
-
-
         }
+
         public string GetAchievements(int? currentYear, string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
         {
             int currYear = currentYear ?? DateTime.Now.Year;
@@ -84,7 +79,6 @@ namespace GomelRectorCouncil.Controllers
                 records = totalRecords,
                 rows = achievements
             };
-
             return JsonConvert.SerializeObject(jsonData);
         }
 
@@ -109,67 +103,46 @@ namespace GomelRectorCouncil.Controllers
             return View(achievement);
         }
 
-        
+
         // GET: Achievements/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public string Edit(Achievement achievement)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var achievement = await _context.Achievements.SingleOrDefaultAsync(m => m.AchievementId == id);
-            if (achievement == null)
-            {
-                return NotFound();
-            }
-            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorName", achievement.IndicatorId);
-            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", achievement.UnivercityId);
-            return View(achievement);
-        }
-
-        // POST: Achievements/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("AchievementId,IndicatorId,UnivercityId,IndicatorValue")] Achievement achievement)
-        {
-            
+            string msg ="Модель не прошла валидацию";
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    msg = "Сохранено";
                     _context.Update(achievement);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AchievementExists(achievement.AchievementId))
                     {
-                        return NotFound();
+                        msg = "Не найдено";
+                        return msg;
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return msg;
             }
-            ViewData["IndicatorId"] = new SelectList(_context.Indicators, "IndicatorId", "IndicatorName", achievement.IndicatorId);
-            ViewData["UnivercityId"] = new SelectList(_context.Universities, "UniversityId", "UniversityName", achievement.UnivercityId);
-            return View(achievement);
+            return msg;
         }
+
 
 
         private bool AchievementExists(int id)
         {
             return _context.Achievements.Any(e => e.AchievementId == id);
         }
+        //Получение кода университета, связанного с пользователем
         private int GetUniversiryId()
         {
-
             int[] universiryId = _contextUser.Users.Where(t => t.UserName == User.Identity.Name).Select(t => t.UniversityId).ToArray<int>();
             return universiryId[0];
         }
