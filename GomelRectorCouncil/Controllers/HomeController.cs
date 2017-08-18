@@ -18,7 +18,8 @@ namespace GomelRectorCouncil.Controllers
         public IActionResult Index()
         {
             var univ = _context.Universities.Include(c => c.Rector).OrderBy(i => i.UniversityName);
-           
+
+            ViewData["Title"] = "СРГО";
             if (_context.Chairpersons.Count()>0)
             {
             ViewData["ChairpersonName"] = _context.Chairpersons
@@ -28,7 +29,7 @@ namespace GomelRectorCouncil.Controllers
                 .ToString();
             };
 
-            return View(univ);
+            return View("Index",univ);
         }
 
         public IActionResult Create(University univ)
@@ -39,7 +40,7 @@ namespace GomelRectorCouncil.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "���� ������ �������� ���������� �������";
+            ViewData["Message"] = "Сайт Совета ректоров Гомельской области";
 
             return View();
         }

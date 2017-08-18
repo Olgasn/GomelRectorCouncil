@@ -2,30 +2,41 @@
 using GomelRectorCouncil.Data;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
+using Microsoft.EntityFrameworkCore;
 
 namespace GomelRectorCouncil.Tests
 {
     public class HomeControllerTests
     {
+        private CouncilDbContext _context;
 
-        [Fact]
-        public void IndexViewDataMessage(CouncilDbContext context)
-        {
-            // Arrange
-            HomeController controller = new HomeController(context);
-
-            // Act
-            ViewResult result = controller.Index() as ViewResult;
-
-            // Assert
-            Assert.Equal("Hello world!", result?.ViewData["Message"]);
+        //Получение контекста базы данных для тестирования
+        public HomeControllerTests() {
+            var optionsBuilder = new DbContextOptionsBuilder<CouncilDbContext>();
+            var options = optionsBuilder
+                .UseSqlite("DataSource=.\\GomelRectorCouncil.db")
+                .Options;
+            _context = new CouncilDbContext(options);
+            // инициализация базы данных по университетам
+            DbInitializerTests.Initialize(_context);
         }
 
         [Fact]
-        public void IndexViewResultNotNull(CouncilDbContext context)
+        public void IndexViewDataMessage()
         {
             // Arrange
-            HomeController controller = new HomeController(context);
+            HomeController controller = new HomeController(_context);
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.Equal(expected:"СРГО",actual: result?.ViewData["Title"]);
+        }
+
+        [Fact]
+        public void IndexViewResultNotNull()
+        {
+            // Arrange
+            HomeController controller = new HomeController(_context);
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
@@ -33,14 +44,15 @@ namespace GomelRectorCouncil.Tests
         }
 
         [Fact]
-        public void IndexViewNameEqualIndex(CouncilDbContext context)
+        public void IndexViewNameEqualIndex()
         {
             // Arrange
-            HomeController controller = new HomeController(context);
+            HomeController controller = new HomeController(_context);
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
             Assert.Equal("Index", result?.ViewName);
         }
+
     }
 }
