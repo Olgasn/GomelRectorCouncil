@@ -51,7 +51,17 @@ namespace GomelRectorCouncil.Tests
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
-            Assert.Equal("Index", result?.ViewName);
+            Assert.Equal(expected: "Index", actual: result?.ViewName);
+        }
+        [Fact]
+        public void IndexViewModeNotNull()
+        {
+            // Arrange
+            HomeController controller = new HomeController(_context);
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result.Model);
         }
 
     }
