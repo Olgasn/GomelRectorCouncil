@@ -13,13 +13,14 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
 using GomelRectorCouncil.Settings;
+using GomelRectorCouncil.Middleware;
 
 namespace GomelRectorCouncil
 {
     public class Startup
     {
         public Startup(IHostingEnvironment env)
-        {            
+        {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -51,11 +52,15 @@ namespace GomelRectorCouncil
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            //добавление сессии
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            //добавление MVC
             services.AddMvc();
+
+            //Добавление сервиса конфигураций
             services.AddSingleton<IConfiguration>(Configuration);
-            
-            
+
             // Чтение настроек электронной почты
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
             // Add application services.
@@ -64,7 +69,7 @@ namespace GomelRectorCouncil
         }
 
         // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CouncilDbContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CouncilDbContext dbContext)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -79,12 +84,17 @@ namespace GomelRectorCouncil
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            // использование статических файлов
             app.UseStaticFiles();
-
+            // использование Identity
             app.UseIdentity();
 
-            // Добавьте внешнее промежуточное программное обеспечение для проверки подлинности. Чтобы настроить их, см. https://go.microsoft.com/fwlink/?LinkID=532715
+
+            // добавляем поддержку сессий
+            app.UseSession();
+
+            // добавляем компонента miidleware по инициализации базы данных по университетам
+            app.UseDbInitializer();
 
             app.UseMvc(routes =>
             {
@@ -95,45 +105,12 @@ namespace GomelRectorCouncil
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            // инициализация базы данных пользователей
-            DatabaseInitialize(app.ApplicationServices).Wait();
-            // инициализация базы данных по университетам
-            DbInitializer.Initialize(context);
-
-
-
-        }
-        //Инициализация базы данных первой учетной записью и двумя ролями admin и user
-        public async Task DatabaseInitialize(IServiceProvider serviceProvider)
-        {
-            UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            RoleManager<IdentityRole> roleManager =    serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string adminEmail = "admin@gmail.com";
-            string adminName = "admin@gmail.com";
-
-            string password = "_Aa123456";
-            if (await roleManager.FindByNameAsync("admin") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("admin"));
-            }
-            if (await roleManager.FindByNameAsync("user") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("user"));
-            }
-            if (await userManager.FindByNameAsync(adminEmail) == null)
-            {
-                ApplicationUser admin = new ApplicationUser
-                {
-                    Email = adminEmail,
-                    UserName = adminName,
-                    RegistrationDate = DateTime.Now
-                };
-                IdentityResult result = await userManager.CreateAsync(admin, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                }
-            }
         }
     }
 }
+
+
+
+
+        
+       

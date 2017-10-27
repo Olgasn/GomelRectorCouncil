@@ -38,5 +38,6 @@ namespace GomelRectorCouncil.Data
             );
             context.SaveChanges();    
         }
+
     }
 }
