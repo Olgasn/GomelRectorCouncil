@@ -9,9 +9,6 @@ using Microsoft.Extensions.Logging;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Services;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using System;
 using GomelRectorCouncil.Settings;
 using GomelRectorCouncil.Middleware;
 
@@ -69,7 +66,7 @@ namespace GomelRectorCouncil
         }
 
         // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CouncilDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
