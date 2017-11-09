@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 //using MySQL.Data.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +10,7 @@ using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Services;
 using GomelRectorCouncil.Settings;
 using GomelRectorCouncil.Middleware;
+using Microsoft.AspNetCore.Identity;
 
 namespace GomelRectorCouncil
 {
@@ -49,6 +49,8 @@ namespace GomelRectorCouncil
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+
             //добавление сессии
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -83,14 +85,16 @@ namespace GomelRectorCouncil
             }
             // использование статических файлов
             app.UseStaticFiles();
+
             // использование Identity
-            app.UseIdentity();
+            app.UseAuthentication();
 
 
             // добавляем поддержку сессий
             app.UseSession();
 
             // добавляем компонента miidleware по инициализации базы данных по университетам
+            // демонстрационный пример - вряд ли стоит так делать в реальном приложении :)
             app.UseDbInitializer();
 
             app.UseMvc(routes =>

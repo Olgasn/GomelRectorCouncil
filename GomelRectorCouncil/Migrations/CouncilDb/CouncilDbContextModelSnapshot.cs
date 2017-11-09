@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using GomelRectorCouncil.Data;
 
 namespace GomelRectorCouncil.Migrations.CouncilDb

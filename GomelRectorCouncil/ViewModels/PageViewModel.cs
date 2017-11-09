@@ -2,7 +2,7 @@
 
 namespace GomelRectorCouncil.ViewModels
 {
-    //Класс для хранения информации о страницах рабиения
+    //Класс для хранения информации о страницах разбиения
     public class PageViewModel
     {
         public int PageNumber { get; private set; }

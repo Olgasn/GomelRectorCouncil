@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Models.AccountViewModels;
 using GomelRectorCouncil.Services;
+using Microsoft.AspNetCore.Authentication;
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -25,13 +26,13 @@ namespace GomelRectorCouncil.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IOptions<IdentityCookieOptions> identityCookieOptions,
+            IOptions<IdentityConstants> identityCookieOptions,
             IEmailSender emailSender,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
+            _externalCookieScheme = IdentityConstants.ExternalScheme;  // <-- Here
             _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
@@ -43,7 +44,7 @@ namespace GomelRectorCouncil.Controllers
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
+            await HttpContext.SignOutAsync(_externalCookieScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
