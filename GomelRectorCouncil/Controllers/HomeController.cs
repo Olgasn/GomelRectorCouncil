@@ -47,7 +47,7 @@ namespace GomelRectorCouncil.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "��������";
+            ViewData["Message"] = "Контакты";
 
             return View();
         }
