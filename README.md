@@ -1,3 +1,3 @@
 # Совет ректоров
-ASP.NET Core приложение
-Версия для .NET Core 2.0
+ASP.NET MVC Core приложение.
+Версия для .NET Core 2.2
