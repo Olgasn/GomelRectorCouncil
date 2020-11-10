@@ -108,7 +108,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             sord = (sord == null) ? "" : sord;
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var indicators = _context.Indicators.Where(t => t.Year == currYear).Select(
+            var indicators = _context.Indicators.Where(t => t.Year == currYear).ToList().Select(
                     t => new
                     {
                         t.IndicatorId,

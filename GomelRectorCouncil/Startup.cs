@@ -15,22 +15,17 @@ namespace GomelRectorCouncil
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-            if (env.IsDevelopment())
-            {
-                //Для получения дополнительной информации об использовании секретного хранилища пользователя см. https://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets<Startup>();
-            }
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // Этот метод вызывается во время выполнения. Используйте этот метод для добавления сервисов в контейнер..
         public void ConfigureServices(IServiceCollection services)
@@ -39,11 +34,11 @@ namespace GomelRectorCouncil
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<CouncilDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("CouncilConnectionSqlite")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<CouncilDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("CouncilConnectionSQL")));
-            //services.AddDbContext<CouncilDbContext>(options =>
-            //    options.UseMySQL(Configuration.GetConnectionString("CouncilConnectionMysql")));
+           //services.AddDbContext<CouncilDbContext>(options =>
+           //     options.UseMySQL(Configuration.GetConnectionString("CouncilConnectionMysql")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -53,8 +48,7 @@ namespace GomelRectorCouncil
             //добавление сессии
             services.AddDistributedMemoryCache();
             services.AddSession();
-            //добавление MVC
-            services.AddMvc();
+
 
             //Добавление сервиса конфигураций
             services.AddSingleton<IConfiguration>(Configuration);
@@ -64,6 +58,12 @@ namespace GomelRectorCouncil
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             //services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            //Использование MVC
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+
         }
 
         // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.
@@ -91,14 +91,21 @@ namespace GomelRectorCouncil
             // демонстрационный пример - вряд ли стоит так делать в реальном приложении :)
             app.UseDbInitializer();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            // использование Identity
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}");
-                routes.MapRoute(
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}");
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

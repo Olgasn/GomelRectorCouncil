@@ -33,7 +33,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             IEnumerable<Achievement> achievements = _context.Achievements
                     .Include(a => a.Indicator)
                     .Include(a => a.Univercity)
-                    .Where(t => t.Year == currYear)
+                    .Where(t => t.Year == currYear).ToList()
                     .OrderBy(s => s.Indicator.IndicatorCode);
             //Вычисление занятых мест
             if (cmd=="CalculatePositions")

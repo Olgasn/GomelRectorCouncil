@@ -28,6 +28,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             bool enableForEdition = !(disableForEdition ?? true);
             int currYear = currentYear??DateTime.Now.Year;
+            List<Indicator> indicators = _context.Indicators.Where(t => t.Year == currYear).ToList();
             List<int> years=_context.Indicators
                 .OrderByDescending(f=>f.Year)
                 .Select(f=>f.Year)
@@ -36,14 +37,14 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             var ListYears=new SelectList(years.Distinct(),currYear);
             var achievementsCount =  _context.Achievements.Where(m => m.Year == currYear).Count();
 
-            IndicatorsViewModel indicators = new IndicatorsViewModel()
+            IndicatorsViewModel indicatorsViewModel = new IndicatorsViewModel()
             {
-                Indicators = _context.Indicators.Where(t => t.Year == currYear).OrderBy(s => s.IndicatorCode).ToList(),
+                Indicators = indicators.OrderBy(s => s.IndicatorCode),
                 ListYears=new SelectList(years.Distinct(),currYear),
                 EnableForEdition = enableForEdition,
                 AchievementsCount=achievementsCount
             };
-            return View(indicators);
+            return View(indicatorsViewModel);
         }
         
         // POST: Indicators
@@ -51,7 +52,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int currentYear, bool? disableForEdition, string action)
         {
             bool enableForEdition = !(disableForEdition ?? true);
-
             List<int> years=_context.Indicators
                 .OrderByDescending(f=>f.Year)
                 .Select(f=>f.Year)
@@ -60,7 +60,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             var ListYears=new SelectList(years.Distinct(),currentYear);
             var indicators = _context.Indicators
                             .Where(t => t.Year == currentYear)
-                            .OrderBy(s => s.IndicatorCode)
                             .ToList();
             var achievementsCount =  _context.Achievements.Where(m => m.Year == currentYear).Count();
 
@@ -101,7 +100,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             }
             IndicatorsViewModel indicatorsViewModel = new IndicatorsViewModel()
             {
-                Indicators = indicators,
+                Indicators = indicators.OrderBy(s => s.IndicatorCode),
                 ListYears = new SelectList(years.Distinct(), currentYear),
                 EnableForEdition = enableForEdition,
                 AchievementsCount=achievementsCount
