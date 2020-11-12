@@ -8,7 +8,7 @@ namespace GomelRectorCouncil.Tests
 {
     public class HomeControllerTests
     {
-        private CouncilDbContext _context;
+        private readonly CouncilDbContext _context;
 
         //Получение контекста базы данных для тестирования
         public HomeControllerTests() {

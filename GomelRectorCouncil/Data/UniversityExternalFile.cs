@@ -9,13 +9,13 @@ namespace GomelRectorCouncil.Data
 {
     public class UniversityExternalFile
     {
-        private IHostingEnvironment _environment;
-        private IConfiguration _iconfiguration;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _iconfiguration;
         public UniversityExternalFile()
         {
 
         }
-        public UniversityExternalFile(IHostingEnvironment environment, IConfiguration iconfiguration)
+        public UniversityExternalFile(IWebHostEnvironment environment, IConfiguration iconfiguration)
         {
             _environment = environment;
             _iconfiguration = iconfiguration;
@@ -25,17 +25,13 @@ namespace GomelRectorCouncil.Data
 
         public async Task<University> UploadUniversityWithLogo(University university, IFormFile upload)
         {
-            string relativeFileName = "";
-            string absoluteFileName = "";
             if (upload != null)
             {
-                relativeFileName = _iconfiguration.GetSection("Paths").GetSection("PathToLogos").Value + university.UniversityId.ToString() + upload.FileName;
+                string relativeFileName = _iconfiguration.GetSection("Paths").GetSection("PathToLogos").Value + university.UniversityId.ToString() + upload.FileName;
                 university.Logo = relativeFileName;
-                absoluteFileName = _environment.WebRootPath + relativeFileName;
-                using (var fileStream = new FileStream(absoluteFileName, FileMode.Create))
-                {
-                    await upload.CopyToAsync(fileStream);
-                }
+                string absoluteFileName = _environment.WebRootPath + relativeFileName;
+                using var fileStream = new FileStream(absoluteFileName, FileMode.Create);
+                await upload.CopyToAsync(fileStream);
 
             }                    
             return university;

@@ -15,8 +15,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     [Authorize (Roles="admin")]
     public class HomeController : Controller
     {
-        UserManager<ApplicationUser> _userManager;
-        RoleManager<IdentityRole> _roleManager;
+        readonly UserManager<ApplicationUser> _userManager;
+        readonly RoleManager<IdentityRole> _roleManager;
         private readonly CouncilDbContext _context;
 
         public HomeController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, CouncilDbContext context)

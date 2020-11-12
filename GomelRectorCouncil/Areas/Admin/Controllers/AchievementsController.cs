@@ -1,32 +1,32 @@
+using GomelRectorCouncil.Areas.Admin.ViewModels;
+using GomelRectorCouncil.Calculations;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Areas.Admin.ViewModels;
-using GomelRectorCouncil.Calculations;
-using GomelRectorCouncil.Models;
 
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class AchievementsController : Controller
     {
         private readonly CouncilDbContext _context;
 
         public AchievementsController(CouncilDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Achievements
-        public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc, string cmd="")
+        public IActionResult Index(int? currentYear, int page = 1, SortState sortOrder = SortState.IndicatorCodeAsc, string cmd = "")
         {
             int pageSize = 10;   // количество элементов на странице
             int currYear = currentYear ?? DateTime.Now.Year;
@@ -36,11 +36,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     .Where(t => t.Year == currYear).ToList()
                     .OrderBy(s => s.Indicator.IndicatorCode);
             //Вычисление занятых мест
-            if (cmd=="CalculatePositions")
+            if (cmd == "CalculatePositions")
             {
-                achievements=Positions.Get(achievements.ToList());
-                 _context.UpdateRange(achievements);
-                 _context.SaveChanges();
+                achievements = Positions.Get(achievements.ToList());
+                _context.UpdateRange(achievements);
+                _context.SaveChanges();
             }
 
             // сортировка
@@ -75,9 +75,9 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 Achievements = achievements.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
                 ListYears = new SelectList(years.Distinct(), currYear)
             };
-            return View(achievementsViewModel);            
+            return View(achievementsViewModel);
         }
-        
+
 
         // GET: Achievements/Details/5
         public async Task<IActionResult> Details(int? id)

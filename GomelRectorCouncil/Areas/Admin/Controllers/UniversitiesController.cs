@@ -17,10 +17,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class UniversitiesController : Controller
     {
         private readonly CouncilDbContext _context;
-        private IHostingEnvironment _environment;
-        private IConfiguration _iconfiguration;
-        private UniversityExternalFile _externalFile;
-        public UniversitiesController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _iconfiguration;
+        private readonly UniversityExternalFile _externalFile;
+        public UniversitiesController(CouncilDbContext context, IWebHostEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;
             _environment = environment;

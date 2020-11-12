@@ -9,13 +9,13 @@ namespace GomelRectorCouncil.Data
 {
     public class RectorExternalFile
     {
-        private IHostingEnvironment _environment;
-        private IConfiguration _iconfiguration;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _iconfiguration;
         public RectorExternalFile()
         {
 
         }
-        public RectorExternalFile(IHostingEnvironment environment, IConfiguration iconfiguration)
+        public RectorExternalFile(IWebHostEnvironment environment, IConfiguration iconfiguration)
         {
             _environment = environment;
             _iconfiguration = iconfiguration;
@@ -24,17 +24,13 @@ namespace GomelRectorCouncil.Data
 
         public async Task<Rector> UploadRectorWithPhoto(Rector rector, IFormFile upload)
         {
-            string relativeFileName = "";
-            string absoluteFileName = "";
             if (upload != null)
             {
-                relativeFileName = _iconfiguration.GetSection("Paths").GetSection("PathToPhotos").Value + rector.RectorId.ToString() + upload.FileName;
+                string relativeFileName = _iconfiguration.GetSection("Paths").GetSection("PathToPhotos").Value + rector.RectorId.ToString() + upload.FileName;
                 rector.Photo = relativeFileName;
-                absoluteFileName = _environment.WebRootPath + relativeFileName;
-                using (var fileStream = new FileStream(absoluteFileName, FileMode.Create))
-                {
-                    await upload.CopyToAsync(fileStream);
-                }
+                string absoluteFileName = _environment.WebRootPath + relativeFileName;
+                using var fileStream = new FileStream(absoluteFileName, FileMode.Create);
+                await upload.CopyToAsync(fileStream);
 
             }
             return rector;

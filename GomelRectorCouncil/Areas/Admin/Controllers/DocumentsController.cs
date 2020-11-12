@@ -18,11 +18,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class DocumentsController : Controller
     {
         private readonly CouncilDbContext _context;
-        private IHostingEnvironment _environment;
-        private IConfiguration _iconfiguration;
-        private DocumentExternalFile _externalFile;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _iconfiguration;
+        private readonly DocumentExternalFile _externalFile;
 
-        public DocumentsController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
+        public DocumentsController(CouncilDbContext context, IWebHostEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;
             _environment = environment;

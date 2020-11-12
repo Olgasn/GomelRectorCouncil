@@ -19,11 +19,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
     public class RectorsController : Controller
     {
         private readonly CouncilDbContext _context;
-        private IHostingEnvironment _environment;
-        private IConfiguration _iconfiguration;
-        private RectorExternalFile _externalFile;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _iconfiguration;
+        private readonly RectorExternalFile _externalFile;
 
-        public RectorsController(CouncilDbContext context, IHostingEnvironment environment, IConfiguration iconfiguration)
+        public RectorsController(CouncilDbContext context, IWebHostEnvironment environment, IConfiguration iconfiguration)
         {
             _context = context;
             _environment = environment;

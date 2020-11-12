@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Middleware;
+using GomelRectorCouncil.Models;
+using GomelRectorCouncil.Services;
+using GomelRectorCouncil.Settings;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 //using MySQL.Data.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Services;
-using GomelRectorCouncil.Settings;
-using GomelRectorCouncil.Middleware;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
 
 namespace GomelRectorCouncil
 {
@@ -37,8 +38,8 @@ namespace GomelRectorCouncil
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<CouncilDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("CouncilConnectionSQL")));
-           //services.AddDbContext<CouncilDbContext>(options =>
-           //     options.UseMySQL(Configuration.GetConnectionString("CouncilConnectionMysql")));
+            //services.AddDbContext<CouncilDbContext>(options =>
+            //     options.UseMySQL(Configuration.GetConnectionString("CouncilConnectionMysql")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -67,7 +68,7 @@ namespace GomelRectorCouncil
         }
 
         // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -77,6 +78,7 @@ namespace GomelRectorCouncil
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             // использование статических файлов
             app.UseStaticFiles();
 
@@ -114,5 +116,4 @@ namespace GomelRectorCouncil
 
 
 
-        
-       
+
