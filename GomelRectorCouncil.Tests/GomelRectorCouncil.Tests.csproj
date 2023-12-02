@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>    
     <NeutralLanguage>ru</NeutralLanguage>    
     <Description>Совет ректоров - программный комплекс для публикации документов и рейтингования университетов Гомельской области</Description>    
     <Company>GSTU</Company>    
