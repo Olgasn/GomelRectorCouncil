@@ -1,12 +1,10 @@
 using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Models.ManageViewModels;
-using GomelRectorCouncil.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -26,7 +26,7 @@ namespace GomelRectorCouncil.Tests
         public void IndexViewDataMessage()
         {
             // Arrange
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new(_context);
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
@@ -37,7 +37,7 @@ namespace GomelRectorCouncil.Tests
         public void IndexViewResultNotNull()
         {
             // Arrange
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new(_context);
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
@@ -48,7 +48,7 @@ namespace GomelRectorCouncil.Tests
         public void IndexViewNameEqualIndex()
         {
             // Arrange
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new(_context);
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
@@ -58,7 +58,7 @@ namespace GomelRectorCouncil.Tests
         public void IndexViewModeNotNull()
         {
             // Arrange
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new(_context);
             // Act
             ViewResult result = controller.Index() as ViewResult;
             // Assert
