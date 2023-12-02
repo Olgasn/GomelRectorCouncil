@@ -1,15 +1,15 @@
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
@@ -28,13 +28,13 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             _environment = environment;
             _iconfiguration = iconfiguration;
             _externalFile = new DocumentExternalFile(_environment, _iconfiguration);
-    
+
         }
 
         // GET: Documents
         public async Task<IActionResult> Index()
         {
-            var councilDbContext = _context.Documents.Include(d => d.Chairperson).Include(r=>r.Chairperson.Rector);
+            var councilDbContext = _context.Documents.Include(d => d.Chairperson).Include(r => r.Chairperson.Rector);
             return View(await councilDbContext.ToListAsync());
         }
 
@@ -60,7 +60,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // GET: Documents/Create
         public IActionResult Create()
         {
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName");
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r => r.Rector), "ChairpersonId", "Rector.FullName");
             return View();
         }
 
@@ -78,7 +78,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r => r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
             return View(document);
         }
 
@@ -95,7 +95,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r => r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
             return View(document);
         }
 
@@ -106,7 +106,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Document document)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -127,7 +127,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r=>r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
+            ViewData["ChairpersonId"] = new SelectList(_context.Chairpersons.Include(r => r.Rector), "ChairpersonId", "Rector.FullName", document.ChairpersonId);
             return View(document);
         }
 
@@ -157,7 +157,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
 
             var document = await _context.Documents.SingleOrDefaultAsync(m => m.DocumentId == DocumentId);
-            string fullFileName = _environment.WebRootPath + document.DocumentURL; 
+            string fullFileName = _environment.WebRootPath + document.DocumentURL;
             _context.Documents.Remove(document);
             await _context.SaveChangesAsync();
             //Удаление фотографии

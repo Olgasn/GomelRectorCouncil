@@ -1,18 +1,18 @@
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Models;
 using GomelRectorCouncil.Areas.Admin.ViewModels;
 using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
         readonly UserManager<ApplicationUser> _userManager;
@@ -27,7 +27,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {            
+        {
             var users = _userManager.Users.OrderBy(user => user.Id);
             var universities = _context.Universities;
 
@@ -45,7 +45,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 var universityName = (from un in universities
                                       where (un.UniversityId == user.UniversityId)
                                       select un.UniversityName);
-                if (universityName.Count()>0)
+                if (universityName.Count() > 0)
                 {
                     uname = universityName.FirstOrDefault().ToString() ?? "";
                 }
@@ -59,10 +59,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                         UniversityName = uname,
                         RoleName = urole
 
-            });
+                    });
 
             }
-            
+
             return View(userViewModel);
         }
 
@@ -75,7 +75,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             return View();
 
-        }        
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
@@ -87,7 +87,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     Email = model.Email,
                     UserName = model.UserName,
                     RegistrationDate = model.RegistrationDate,
-                    UniversityId=model.UniversityId
+                    UniversityId = model.UniversityId
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -123,7 +123,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             EditUserViewModel model = new EditUserViewModel
             {
-                Id=user.Id,
+                Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
                 RegistrationDate = user.RegistrationDate,
@@ -145,7 +145,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 {
                     // �������� � ������� ������� ���� ������������
                     var oldRoles = await _userManager.GetRolesAsync(user);
-                    
+
                     if (oldRoles.Count() > 0)
                     {
                         await _userManager.RemoveFromRolesAsync(user, oldRoles);

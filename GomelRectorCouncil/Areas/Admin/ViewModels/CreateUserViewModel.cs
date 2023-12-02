@@ -5,7 +5,7 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
 {
     public class CreateUserViewModel
     {
-        [Display(Name="Имя")]
+        [Display(Name = "Имя")]
         public string UserName { get; set; }
         [EmailAddress(ErrorMessage = "Некорректный адрес")]
         public string Email { get; set; }

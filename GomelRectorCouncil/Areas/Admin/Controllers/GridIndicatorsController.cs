@@ -1,27 +1,27 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
+﻿using GomelRectorCouncil.Areas.Admin.ViewModels;
 using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class GridIndicatorsController : Controller
     {
         private readonly CouncilDbContext _context;
 
         public GridIndicatorsController(CouncilDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Indicators
@@ -121,7 +121,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                         t.IndicatorUnit,
                         t.IndicatorDescription
                     });
- 
+
             int totalRecords = indicators.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
@@ -141,7 +141,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 records = totalRecords,
                 rows = indicators
             };
-             
+
             return JsonConvert.SerializeObject(jsonData);
         }
 
@@ -172,7 +172,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public string Create([Bind("IndicatorId1,IndicatorId2,IndicatorId3,IndicatorName,IndicatorUnit,IndicatorType,IndicatorDescription,Year")] Indicator indicator)
         {
 
-            string msg ="Модель не прошла валидацию";
+            string msg = "Модель не прошла валидацию";
             if (ModelState.IsValid)
             {
                 _context.Add(indicator);
@@ -183,11 +183,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             return msg;
         }
 
-        
+
         // GET: Indicators/Edit/5
         public string Edit(Indicator indicator)
         {
-            string msg ="Модель не прошла валидацию";
+            string msg = "Модель не прошла валидацию";
 
             if (ModelState.IsValid)
             {

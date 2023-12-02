@@ -33,11 +33,11 @@ namespace GomelRectorCouncil.Data
                 using var fileStream = new FileStream(absoluteFileName, FileMode.Create);
                 await upload.CopyToAsync(fileStream);
 
-            }                    
+            }
             return university;
         }
 
-       
+
 
     }
 }

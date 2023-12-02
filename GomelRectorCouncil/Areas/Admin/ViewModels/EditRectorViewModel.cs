@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using GomelRectorCouncil.Models;
+﻿using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,8 +8,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
     public class EditRectorViewModel
     {
         public Rector CurrentRector { get; set; }
-        public IEnumerable<Rector> Rectors { get;set;}
-        public IEnumerable<University> Universities { get;set; }
+        public IEnumerable<Rector> Rectors { get; set; }
+        public IEnumerable<University> Universities { get; set; }
         //Список университетов, не занятых ректорами
         public SelectList ListUniversities
         {
@@ -29,8 +29,8 @@ namespace GomelRectorCouncil.Areas.Admin.ViewModels
                 var universities = Universities.Where(i => urId.Any(t => t.Equals(i.UniversityId)));
                 return new SelectList(universities, "UniversityId", "UniversityName", currentUniversityId);
             }
-            set {;}
+            set {; }
         }
-        
+
     }
 }

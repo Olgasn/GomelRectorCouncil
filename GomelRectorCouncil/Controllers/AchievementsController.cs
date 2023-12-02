@@ -1,14 +1,14 @@
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using GomelRectorCouncil.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
-using GomelRectorCouncil.ViewModels;
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -117,7 +117,7 @@ namespace GomelRectorCouncil.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("AchievementId,IndicatorId,UnivercityId,IndicatorValue,Year")] Achievement achievement)
-        {           
+        {
 
             if (ModelState.IsValid)
             {
@@ -148,7 +148,7 @@ namespace GomelRectorCouncil.Controllers
         private bool AchievementExists(int id)
         {
             return _context.Achievements.Any(e => e.AchievementId == id);
-}
+        }
 
 
 

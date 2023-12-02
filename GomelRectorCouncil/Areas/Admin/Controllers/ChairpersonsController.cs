@@ -1,24 +1,24 @@
-using System.Linq;
-using System.Threading.Tasks;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class ChairpersonsController : Controller
     {
         private readonly CouncilDbContext _context;
 
         public ChairpersonsController(CouncilDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Chairpersons
@@ -101,7 +101,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("ChairpersonId,StartDate,StopDate,RectorId")] Chairperson chairperson)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try

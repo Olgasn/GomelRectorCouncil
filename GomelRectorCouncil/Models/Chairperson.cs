@@ -9,11 +9,11 @@ namespace GomelRectorCouncil.Models
     {
         [Key]
         public int ChairpersonId { get; set; }
-        [Display(Name="Дата назначения")]
+        [Display(Name = "Дата назначения")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
-        [Display(Name="Дата отставки")]
+        [Display(Name = "Дата отставки")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? StopDate { get; set; }

@@ -15,7 +15,7 @@ namespace GomelRectorCouncil.Middleware
             _next = next;
 
         }
-        public  Task Invoke(HttpContext context, IServiceProvider serviceProvider, CouncilDbContext dbContext)
+        public Task Invoke(HttpContext context, IServiceProvider serviceProvider, CouncilDbContext dbContext)
         {
             if (!(context.Session.Keys.Contains("starting")))
             {

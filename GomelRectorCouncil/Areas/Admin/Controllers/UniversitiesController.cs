@@ -1,19 +1,19 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GomelRectorCouncil.Data;
+﻿using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class UniversitiesController : Controller
     {
         private readonly CouncilDbContext _context;
@@ -167,6 +167,6 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         {
             return _context.Universities.Any(e => e.UniversityId == id);
         }
-        
+
     }
 }

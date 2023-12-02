@@ -1,6 +1,6 @@
+using GomelRectorCouncil.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using GomelRectorCouncil.Models;
 
 namespace GomelRectorCouncil.Data
 {

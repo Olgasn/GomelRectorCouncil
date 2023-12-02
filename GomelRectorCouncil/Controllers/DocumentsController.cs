@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
+using GomelRectorCouncil.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Data;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -13,13 +13,13 @@ namespace GomelRectorCouncil.Controllers
 
         public DocumentsController(CouncilDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Documents
         public async Task<IActionResult> Index()
         {
-            var councilDbContext = _context.Documents.Include(d => d.Chairperson).Include(r=>r.Chairperson.Rector);
+            var councilDbContext = _context.Documents.Include(d => d.Chairperson).Include(r => r.Chairperson.Rector);
             return View(await councilDbContext.ToListAsync());
         }
 

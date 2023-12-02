@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using GomelRectorCouncil.Models;
+using System;
 using System.Collections.Generic;
-using GomelRectorCouncil.Models;
+using System.Linq;
 
 namespace GomelRectorCouncil.Calculations
 {
@@ -117,7 +117,7 @@ namespace GomelRectorCouncil.Calculations
             {
                 output[i].Index = input[i].Index;
             }
-  
+
 
             // sort objects by the index to the previous view
             Array.Sort(output, new IndexComparer());
@@ -132,93 +132,93 @@ namespace GomelRectorCouncil.Calculations
         }
         public static List<Achievement> Get(List<Achievement> inputAchievementsYear)
         {
-            List<Achievement> outputAchievementsYear=new List<Achievement>(inputAchievementsYear);
-            int jj=0;
+            List<Achievement> outputAchievementsYear = new List<Achievement>(inputAchievementsYear);
+            int jj = 0;
             //вычисление мест по уровню 3 для всех университетов на основе значений показателей
-            var groupIndicatorCode3=inputAchievementsYear
-                .Where(j=>(j.Indicator.IndicatorId3!=null))
-                .GroupBy(j=>new {j.Indicator.IndicatorId1,j.Indicator.IndicatorId2,j.Indicator.IndicatorId3});
+            var groupIndicatorCode3 = inputAchievementsYear
+                .Where(j => (j.Indicator.IndicatorId3 != null))
+                .GroupBy(j => new { j.Indicator.IndicatorId1, j.Indicator.IndicatorId2, j.Indicator.IndicatorId3 });
             foreach (var item in groupIndicatorCode3)
             {
-                float[] inputarray=item.Select(t=>t.IndicatorValue).ToArray();
-                int indicatorType=(int)item.Select(o=>o.Indicator.IndicatorType).FirstOrDefault();
-                float[] outputarray=Calculate(inputarray,indicatorType);
-                jj=0;
+                float[] inputarray = item.Select(t => t.IndicatorValue).ToArray();
+                int indicatorType = (int)item.Select(o => o.Indicator.IndicatorType).FirstOrDefault();
+                float[] outputarray = Calculate(inputarray, indicatorType);
+                jj = 0;
                 foreach (var t in item)
                 {
-                    outputAchievementsYear.First(s=>s.AchievementId==t.AchievementId).Position=outputarray[jj];
-                    jj+=1;
+                    outputAchievementsYear.First(s => s.AchievementId == t.AchievementId).Position = outputarray[jj];
+                    jj += 1;
                 }
             }
 
             //вычисление показателей по уровню 2 для каждого университетов на основе суммы значений мест по уровню 3
-            var groupSumIndicatorCode2University=inputAchievementsYear
-                .Where(j=>(j.Indicator.IndicatorId2!=null))
-                .GroupBy(j=>new {j.Indicator.IndicatorId1,j.Indicator.IndicatorId2,j.UnivercityId});
+            var groupSumIndicatorCode2University = inputAchievementsYear
+                .Where(j => (j.Indicator.IndicatorId2 != null))
+                .GroupBy(j => new { j.Indicator.IndicatorId1, j.Indicator.IndicatorId2, j.UnivercityId });
             foreach (var item in groupSumIndicatorCode2University)
             {
-                var subItems=item.Where(j=>(j.Indicator.IndicatorId3!=null));
-                if (subItems.Count()>0)
+                var subItems = item.Where(j => (j.Indicator.IndicatorId3 != null));
+                if (subItems.Count() > 0)
                 {
-                    float sumElements=subItems.Sum(s=>s.Position);
-                    var headElement=item.Where(j=>(j.Indicator.IndicatorId3==null)).FirstOrDefault();
-                    if (headElement!=null)
+                    float sumElements = subItems.Sum(s => s.Position);
+                    var headElement = item.Where(j => (j.Indicator.IndicatorId3 == null)).FirstOrDefault();
+                    if (headElement != null)
                     {
-                        outputAchievementsYear.First(s=>s.AchievementId==headElement.AchievementId).IndicatorValue=sumElements;
+                        outputAchievementsYear.First(s => s.AchievementId == headElement.AchievementId).IndicatorValue = sumElements;
                     }
                 }
             }
             //вычисление мест по уровню 2 для всех университетов на основе значений показателей
-            var groupIndicatorCode2=inputAchievementsYear
-                .Where(j=>(j.Indicator.IndicatorId2!=null&j.Indicator.IndicatorId3==null))
-                .GroupBy(j=>new {j.Indicator.IndicatorId1,j.Indicator.IndicatorId2});
+            var groupIndicatorCode2 = inputAchievementsYear
+                .Where(j => (j.Indicator.IndicatorId2 != null & j.Indicator.IndicatorId3 == null))
+                .GroupBy(j => new { j.Indicator.IndicatorId1, j.Indicator.IndicatorId2 });
             foreach (var item in groupIndicatorCode2)
             {
-                float[] inputarray=item.Select(t=>t.IndicatorValue).ToArray();
-                int indicatorType=(int)item.Select(o=>o.Indicator.IndicatorType).FirstOrDefault();
-                float[] outputarray=Calculate(inputarray,indicatorType);
-                jj=0;
+                float[] inputarray = item.Select(t => t.IndicatorValue).ToArray();
+                int indicatorType = (int)item.Select(o => o.Indicator.IndicatorType).FirstOrDefault();
+                float[] outputarray = Calculate(inputarray, indicatorType);
+                jj = 0;
                 foreach (var t in item)
                 {
-                    outputAchievementsYear.First(s=>s.AchievementId==t.AchievementId).Position=outputarray[jj];
-                    jj+=1;
+                    outputAchievementsYear.First(s => s.AchievementId == t.AchievementId).Position = outputarray[jj];
+                    jj += 1;
                 }
             }
 
             //вычисление показателей по уровню 1 для каждого университетов на основе суммы значений мест по уровню 2
-            var groupSumIndicatorCode1University=inputAchievementsYear
-                .Where(j=>(j.Indicator.IndicatorId3==null))
-                .GroupBy(j=>new {j.Indicator.IndicatorId1,j.UnivercityId});
+            var groupSumIndicatorCode1University = inputAchievementsYear
+                .Where(j => (j.Indicator.IndicatorId3 == null))
+                .GroupBy(j => new { j.Indicator.IndicatorId1, j.UnivercityId });
             foreach (var item in groupSumIndicatorCode1University)
             {
-                var subItems=item.Where(j=>(j.Indicator.IndicatorId2!=null));
-                if (subItems.Count()>0)
+                var subItems = item.Where(j => (j.Indicator.IndicatorId2 != null));
+                if (subItems.Count() > 0)
                 {
-                    float sumElements=subItems.Sum(s=>s.Position);
-                    var headElement=item.Where(j=>(j.Indicator.IndicatorId2==null)).FirstOrDefault();
-                    if (headElement!=null)
+                    float sumElements = subItems.Sum(s => s.Position);
+                    var headElement = item.Where(j => (j.Indicator.IndicatorId2 == null)).FirstOrDefault();
+                    if (headElement != null)
                     {
-                        outputAchievementsYear.First(s=>s.AchievementId==headElement.AchievementId).IndicatorValue=sumElements;
+                        outputAchievementsYear.First(s => s.AchievementId == headElement.AchievementId).IndicatorValue = sumElements;
                     }
                 }
             }
 
             //вычисление мест по уровню 1 для всех университетов на основе значений показателей
-            var groupIndicatorCode1=inputAchievementsYear
-                .Where(j=>(j.Indicator.IndicatorId2==null&j.Indicator.IndicatorId3==null))
-                .GroupBy(j=>new {j.Indicator.IndicatorId1});
+            var groupIndicatorCode1 = inputAchievementsYear
+                .Where(j => (j.Indicator.IndicatorId2 == null & j.Indicator.IndicatorId3 == null))
+                .GroupBy(j => new { j.Indicator.IndicatorId1 });
             foreach (var item in groupIndicatorCode1)
             {
-                float[] inputarray=item.Select(t=>t.IndicatorValue).ToArray();
-                int indicatorType=(int)item.Select(o=>o.Indicator.IndicatorType).FirstOrDefault();
-                float[] outputarray=Calculate(inputarray,indicatorType);
-                jj=0;
+                float[] inputarray = item.Select(t => t.IndicatorValue).ToArray();
+                int indicatorType = (int)item.Select(o => o.Indicator.IndicatorType).FirstOrDefault();
+                float[] outputarray = Calculate(inputarray, indicatorType);
+                jj = 0;
                 foreach (var t in item)
                 {
-                    outputAchievementsYear.First(s=>s.AchievementId==t.AchievementId).Position=outputarray[jj];
-                    jj+=1;
+                    outputAchievementsYear.First(s => s.AchievementId == t.AchievementId).Position = outputarray[jj];
+                    jj += 1;
                 }
-            }         
+            }
 
 
 
@@ -243,7 +243,7 @@ namespace GomelRectorCouncil.Calculations
 
 
 
-    
+
 
 
 

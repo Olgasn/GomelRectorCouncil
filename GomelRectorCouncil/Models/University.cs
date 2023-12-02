@@ -22,8 +22,8 @@ namespace GomelRectorCouncil.Models
         [Display(Name = "Логотип")]
         public string Logo { get; set; }
 
-        public Rector Rector {get;set; }
-        public ICollection<Achievement> Achievements {get; set;}
+        public Rector Rector { get; set; }
+        public ICollection<Achievement> Achievements { get; set; }
 
     }
 }

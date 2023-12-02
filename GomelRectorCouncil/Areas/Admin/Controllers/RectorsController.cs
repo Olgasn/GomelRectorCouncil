@@ -1,21 +1,21 @@
-using System.Linq;
-using System.Threading.Tasks;
+using GomelRectorCouncil.Areas.Admin.ViewModels;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Areas.Admin.ViewModels;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class RectorsController : Controller
     {
         private readonly CouncilDbContext _context;
@@ -32,8 +32,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
 
-            // GET: Rectors
-            public async Task<IActionResult> Index()
+        // GET: Rectors
+        public async Task<IActionResult> Index()
         {
             var councilDbContext = _context.Rectors.Include(r => r.University);
             return View(await councilDbContext.ToListAsync());
@@ -67,10 +67,10 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 Rectors = _context.Rectors
             };
             SelectList listFreeUniversities = rectorView.ListUniversities;
-            if (listFreeUniversities.Count()==0)
+            if (listFreeUniversities.Count() == 0)
             {
                 string message = "Нет университетов не занятых ректорами!";
-                return View("Message",message);
+                return View("Message", message);
             };
             ViewData["UniversityId"] = listFreeUniversities;
             return View();
@@ -81,16 +81,16 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Rector rector,  IFormFile upload)
+        public async Task<IActionResult> Create(Rector rector, IFormFile upload)
         {
             if (ModelState.IsValid)
             {
                 var rectorWithPhoto = await _externalFile.UploadRectorWithPhoto(rector, upload);
-                _context.Add(rectorWithPhoto);              
+                _context.Add(rectorWithPhoto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            
+
             EditRectorViewModel rectorView = new EditRectorViewModel()
             {
                 CurrentRector = rector,
@@ -131,12 +131,12 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Rector CurrentRector, IFormFile upload)
         {
-            Rector rector= CurrentRector;
+            Rector rector = CurrentRector;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    rector = await _externalFile.UploadRectorWithPhoto(CurrentRector, upload);                   
+                    rector = await _externalFile.UploadRectorWithPhoto(CurrentRector, upload);
                     _context.Update(rector);
                     await _context.SaveChangesAsync();
                 }
@@ -188,7 +188,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int RectorId)
         {
             var rector = await _context.Rectors.SingleOrDefaultAsync(m => m.RectorId == RectorId);
-            string fullFileName = _environment.WebRootPath + rector.Photo; 
+            string fullFileName = _environment.WebRootPath + rector.Photo;
             _context.Rectors.Remove(rector);
             await _context.SaveChangesAsync();
 

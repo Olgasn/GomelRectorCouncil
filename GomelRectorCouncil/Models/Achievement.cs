@@ -6,15 +6,15 @@ namespace GomelRectorCouncil.Models
     public class Achievement
     {
         [Key]
-        public int AchievementId {get; set;}
+        public int AchievementId { get; set; }
 
         [Display(Name = "Университет")]
         public int UnivercityId { get; set; }
-        public University Univercity {get; set;}
+        public University Univercity { get; set; }
 
         [Display(Name = "Показатель")]
         public int IndicatorId { get; set; }
-        public Indicator Indicator {get; set;}
+        public Indicator Indicator { get; set; }
 
         [Display(Name = "Значение показателя")]
         public float IndicatorValue { get; set; }

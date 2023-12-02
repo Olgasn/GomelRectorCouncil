@@ -1,67 +1,67 @@
+using GomelRectorCouncil.Areas.Admin.ViewModels;
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Areas.Admin.ViewModels;
 
 namespace GomelRectorCouncil.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize (Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class IndicatorsController : Controller
     {
         private readonly CouncilDbContext _context;
 
         public IndicatorsController(CouncilDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Indicators
         public IActionResult Index(int? currentYear, bool? disableForEdition)
         {
             bool enableForEdition = !(disableForEdition ?? true);
-            int currYear = currentYear??DateTime.Now.Year;
+            int currYear = currentYear ?? DateTime.Now.Year;
             List<Indicator> indicators = _context.Indicators.Where(t => t.Year == currYear).ToList();
-            List<int> years=_context.Indicators
-                .OrderByDescending(f=>f.Year)
-                .Select(f=>f.Year)
+            List<int> years = _context.Indicators
+                .OrderByDescending(f => f.Year)
+                .Select(f => f.Year)
                 .ToList();
-             years.Insert(0,currYear); years.Insert(0,currYear+1);
-            var ListYears=new SelectList(years.Distinct(),currYear);
-            var achievementsCount =  _context.Achievements.Where(m => m.Year == currYear).Count();
+            years.Insert(0, currYear); years.Insert(0, currYear + 1);
+            var ListYears = new SelectList(years.Distinct(), currYear);
+            var achievementsCount = _context.Achievements.Where(m => m.Year == currYear).Count();
 
             IndicatorsViewModel indicatorsViewModel = new IndicatorsViewModel()
             {
                 Indicators = indicators.OrderBy(s => s.IndicatorCode),
-                ListYears=new SelectList(years.Distinct(),currYear),
+                ListYears = new SelectList(years.Distinct(), currYear),
                 EnableForEdition = enableForEdition,
-                AchievementsCount=achievementsCount
+                AchievementsCount = achievementsCount
             };
             return View(indicatorsViewModel);
         }
-        
+
         // POST: Indicators
         [HttpPost]
         public async Task<IActionResult> Index(int currentYear, bool? disableForEdition, string action)
         {
             bool enableForEdition = !(disableForEdition ?? true);
-            List<int> years=_context.Indicators
-                .OrderByDescending(f=>f.Year)
-                .Select(f=>f.Year)
+            List<int> years = _context.Indicators
+                .OrderByDescending(f => f.Year)
+                .Select(f => f.Year)
                 .ToList();
-            years.Insert(0,currentYear); years.Insert(0,currentYear+1);
-            var ListYears=new SelectList(years.Distinct(),currentYear);
+            years.Insert(0, currentYear); years.Insert(0, currentYear + 1);
+            var ListYears = new SelectList(years.Distinct(), currentYear);
             var indicators = _context.Indicators
                             .Where(t => t.Year == currentYear)
                             .ToList();
-            var achievementsCount =  _context.Achievements.Where(m => m.Year == currentYear).Count();
+            var achievementsCount = _context.Achievements.Where(m => m.Year == currentYear).Count();
 
             switch (action)
             {
@@ -86,8 +86,8 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                     break;
                 case "FillDataForUniversities":
                     //Загрузка набора показателей дл¤ университетов на заданный год
-                    string resultPublishIndicatorsForUniversities=await PublishIndicatorsForUniversities(currentYear);
-                    if (resultPublishIndicatorsForUniversities=="")
+                    string resultPublishIndicatorsForUniversities = await PublishIndicatorsForUniversities(currentYear);
+                    if (resultPublishIndicatorsForUniversities == "")
                     {
                         return Redirect("~/Admin/Achievements/Index");
                     }
@@ -103,7 +103,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
                 Indicators = indicators.OrderBy(s => s.IndicatorCode),
                 ListYears = new SelectList(years.Distinct(), currentYear),
                 EnableForEdition = enableForEdition,
-                AchievementsCount=achievementsCount
+                AchievementsCount = achievementsCount
             };
             return View(indicatorsViewModel);
         }
@@ -172,7 +172,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("IndicatorId,IndicatorId1,IndicatorId2,IndicatorId3,IndicatorName,IndicatorUnit,IndicatorType,IndicatorDescription,Year")] Indicator indicator)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -220,7 +220,7 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
             var indicator = await _context.Indicators.SingleOrDefaultAsync(m => m.IndicatorId == IndicatorId);
             _context.Indicators.Remove(indicator);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", new { currentYear = indicator.Year, disableForEdition= false });
+            return RedirectToAction("Index", new { currentYear = indicator.Year, disableForEdition = false });
         }
 
         private bool IndicatorExists(int id)
@@ -229,11 +229,11 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
         }
 
         // Загрузка показателей дл¤ университетов за заданный год
-        private async Task<string> PublishIndicatorsForUniversities (int currYear)
+        private async Task<string> PublishIndicatorsForUniversities(int currYear)
         {
             // Удаление данных университетов за заданный год
-            var achievements =  _context.Achievements.Where(m => m.Year == currYear);
-            if (achievements.Count()>0)
+            var achievements = _context.Achievements.Where(m => m.Year == currYear);
+            if (achievements.Count() > 0)
             {
                 _context.Achievements.RemoveRange(achievements);
                 await _context.SaveChangesAsync();
@@ -241,23 +241,23 @@ namespace GomelRectorCouncil.Areas.Admin.Controllers
 
             // Вставка данных университетов за заданный год
             string publishResult = "Невозможно вставить данные";
-            List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id=>id.IndicatorId).ToList();
-            List<int> universities=_context.Universities.Select(u=>u.UniversityId).ToList();
+            List<int> indicators = _context.Indicators.Where(y => y.Year == currYear).Select(id => id.IndicatorId).ToList();
+            List<int> universities = _context.Universities.Select(u => u.UniversityId).ToList();
             try
             {
-            foreach (int university in universities)
-            {
-                foreach (int indicator in indicators)
+                foreach (int university in universities)
                 {
-                    Achievement achievement = new Achievement
+                    foreach (int indicator in indicators)
                     {
-                        Year = currYear,
-                        IndicatorId = indicator,
-                        UnivercityId = university
-                    };
-                    _context.Add(achievement);
+                        Achievement achievement = new Achievement
+                        {
+                            Year = currYear,
+                            IndicatorId = indicator,
+                            UnivercityId = university
+                        };
+                        _context.Add(achievement);
+                    }
                 }
-            }
                 await _context.SaveChangesAsync();
                 publishResult = "";
             }

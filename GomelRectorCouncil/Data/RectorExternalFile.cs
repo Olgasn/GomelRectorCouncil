@@ -35,7 +35,7 @@ namespace GomelRectorCouncil.Data
             }
             return rector;
         }
- 
+
 
     }
 }

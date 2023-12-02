@@ -1,14 +1,14 @@
+using GomelRectorCouncil.Data;
+using GomelRectorCouncil.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using GomelRectorCouncil.Data;
-using GomelRectorCouncil.Models;
-using Newtonsoft.Json;
 
 namespace GomelRectorCouncil.Controllers
 {
@@ -51,7 +51,7 @@ namespace GomelRectorCouncil.Controllers
             sord = (sord == null) ? "" : sord;
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var achievements = _context.Achievements.Where(t => (t.Year == currYear)&(t.UnivercityId== univercityId)).Select(
+            var achievements = _context.Achievements.Where(t => (t.Year == currYear) & (t.UnivercityId == univercityId)).Select(
                     t => new
                     {
                         t.AchievementId,
@@ -107,7 +107,7 @@ namespace GomelRectorCouncil.Controllers
         // GET: Achievements/Edit/5
         public string Edit(Achievement achievement)
         {
-            string msg ="Модель не прошла валидацию";
+            string msg = "Модель не прошла валидацию";
 
             if (ModelState.IsValid)
             {

@@ -1,39 +1,25 @@
-using System.Linq;
-using System.Threading.Tasks;
+using GomelRectorCouncil.Models;
+using GomelRectorCouncil.Models.ManageViewModels;
+using GomelRectorCouncil.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Models.ManageViewModels;
-using GomelRectorCouncil.Services;
-using Microsoft.AspNetCore.Authentication;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController(
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      ILoggerFactory loggerFactory) : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly string _externalCookieScheme;
-        private readonly IEmailSender _emailSender;
-        private readonly ILogger _logger;
-
-        public ManageController(
-          UserManager<ApplicationUser> userManager,
-          SignInManager<ApplicationUser> signInManager,
-          IOptions<IdentityConstants> identityCookieOptions,
-          IEmailSender emailSender,
-          ILoggerFactory loggerFactory)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _externalCookieScheme = IdentityConstants.ExternalScheme;  // <-- Here
-            _emailSender = emailSender;
-            _logger = loggerFactory.CreateLogger<ManageController>();
-        }
+        private readonly string _externalCookieScheme = IdentityConstants.ExternalScheme;
+        private readonly ILogger _logger = loggerFactory.CreateLogger<ManageController>();
 
         //
         // GET: /Manage/Index
@@ -56,11 +42,11 @@ namespace GomelRectorCouncil.Controllers
             }
             var model = new IndexViewModel
             {
-                HasPassword = await _userManager.HasPasswordAsync(user),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
-                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
-                Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                HasPassword = await userManager.HasPasswordAsync(user),
+                PhoneNumber = await userManager.GetPhoneNumberAsync(user),
+                TwoFactor = await userManager.GetTwoFactorEnabledAsync(user),
+                Logins = await userManager.GetLoginsAsync(user),
+                BrowserRemembered = await signInManager.IsTwoFactorClientRememberedAsync(user)
             };
             return View(model);
         }
@@ -75,10 +61,10 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                var result = await _userManager.RemoveLoginAsync(user, account.LoginProvider, account.ProviderKey);
+                var result = await userManager.RemoveLoginAsync(user, account.LoginProvider, account.ProviderKey);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     message = ManageMessageId.RemoveLoginSuccess;
                 }
             }
@@ -108,8 +94,8 @@ namespace GomelRectorCouncil.Controllers
             {
                 return View("Error");
             }
-            var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
+            var code = await userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
+            return RedirectToAction(nameof(VerifyPhoneNumber), new { model.PhoneNumber });
         }
 
         //
@@ -121,8 +107,8 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                await _userManager.SetTwoFactorEnabledAsync(user, true);
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await userManager.SetTwoFactorEnabledAsync(user, true);
+                await signInManager.SignInAsync(user, isPersistent: false);
                 _logger.LogInformation(1, "User enabled two-factor authentication.");
             }
             return RedirectToAction(nameof(Index), "Manage");
@@ -137,8 +123,8 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                await _userManager.SetTwoFactorEnabledAsync(user, false);
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await userManager.SetTwoFactorEnabledAsync(user, false);
+                await signInManager.SignInAsync(user, isPersistent: false);
                 _logger.LogInformation(2, "User disabled two-factor authentication.");
             }
             return RedirectToAction(nameof(Index), "Manage");
@@ -154,7 +140,8 @@ namespace GomelRectorCouncil.Controllers
             {
                 return View("Error");
             }
-            var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, phoneNumber);
+
+            _ = await userManager.GenerateChangePhoneNumberTokenAsync(user, phoneNumber);
             // Send an SMS to verify the phone number
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
@@ -172,10 +159,10 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                var result = await _userManager.ChangePhoneNumberAsync(user, model.PhoneNumber, model.Code);
+                var result = await userManager.ChangePhoneNumberAsync(user, model.PhoneNumber, model.Code);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddPhoneSuccess });
                 }
             }
@@ -193,10 +180,10 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                var result = await _userManager.SetPhoneNumberAsync(user, null);
+                var result = await userManager.SetPhoneNumberAsync(user, null);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
                 }
             }
@@ -224,10 +211,10 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
@@ -259,10 +246,10 @@ namespace GomelRectorCouncil.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+                var result = await userManager.AddPasswordAsync(user, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.SetPasswordSuccess });
                 }
                 AddErrors(result);
@@ -285,8 +272,8 @@ namespace GomelRectorCouncil.Controllers
             {
                 return View("Error");
             }
-            var userLogins = await _userManager.GetLoginsAsync(user);
-            var otherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider)).ToList();
+            var userLogins = await userManager.GetLoginsAsync(user);
+            var otherLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider)).ToList();
 
 
             ViewData["ShowRemoveButton"] = user.PasswordHash != null || userLogins.Count > 1;
@@ -308,7 +295,7 @@ namespace GomelRectorCouncil.Controllers
 
             // Request a redirect to the external login provider to link a login for the current user
             var redirectUrl = Url.Action(nameof(LinkLoginCallback), "Manage");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, userManager.GetUserId(User));
             return Challenge(properties, provider);
         }
 
@@ -322,12 +309,12 @@ namespace GomelRectorCouncil.Controllers
             {
                 return View("Error");
             }
-            var info = await _signInManager.GetExternalLoginInfoAsync(await _userManager.GetUserIdAsync(user));
+            var info = await signInManager.GetExternalLoginInfoAsync(await userManager.GetUserIdAsync(user));
             if (info == null)
             {
                 return RedirectToAction(nameof(ManageLogins), new { Message = ManageMessageId.Error });
             }
-            var result = await _userManager.AddLoginAsync(user, info);
+            var result = await userManager.AddLoginAsync(user, info);
             var message = ManageMessageId.Error;
             if (result.Succeeded)
             {
@@ -363,7 +350,7 @@ namespace GomelRectorCouncil.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync()
         {
-            return _userManager.GetUserAsync(HttpContext.User);
+            return userManager.GetUserAsync(HttpContext.User);
         }
 
         #endregion

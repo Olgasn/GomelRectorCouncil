@@ -1,12 +1,12 @@
-using System.Threading.Tasks;
+using GomelRectorCouncil.Settings;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
-using GomelRectorCouncil.Settings;
-using Microsoft.Extensions.Options;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace GomelRectorCouncil.Services
 {

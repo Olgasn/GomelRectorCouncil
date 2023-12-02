@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using GomelRectorCouncil.Data;
 using GomelRectorCouncil.Models;
-using GomelRectorCouncil.Data;
+using System.Linq;
 // Инициализатор базы данных для тестирования
 namespace GomelRectorCouncil.Tests
 {
@@ -15,29 +15,29 @@ namespace GomelRectorCouncil.Tests
             {
                 return;   // База данных инициализирована
             }
-            
+
             context.AddRange(
                 new University()
                 {
-                    UniversityName="ГГТУ",
-                    Address="Пр-т Октября, 48, 246746, г. Гомель, Республика Беларусь",
-                    Website="gstu.by"
+                    UniversityName = "ГГТУ",
+                    Address = "Пр-т Октября, 48, 246746, г. Гомель, Республика Беларусь",
+                    Website = "gstu.by"
                 },
                 new University()
                 {
-                    UniversityName="ГГУ",
-                    Address="ул. Советская, 104, 246019, г. Гомель, Республика Беларусь",
-                    Website="gsu.by"
+                    UniversityName = "ГГУ",
+                    Address = "ул. Советская, 104, 246019, г. Гомель, Республика Беларусь",
+                    Website = "gsu.by"
                 },
                 new University()
                 {
-                    UniversityName="БелГУТ",
-                    Address="ул. Кирова, 34, 246653, г. Гомель, Республика Беларусь",
-                    Website="bsut.by"
+                    UniversityName = "БелГУТ",
+                    Address = "ул. Кирова, 34, 246653, г. Гомель, Республика Беларусь",
+                    Website = "bsut.by"
                 }
-                
+
             );
-            context.SaveChanges();    
+            context.SaveChanges();
         }
     }
 }

@@ -56,7 +56,7 @@ namespace GomelRectorCouncil.Calculations
                 throw new Exception("Невозможно сравнить два объекта");
         }
 
- 
+
     }
 
 }
@@ -72,7 +72,7 @@ namespace GomelRectorCouncil.Calculations
 
 
 
-    
+
 
 
 

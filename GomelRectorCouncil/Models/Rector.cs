@@ -5,11 +5,11 @@ namespace GomelRectorCouncil.Models
     // Ректор университета
     public class Rector
     {
-        [Key]        
+        [Key]
         public int RectorId { get; set; }
 
         [StringLength(50)]
-        [Required (ErrorMessage = "Не указана фамилия")]
+        [Required(ErrorMessage = "Не указана фамилия")]
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
@@ -28,18 +28,18 @@ namespace GomelRectorCouncil.Models
         {
             get
             {
-                return LastName + " " + FirstMidName+ " " + MiddleName;
+                return LastName + " " + FirstMidName + " " + MiddleName;
             }
         }
-        
-        [EmailAddress (ErrorMessage = "Некорректный адрес")]
+
+        [EmailAddress(ErrorMessage = "Некорректный адрес")]
         [Display(Name = "Электронная почта")]
         public string Email { get; set; }
 
         [Display(Name = "Фото")]
-        public string Photo {get; set;}
+        public string Photo { get; set; }
 
-        public int UniversityId {get; set;}
+        public int UniversityId { get; set; }
 
         public University University { get; set; }
     }
